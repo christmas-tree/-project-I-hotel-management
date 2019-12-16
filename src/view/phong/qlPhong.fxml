@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.phong.QLPhong">
+    <content>
+        <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="552.0" prefWidth="807.0">
+            <children>
+                <Button fx:id="refreshBtn" layoutX="761.0" layoutY="50.0" mnemonicParsing="false" prefHeight="30.0" AnchorPane.rightAnchor="14.799999999999955" AnchorPane.topAnchor="50.0">
+                    <graphic>
+                        <ImageView fx:id="refreshIcon" fitHeight="18.0" fitWidth="15.0" layoutX="807.0" layoutY="20.0" pickOnBounds="false" preserveRatio="true" AnchorPane.rightAnchor="20.0">
+                            <image>
+                                <Image url="@../../resources/icon/refresh.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="addBtn" layoutX="704.0" layoutY="50.0" mnemonicParsing="false" prefHeight="30.0" text="Thêm phòng" AnchorPane.rightAnchor="56.60000000000002" AnchorPane.topAnchor="50.0" />
+                <Button fx:id="timelineBtn" layoutX="131.0" layoutY="52.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: #B42727;" text="Timeline" textFill="WHITE" AnchorPane.topAnchor="50.0" />
+                <Button fx:id="khachDoanBtn" layoutX="39.0" layoutY="52.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: #2F7F8F;" text="Khách đoàn" textFill="WHITE" AnchorPane.topAnchor="50.0" />
+                <Button fx:id="checkinBtn" layoutX="205.0" layoutY="52.0" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" text="Checkin khách đã đặt" AnchorPane.topAnchor="50.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#359200" height="10.0" layoutX="39.0" layoutY="23.0" stroke="#a73d3d" strokeType="INSIDE" strokeWidth="0.0" width="10.0" />
+                <Label layoutX="51.0" layoutY="20.0" text="Phòng trống" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8a0000" height="10.0" layoutX="131.0" layoutY="23.0" stroke="#a73d3d" strokeType="INSIDE" strokeWidth="0.0" width="10.0" />
+                <Label layoutX="144.0" layoutY="20.0" text="Đang ở" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="10.0" layoutX="200.0" layoutY="23.0" stroke="#002992" strokeType="INSIDE" strokeWidth="0.0" width="10.0" />
+                <Label layoutX="213.0" layoutY="20.0" text="Đang dọn" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffd01f" height="10.0" layoutX="280.0" layoutY="24.0" stroke="#a73d3d" strokeType="INSIDE" strokeWidth="0.0" width="10.0" />
+                <Label layoutX="292.0" layoutY="20.0" text="Đang sửa" />
+                <StackPane layoutX="36.0" layoutY="113.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="110.0">
+                    <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#797979" height="80.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="65.0" />
+                        <Label text="Tầng 1" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </StackPane>
+                <StackPane layoutX="106.0" layoutY="113.0" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="110.0">
+                    <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#359200" height="80.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+                        <Label text="101" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </StackPane>
+            <StackPane layoutX="225.0" layoutY="110.0" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="110.0">
+               <children>
+                  <Label text="101" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+
+            </children>
+        </AnchorPane>
+    </content>
+</ScrollPane>

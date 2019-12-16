@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="CENTER" hgap="10" styleClass="login-container" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.LoginController">
+
+   <padding>
+      <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+   </padding>
+   <children>
+      <Label alignment="CENTER" styleClass="login-header" text="PHẦN MỀM QUẢN LÝ KHÁCH SẠN" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
+         <padding>
+            <Insets bottom="15.0" />
+         </padding>
+      </Label>
+
+      <Label alignment="CENTER_LEFT" text="Tên đăng nhập" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+      <TextField fx:id="usernameField" maxHeight="30.0" maxWidth="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" styleClass="loginBtn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+      <Label text="Mật khẩu" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+      <PasswordField fx:id="passwordField" maxHeight="30.0" maxWidth="250.0" minHeight="30.0" minWidth="250.0" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+      <Button defaultButton="true" mnemonicParsing="false" onAction="#login" styleClass="login-btn" text="Đăng nhập" GridPane.columnSpan="2" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets top="20.0" />
+         </GridPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+         </padding>
+      </Button>
+      <Label fx:id="statusLabel" text="Trình trạng CSDL: Chưa kết nối" visible="false" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+
+</GridPane>
