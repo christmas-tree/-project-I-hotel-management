@@ -34,14 +34,13 @@ public class ChiTietDatPhong {
         this.ghiChu = ghiChu;
     }
 
-    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, NhanVien nvLeTan, float heSoNgayLe, float heSoKhuyenMai, String ghiChu) {
+    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, NhanVien nvLeTan, float heSoNgayLe, float heSoKhuyenMai) {
         this.datPhong = datPhong;
         this.phong = phong;
         this.ngayCheckinTt = ngayCheckinTt;
         this.nvLeTan = nvLeTan;
         this.heSoNgayLe = heSoNgayLe;
         this.heSoKhuyenMai = heSoKhuyenMai;
-        this.ghiChu = ghiChu;
     }
 
     public void setProps(Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, float heSoNgayLe, float heSoKhuyenMai, String ghiChu) {

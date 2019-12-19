@@ -217,7 +217,7 @@ public class TraPhongKhachLe {
     }
 
     public void tinhThanhToan() {
-        thanhToan = thanhTien - chiTietDatPhong.getDatPhong().getTienDatCoc();
+        thanhToan = thanhTien - Long.parseLong(datCocField.getText());
         thanhToanLabel.setText(String.format("%,3d", thanhToan));
     }
 
@@ -225,4 +225,5 @@ public class TraPhongKhachLe {
         return Math.round(chiTietDatPhong.getPhong().getLoaiPhong().getGiaTien() * Float.parseFloat(heSoGiamGiaField.getText()) * Float.parseFloat(heSoNgayLeField.getText()) / 1000) * 1000;
     }
 
+    xxxx
 }

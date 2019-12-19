@@ -90,4 +90,9 @@ public class ChiTietPhong {
     public void setDonVi(String donVi) {
         this.donVi = donVi;
     }
+
+    @Override
+    public String toString() {
+        return tenDo;
+    }
 }

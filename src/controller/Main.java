@@ -18,12 +18,12 @@ public class Main extends Application {
         loader.setLocation(getClass().getClassLoader().getResource("view/basic/login.fxml"));
         Parent root = loader.load();
         Scene firstScene = new Scene(root, 1000, 600);
-        firstScene.getStylesheets().add(getClass().getResource("/resources/css/style.css").toExternalForm());
-        new JMetro(root, Style.DARK);
+//        firstScene.getStylesheets().add(getClass().getResource("/resources/css/style.css").toExternalForm());
+        new JMetro(root, Style.LIGHT);
         primaryStage.setTitle("Đăng nhập - QLTV");
         primaryStage.setScene(firstScene);
         primaryStage.setResizable(false);
-        primaryStage.getIcons().add(new Image("/resources/icon/app-icon.png"));
+//        primaryStage.getIcons().add(new Image("/resources/icon/app-icon.png"));
         primaryStage.show();
 
         LoginController loginController = loader.getController();

@@ -5,10 +5,7 @@ import model.*;
 import util.DbConnection;
 import util.ExHandler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ChiTietDatPhongDAO {
@@ -31,7 +28,10 @@ public class ChiTietDatPhongDAO {
             stmt.setInt(1, chiTietDatPhong.getDatPhong().getMaDatPhong());
             stmt.setInt(2, chiTietDatPhong.getPhong().getMaPhong());
             stmt.setTimestamp(3, chiTietDatPhong.getNgayCheckinTt());
-            stmt.setInt(4, chiTietDatPhong.getNvLeTan().getMaNv());
+            if (chiTietDatPhong.getNvLeTan() != null)
+                stmt.setInt(4, chiTietDatPhong.getNvLeTan().getMaNv());
+            else
+                stmt.setNull(4, Types.INTEGER);
             stmt.setFloat(5, chiTietDatPhong.getHeSoNgayLe());
             stmt.setFloat(6, chiTietDatPhong.getHeSoKhuyenMai());
             stmt.setNString(7, chiTietDatPhong.getGhiChu());
@@ -47,7 +47,7 @@ public class ChiTietDatPhongDAO {
         return result;
     }
 
-    public boolean create(ArrayList<ChiTietDatPhong> dsChiTietDatPhong) {
+    public boolean create(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
 
         String sql = "INSERT INTO chi_tiet_dat_phong(ma_dat_phong, ma_phong, ngay_checkin_tt, ma_nv_le_tan, he_so_ngay_le, he_so_khuyen_mai, ghi_chu) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -122,7 +122,7 @@ public class ChiTietDatPhongDAO {
     public ChiTietDatPhong getByPhong(Phong phong) {
         ChiTietDatPhong chiTietDatPhong = null;
 
-        String sql = "SELECT ma_dat_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, he_so_ngay_le, he_so_khuyen_mai, thanh_tien, ghi_chu " +
+        String sql = "SELECT dat_phong.ma_dat_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, he_so_ngay_le, he_so_khuyen_mai, thanh_tien, dat_phong.ghi_chu " +
                 "FROM chi_tiet_dat_phong, nhan_vien, dat_phong " +
                 "WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND dat_phong.ma_dat_phong=chi_tiet_dat_phong.ma_dat_phong AND ma_phong=? AND ngay_checkout_tt IS NULL AND ngay_checkin_tt IS NOT NULL AND da_huy=0";
 
@@ -174,7 +174,7 @@ public class ChiTietDatPhongDAO {
         return chiTietDatPhong;
     }
 
-    public boolean update(ArrayList<ChiTietDatPhong> dsChiTietDatPhong) {
+    public boolean update(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
         String sql = "UPDATE chi_tiet_dat_phong " +
                 "SET ngay_checkin_tt=?, ngay_checkout_tt=?, ma_nv_le_tan=?, he_so_ngay_le=?, he_so_khuyen_mai=?, thanh_tien=?, ghi_chu=? " +
                 "WHERE ma_dat_phong=? AND ma_phong=?";

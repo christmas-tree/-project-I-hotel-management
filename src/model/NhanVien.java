@@ -145,4 +145,9 @@ public class NhanVien {
         return maNv == nhanVien.maNv &&
                 tenNv.equals(nhanVien.tenNv);
     }
+
+    @Override
+    public String toString() {
+        return maNv + " - " + tenNv;
+    }
 }

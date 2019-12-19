@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="606.0" prefWidth="837.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.khachSan.NhanKhachLe">
+   <children>
+      <Label layoutX="25.0" layoutY="23.0" text="Đặt phòng khách lẻ">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="79.0" text="Phòng" />
+      <ComboBox fx:id="phongCombo" layoutX="88.0" layoutY="74.0" prefHeight="26.0" prefWidth="82.0" />
+      <Label layoutX="198.0" layoutY="78.0" text="Giá" />
+      <TextField fx:id="giaField" layoutX="223.0" layoutY="74.0" prefHeight="26.0" prefWidth="135.0" />
+      <DatePicker fx:id="ngayVaoDuKienDate" layoutX="87.0" layoutY="116.0" prefHeight="26.0" prefWidth="111.0" />
+      <Label layoutX="25.0" layoutY="112.0" text="Ngày vào" />
+      <Label layoutX="25.0" layoutY="126.0" text="dự kiến" />
+      <Label layoutX="211.0" layoutY="120.0" text="Lúc" />
+      <TextField fx:id="ngayVaoDuKienTimeField" layoutX="234.0" layoutY="116.0" prefHeight="26.0" prefWidth="122.0" />
+      <DatePicker fx:id="ngayRaDuKienDate" layoutX="87.0" layoutY="157.0" prefHeight="26.0" prefWidth="111.0" />
+      <Label layoutX="25.0" layoutY="153.0" text="Ngày ra" />
+      <Label layoutX="25.0" layoutY="167.0" text="dự kiến" />
+      <Label layoutX="211.0" layoutY="161.0" text="Lúc" />
+      <TextField fx:id="ngayRaDuKienTimeField" layoutX="234.0" layoutY="157.0" prefHeight="26.0" prefWidth="122.0" />
+      <Label layoutX="626.0" layoutY="78.0" text="Tiền đặt cọc" />
+      <TextField fx:id="datCocField" layoutX="697.0" layoutY="73.0" prefHeight="26.0" prefWidth="111.0" />
+      <Label layoutX="611.0" layoutY="112.0" text="Hệ số giảm giá" />
+      <TextField fx:id="heSoGiamGiaField" layoutX="698.0" layoutY="107.0" prefHeight="26.0" prefWidth="111.0" />
+      <Label layoutX="400.0" layoutY="111.0" text="Hệ số ngày lễ" />
+      <TextField fx:id="heSoNgayLeField" layoutX="484.0" layoutY="107.0" prefHeight="26.0" prefWidth="111.0" />
+      <Label layoutX="724.0" layoutY="32.0" text="Mã ĐP:" />
+      <Label fx:id="maDatPhongLabel" layoutX="768.0" layoutY="32.0" text="000000" />
+      <Label layoutX="431.0" layoutY="144.0" text="Ghi chú" />
+      <TextArea fx:id="ghiChuField" layoutX="484.0" layoutY="144.0" prefHeight="45.0" prefWidth="326.0" />
+      <Label layoutX="386.0" layoutY="78.0" text="Phương thức đặt" />
+      <TextField fx:id="phuongThucField" layoutX="484.0" layoutY="73.0" prefHeight="26.0" prefWidth="111.0" />
+      <DatePicker fx:id="ngayVaoThucTeDate" layoutX="87.0" layoutY="257.0" prefHeight="26.0" prefWidth="111.0" />
+      <Label layoutX="25.0" layoutY="253.0" text="Ngày vào" />
+      <Label layoutX="25.0" layoutY="267.0" text="thực tế" />
+      <Label layoutX="211.0" layoutY="261.0" text="Lúc" />
+      <TextField fx:id="ngayVaoThucTeTimeField" layoutX="234.0" layoutY="257.0" prefHeight="26.0" prefWidth="90.0" />
+      <ComboBox fx:id="nhanVienLeTanCombo" layoutX="486.0" layoutY="257.0" prefHeight="26.0" prefWidth="198.0" />
+      <Label layoutX="419.0" layoutY="255.0" text="Nhân viên" />
+      <Label layoutX="419.0" layoutY="269.0" text="lễ tân" />
+      <Label layoutX="20.0" layoutY="205.0" text="Khách đặt" />
+      <ComboBox fx:id="khachDatCombo" layoutX="89.0" layoutY="200.0" prefHeight="26.0" prefWidth="233.0" />
+      <Button fx:id="themKhachDatBtn" layoutX="330.0" layoutY="199.0" mnemonicParsing="false" text="+" />
+      <ComboBox fx:id="nhanVienDatCombo" layoutX="485.0" layoutY="200.0" prefHeight="26.0" prefWidth="197.0" />
+      <Label layoutX="420.0" layoutY="198.0" text="Nhân viên" />
+      <Label layoutX="420.0" layoutY="212.0" text="nhận đặt" />
+      <Label layoutX="25.0" layoutY="324.0" text="Khách ở" />
+      <ComboBox fx:id="khachOCombo" layoutX="85.0" layoutY="319.0" prefHeight="26.0" prefWidth="214.0" />
+      <Button fx:id="themKhachOBtn" layoutX="310.0" layoutY="320.0" mnemonicParsing="false" text="+" />
+      <TableView fx:id="khachOTable" editable="true" layoutX="29.0" layoutY="361.0" prefHeight="178.0" prefWidth="778.0">
+         <columns>
+            <TableColumn fx:id="tenCol" editable="false" minWidth="100.0" prefWidth="150.0" text="Họ tên" />
+            <TableColumn fx:id="gioiTinhCol" editable="false" minWidth="75.0" prefWidth="75.0" text="Giới tính" />
+            <TableColumn fx:id="cmndCol" editable="false" minWidth="100.0" prefWidth="150.0" text="CMND/CCCD" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button fx:id="luuBtn" layoutX="725.0" layoutY="559.0" mnemonicParsing="false" text="Lưu" />
+      <Button fx:id="huyBtn" layoutX="770.0" layoutY="559.0" mnemonicParsing="false" text="Huỷ" />
+      <Button layoutX="395.0" layoutY="320.0" mnemonicParsing="false" text="Xoá" fx:id="xoaKhachVaoPhongBtn" />
+      <Button fx:id="layGioBtn" layoutX="330.0" layoutY="256.0" mnemonicParsing="false" text="Lấy giờ" />
+      <Button fx:id="themKhachVaoPhongBtn" layoutX="342.0" layoutY="320.0" mnemonicParsing="false" text="Thêm" />
+      <Button fx:id="huyDatBtn" layoutX="659.0" layoutY="559.0" mnemonicParsing="false" text="Huỷ đặt" visible="false" />
+   </children>
+</AnchorPane>

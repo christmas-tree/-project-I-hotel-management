@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="382.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.phong.SuaLoaiPhong">
+   <children>
+      <Label fx:id="headerLabel" layoutX="30.0" layoutY="25.0" text="Loại phòng" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="31.0" layoutY="93.0" text="Mã loại phòng" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="93.0" />
+      <TextField fx:id="idField" layoutX="151.0" layoutY="88.0" prefHeight="31.0" prefWidth="254.0" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="88.0" />
+      <Label layoutX="31.0" layoutY="136.0" text="Loại phòng" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="136.0" />
+      <TextField fx:id="loaiPhongField" layoutX="150.0" layoutY="131.0" prefHeight="31.0" prefWidth="578.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="49.0" AnchorPane.topAnchor="131.0" />
+      <Label layoutX="32.0" layoutY="182.0" text="Giá tiền" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="182.0" />
+      <TextField fx:id="giaTienField" layoutX="151.0" layoutY="177.0" prefHeight="30.0" prefWidth="254.0" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="177.0" />
+      <Label layoutX="30.0" layoutY="231.0" text="Ghi chú" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="231.0" />
+      <TextArea fx:id="ghiChuField" layoutX="149.0" layoutY="226.0" prefHeight="60.0" prefWidth="578.0" wrapText="true" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="226.0" />
+      <Button fx:id="confirmBtn" defaultButton="true" layoutX="632.0" layoutY="318.0" mnemonicParsing="false" prefHeight="30.0" text="Lưu" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="318.0" />
+      <Button fx:id="cancelBtn" cancelButton="true" layoutX="680.0" layoutY="318.0" mnemonicParsing="false" prefHeight="30.0" text="Huỷ" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="318.0" />
+      <Label layoutX="462.0" layoutY="182.0" text="Số người" />
+      <TextField fx:id="soNguoiField" layoutX="543.0" layoutY="177.0" prefHeight="31.0" prefWidth="185.0" />
+   </children>
+</AnchorPane>

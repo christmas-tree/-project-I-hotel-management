@@ -2,8 +2,10 @@ package model;
 
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class Phong {
 
@@ -16,11 +18,11 @@ public class Phong {
     private int maPhong;
     private LoaiPhong loaiPhong;
     private int tang;
-    private IntegerProperty trangThai;
+    private IntegerProperty trangThai = new SimpleIntegerProperty();
     private String ghiChu;
 
     public static final String[] dsTrangThai = {"Sẵn sàng", "Đang sử dụng", "Đang dọn", "Đang sửa chữa"};
-    private ArrayList<ChiTietPhong> dsChiTietPhong;
+    private ObservableList<ChiTietPhong> dsChiTietPhong;
 
     public Phong() {
     }
@@ -61,6 +63,10 @@ public class Phong {
         return trangThai.get();
     }
 
+    public String getTrangThaiString() {
+        return dsTrangThai[trangThai.get()];
+    }
+
     public IntegerProperty trangThaiProperty() {
         return trangThai;
     }
@@ -77,11 +83,11 @@ public class Phong {
         this.ghiChu = ghiChu;
     }
 
-    public ArrayList<ChiTietPhong> getDsChiTietPhong() {
+    public ObservableList<ChiTietPhong> getDsChiTietPhong() {
         return dsChiTietPhong;
     }
 
-    public void setDsChiTietPhong(ArrayList<ChiTietPhong> dsChiTietPhong) {
+    public void setDsChiTietPhong(ObservableList<ChiTietPhong> dsChiTietPhong) {
         this.dsChiTietPhong = dsChiTietPhong;
     }
 
@@ -92,5 +98,18 @@ public class Phong {
                 break;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return maPhong + " - " + loaiPhong.getMaLoaiPhong() + " - " + String.format("%,3d", loaiPhong.getGiaTien());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Phong)) return false;
+        Phong phong = (Phong) o;
+        return maPhong == phong.maPhong;
     }
 }

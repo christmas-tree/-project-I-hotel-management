@@ -1,6 +1,8 @@
 package model;
 
 
+import javafx.collections.ObservableList;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -19,7 +21,10 @@ public class DatPhong {
   private boolean daHuy;
   private String ghiChu;
 
-  private ArrayList<ChiTietDatPhong> dsChiTietDatPhong;
+  private ObservableList<ChiTietDatPhong> dsChiTietDatPhong;
+
+  public DatPhong() {
+  }
 
   public DatPhong(int maDatPhong, Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu) {
     this.maDatPhong = maDatPhong;
@@ -37,6 +42,20 @@ public class DatPhong {
   }
 
   public DatPhong(Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu) {
+    this.ngayDat = ngayDat;
+    this.phuongThuc = phuongThuc;
+    this.ngayCheckin = ngayCheckin;
+    this.ngayCheckout = ngayCheckout;
+    this.khachHang = khachHang;
+    this.nvNhan = nvNhan;
+    this.soNguoi = soNguoi;
+    this.tienDatCoc = tienDatCoc;
+    this.khachDoan = khachDoan;
+    this.daHuy = daHuy;
+    this.ghiChu = ghiChu;
+  }
+
+  public void setProps(Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu) {
     this.ngayDat = ngayDat;
     this.phuongThuc = phuongThuc;
     this.ngayCheckin = ngayCheckin;
@@ -163,4 +182,11 @@ public class DatPhong {
     this.ghiChu = ghiChu;
   }
 
+  public ObservableList<ChiTietDatPhong> getDsChiTietDatPhong() {
+    return dsChiTietDatPhong;
+  }
+
+  public void setDsChiTietDatPhong(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
+    this.dsChiTietDatPhong = dsChiTietDatPhong;
+  }
 }

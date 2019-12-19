@@ -115,8 +115,10 @@ public class SuaKhachHang {
     public void update(KhachHang khachHang) {
         khachHang.setTenKhach(tenField.getText());
         khachHang.setGioiTinh(gioiTinhToggle.isSelected());
-        khachHang.setCmnd((cmndField.getText() != "") ? Long.parseLong(cmndField.getText()) : null);
-        khachHang.setDienThoai((dienThoaiField.getText() != "") ? Long.parseLong(dienThoaiField.getText()) : null);
+        if (!cmndField.getText().equals(""))
+            khachHang.setCmnd(Long.parseLong(cmndField.getText()));
+        if (!dienThoaiField.getText().equals(""))
+            khachHang.setDienThoai(Long.parseLong(dienThoaiField.getText()));
         khachHang.setEmail(emailField.getText());
         khachHang.setDiaChi(diaChiField.getText());
         khachHang.setGhiChu(ghiChuField.getText());
@@ -139,8 +141,10 @@ public class SuaKhachHang {
 
         khachHang.setTenKhach(tenField.getText());
         khachHang.setGioiTinh(gioiTinhToggle.isSelected());
-        khachHang.setCmnd((cmndField.getText() != "") ? Long.parseLong(cmndField.getText()) : null);
-        khachHang.setDienThoai((dienThoaiField.getText() != "") ? Long.parseLong(dienThoaiField.getText()) : null);
+        if (!cmndField.getText().equals(""))
+            khachHang.setCmnd(Long.parseLong(cmndField.getText()));
+        if (!dienThoaiField.getText().equals(""))
+            khachHang.setDienThoai(Long.parseLong(dienThoaiField.getText()));
         khachHang.setEmail(emailField.getText());
         khachHang.setDiaChi(diaChiField.getText());
         khachHang.setGhiChu(ghiChuField.getText());

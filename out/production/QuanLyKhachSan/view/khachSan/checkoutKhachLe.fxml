@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="842.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.khachSan.TraPhongKhachLe">
+    <children>
+        <Label layoutX="25.0" layoutY="23.0" text="Trả phòng">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="29.0" layoutY="112.0" text="Vào lúc:" />
+        <Label layoutX="294.0" layoutY="80.0" text="Tiền đặt cọc" />
+        <TextField fx:id="datCocField" layoutX="379.0" layoutY="75.0" prefHeight="26.0" prefWidth="175.0" />
+        <Label layoutX="279.0" layoutY="113.0" text="Hệ số giảm giá" />
+        <TextField fx:id="heSoGiamGiaField" layoutX="379.0" layoutY="109.0" prefHeight="26.0" prefWidth="175.0" />
+        <Label layoutX="283.0" layoutY="144.0" text="Hệ số ngày lễ" />
+        <TextField fx:id="heSoNgayLeField" layoutX="380.0" layoutY="140.0" prefHeight="26.0" prefWidth="175.0" />
+        <Label layoutX="31.0" layoutY="144.0" text="Trả lúc:" />
+        <Label layoutX="595.0" layoutY="32.0" text="Mã ĐP:" />
+        <Label fx:id="maDPLabel" layoutX="639.0" layoutY="32.0" text="000000" />
+        <Label layoutX="29.0" layoutY="79.0" text="Khách hàng:" />
+        <TableView fx:id="boiThuongTable" layoutX="29.0" layoutY="206.0" prefHeight="132.0" prefWidth="651.0">
+            <columns>
+                <TableColumn fx:id="sttBtCol" minWidth="50.0" prefWidth="75.0" text="STT" />
+                <TableColumn fx:id="tenDoBtCol" minWidth="50.0" prefWidth="75.0" text="Tên đồ" />
+                <TableColumn fx:id="trangThaiBtCol" minWidth="50.0" prefWidth="75.0" text="Trạng thái" />
+                <TableColumn fx:id="soLuongBtCol" minWidth="50.0" prefWidth="75.0" text="Số lượng" />
+            <TableColumn fx:id="donGiaBtCol" minWidth="50.0" prefWidth="75.0" text="Đơn giá" />
+            <TableColumn fx:id="thanhTienBtCol" minWidth="50.0" prefWidth="75.0" text="Thành tiền" />
+            </columns>
+        </TableView>
+        <Button fx:id="luuBtn" layoutX="561.0" layoutY="794.0" mnemonicParsing="false" text="Trả phòng" />
+        <Button fx:id="huyBtn" layoutX="637.0" layoutY="794.0" mnemonicParsing="false" text="Huỷ" />
+      <Button fx:id="kiemDoBtn" layoutX="619.0" layoutY="175.0" mnemonicParsing="false" text="Kiểm đồ" />
+      <TableView fx:id="tienPhongTable" layoutX="25.0" layoutY="380.0" prefHeight="132.0" prefWidth="651.0">
+         <columns>
+            <TableColumn fx:id="loaiPhongPCol" prefWidth="75.0" text="Loại phòng" />
+            <TableColumn fx:id="donGiaPCol" prefWidth="75.0" text="Đơn giá" />
+            <TableColumn fx:id="soNgayPCol" prefWidth="75.0" text="Số ngày" />
+            <TableColumn fx:id="thanhTienPCol" prefWidth="75.0" text="Thành tiền" />
+         </columns>
+      </TableView>
+      <Label layoutX="29.0" layoutY="353.0" text="Tiền phòng" />
+      <Label layoutX="29.0" layoutY="179.0" text="Bồi thường" />
+      <TableView fx:id="dichVuTable" layoutX="25.0" layoutY="550.0" prefHeight="132.0" prefWidth="651.0">
+         <columns>
+            <TableColumn fx:id="sttDvCol" prefWidth="75.0" text="STT" />
+            <TableColumn fx:id="tenDvCol" prefWidth="75.0" text="Dịch vụ" />
+            <TableColumn fx:id="donGiaDvCol" prefWidth="75.0" text="Đơn giá" />
+            <TableColumn fx:id="soLuongDvCol" prefWidth="75.0" text="Số lượng" />
+            <TableColumn fx:id="donViDvCol" prefWidth="75.0" text="Đơn vị" />
+            <TableColumn fx:id="thanhTienDvCol" prefWidth="75.0" text="Thành tiền" />
+         </columns>
+      </TableView>
+      <Label layoutX="29.0" layoutY="523.0" text="Tiền dịch vụ" />
+      <Label layoutX="485.0" layoutY="696.0" text="Thành tiền: ">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="thanhTienTongLabel" alignment="CENTER_RIGHT" layoutX="566.0" layoutY="696.0" prefHeight="20.0" prefWidth="96.0" text="100000" textAlignment="RIGHT">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="664.0" layoutY="696.0" prefHeight="20.0" prefWidth="7.0" text="đ" textAlignment="RIGHT">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="485.0" layoutY="716.0" text="Tiền cọc:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="tienCocTongLabel" alignment="CENTER_RIGHT" layoutX="566.0" layoutY="716.0" prefHeight="20.0" prefWidth="96.0" text="100000" textAlignment="RIGHT">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="664.0" layoutY="716.0" prefHeight="20.0" prefWidth="7.0" text="đ" textAlignment="RIGHT">
+         <font>
+            <Font name="System" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="485.0" layoutY="750.0" text="Thanh toán:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="thanhToanLabel" alignment="CENTER_RIGHT" layoutX="566.0" layoutY="746.0" prefHeight="20.0" prefWidth="96.0" text="100000" textAlignment="RIGHT">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="664.0" layoutY="750.0" prefHeight="20.0" prefWidth="7.0" text="đ" textAlignment="RIGHT">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Line endX="100.0" layoutX="577.0" layoutY="741.0" startX="-100.0" strokeWidth="0.5" />
+      <Button fx:id="inBtn" layoutX="481.0" layoutY="794.0" mnemonicParsing="false" text="In hoá đơn" />
+      <Label fx:id="khachHangLabel" layoutX="114.0" layoutY="79.0" text="Tên khách" />
+      <Label fx:id="gioVaoLabel" layoutX="114.0" layoutY="112.0" text="Giờ vào" />
+      <Label fx:id="gioRaLabel" layoutX="114.0" layoutY="144.0" text="Giờ vào" />
+    </children>
+</AnchorPane>

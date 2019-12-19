@@ -89,7 +89,7 @@ public class LoginController {
                     IndexController indexController = loader.getController();
                     indexController.init(user);
 
-                    stage.getIcons().add(new Image("/resources/icon/app-icon.png"));
+//                    stage.getIcons().add(new Image("/resources/icon/app-icon.png"));
                     stage.show();
                     ((Node)(event.getSource())).getScene().getWindow().hide();
                 } catch (IOException e) {

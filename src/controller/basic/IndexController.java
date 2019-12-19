@@ -5,7 +5,11 @@
 
 package controller.basic;
 
-import controller.Controller;
+import controller.dichVu.QLDichVu;
+import controller.khachHang.TimKhachHang;
+import controller.nhanVien.TimNhanVien;
+import controller.phong.QLLoaiPhong;
+import controller.phong.QLPhong;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -86,30 +90,23 @@ public class IndexController {
 
         TreeItem rootItem = new TreeItem("Menu");
 
-        TreeItem transactMenu = new TreeItem("Quản lý mượn trả");
-        transactMenu.getChildren().add(new TreeItem("Tìm kiếm giao dịch"));
-        transactMenu.getChildren().add(new TreeItem("Thống kê mượn trả"));
+        TreeItem transactMenu = new TreeItem("Quản lý phòng");
+        transactMenu.getChildren().add(new TreeItem("Thông tin phòng"));
+        transactMenu.getChildren().add(new TreeItem("Quản lý loại phòng"));
         rootItem.getChildren().add(transactMenu);
         transactMenu.setExpanded(true);
 
 
-        TreeItem bookMenu = new TreeItem("Quản lý sách");
-        bookMenu.getChildren().add(new TreeItem("Tìm kiếm sách"));
-        bookMenu.getChildren().add(new TreeItem("Thông tin phụ"));
-        bookMenu.getChildren().add(new TreeItem("Thống kê sách"));
+        TreeItem bookMenu = new TreeItem("Quản lý dịch vụ");
         rootItem.getChildren().add(bookMenu);
         bookMenu.setExpanded(true);
 
-        TreeItem readerMenu = new TreeItem("Quản lý độc giả");
-        readerMenu.getChildren().add(new TreeItem("Tìm kiếm độc giả"));
-        readerMenu.getChildren().add(new TreeItem("Thống kê độc giả"));
+        TreeItem readerMenu = new TreeItem("Quản lý khách hàng");
         rootItem.getChildren().add(readerMenu);
         readerMenu.setExpanded(true);
 
         if (currentUser.getLoaiNv() == 0) {
             TreeItem staffMenu = new TreeItem("Quản lý nhân viên");
-            staffMenu.getChildren().add(new TreeItem("Tìm kiếm nhân viên"));
-            staffMenu.getChildren().add(new TreeItem("Thống kê nhân viên"));
             rootItem.getChildren().add(staffMenu);
             staffMenu.setExpanded(true);
         }
@@ -145,7 +142,7 @@ public class IndexController {
                 new JMetro(root, Style.DARK);
                 Stage stage = new Stage();
                 stage.setTitle("Đăng nhập - QLTV");
-                stage.getIcons().add(new Image("/resources/icon/app-icon.png"));
+//                stage.getIcons().add(new Image("/resources/icon/app-icon.png"));
                 stage.setScene(firstScene);
                 stage.setResizable(false);
                 stage.setScene(firstScene);
@@ -202,12 +199,53 @@ public class IndexController {
     public void renderMainScene(String option) {
         FXMLLoader loader = new FXMLLoader();
         switch (option) {
-            case "Tìm kiếm giao dịch":
+            case "Quản lý phòng":
+            case "Thông tin phòng":
                 try {
-                    loader.setLocation(getClass().getClassLoader().getResource("view/transaction/searchtransaction.fxml"));
+                    loader.setLocation(getClass().getClassLoader().getResource("view/phong/qlPhong.fxml"));
                     window.setCenter(loader.load());
-                    SearchTransactionController searchTransactionController = loader.getController();
-                    searchTransactionController.init(this);
+                    QLPhong qlPhong = loader.getController();
+                    qlPhong.init(this);
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
+                break;
+            case "Quản lý loại phòng":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/phong/qlLoaiPhong.fxml"));
+                    window.setCenter(loader.load());
+                    QLLoaiPhong qlLoaiPhong = loader.getController();
+                    qlLoaiPhong.init(this);
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
+                break;
+            case "Quản lý dịch vụ":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/dichVu/qlDichVu.fxml"));
+                    window.setCenter(loader.load());
+                    QLDichVu qlDichVu = loader.getController();
+                    qlDichVu.init(this);
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
+                break;
+            case "Quản lý khách hàng":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/khachHang/qlKhachHang.fxml"));
+                    window.setCenter(loader.load());
+                    TimKhachHang timKhachHang = loader.getController();
+                    timKhachHang.init(this);
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
+                break;
+            case "Quản lý nhân viên":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/nhanVien/qlNhanVien.fxml"));
+                    window.setCenter(loader.load());
+                    TimNhanVien timNhanVien = loader.getController();
+                    timNhanVien.init(this);
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }

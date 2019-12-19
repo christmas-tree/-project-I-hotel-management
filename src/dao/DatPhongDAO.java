@@ -20,9 +20,9 @@ public class DatPhongDAO {
         return instance;
     }
     
-    public static boolean create(DatPhong datPhong) {
+    public boolean create(DatPhong datPhong) {
         String sql = "INSERT INTO dat_phong(ngay_dat, phuong_thuc, ngay_checkin, ngay_checkout, ma_kh_dat, ma_nv_nhan ,so_nguoi, tien_dat_coc, la_khach_doan, da_huy, ghi_chu) " +
-                "OUTPUT INSERTED.ngay_dat " +
+                "OUTPUT INSERTED.ma_dat_phong " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection con = DbConnection.getConnection();

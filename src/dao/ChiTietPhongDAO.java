@@ -93,6 +93,7 @@ public class ChiTietPhongDAO {
 
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, phong.getMaPhong());
             rs = stmt.executeQuery();
 
             while(rs.next()) {
@@ -110,7 +111,7 @@ public class ChiTietPhongDAO {
             rs.close();
             stmt.close();
             con.close();
-
+            phong.setDsChiTietPhong(dsChiTietPhong);
         } catch (SQLException e) {
             ExHandler.handle(e);
         }

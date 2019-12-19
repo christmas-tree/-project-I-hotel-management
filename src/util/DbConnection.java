@@ -10,7 +10,7 @@ public class DbConnection {
 
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "123456";
-    private static final String DATABASE = "ql_khach_san";
+    private static final String DATABASE = "quan_ly_khach_san";
     private static final String CONN = "jdbc:sqlserver://localhost:1433;";
 
     public static Connection getConnection() {

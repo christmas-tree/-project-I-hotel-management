@@ -144,6 +144,7 @@ public class TimNhanVien {
             switch (searchType) {
                 case 0:
                 case 1:
+                case 4:
                 case 5:
                     searchInputField.setVisible(true);
                     AnchorPane.clearConstraints(searchBtn);
@@ -152,15 +153,6 @@ public class TimNhanVien {
                     searchBtn.setVisible(true);
                     break;
                 case 2:
-                    searchStartDate.setVisible(true);
-                    searchEndDate.setVisible(true);
-                    AnchorPane.clearConstraints(searchBtn);
-                    AnchorPane.setLeftAnchor(searchBtn, 670.0);
-                    AnchorPane.setTopAnchor(searchBtn, 15.0);
-                    searchBtn.setVisible(true);
-                    break;
-                case 3:
-                    searchType = 3;
                     searchConditionChoiceBox.getItems().clear();
                     searchConditionChoiceBox.getItems().addAll("Nam", "Nữ");
                     searchConditionChoiceBox.setVisible(true);
@@ -169,10 +161,9 @@ public class TimNhanVien {
                     AnchorPane.setTopAnchor(searchBtn, 15.0);
                     searchBtn.setVisible(true);
                     break;
-                case 4:
-                    searchType = 4;
+                case 3:
                     searchConditionChoiceBox.getItems().clear();
-                    searchConditionChoiceBox.getItems().addAll("Nhân viên", "Quản lý");
+                    searchConditionChoiceBox.getItems().addAll("Quản lý", "Lễ tân");
                     searchConditionChoiceBox.setVisible(true);
                     AnchorPane.clearConstraints(searchBtn);
                     AnchorPane.setLeftAnchor(searchBtn, 520.0);

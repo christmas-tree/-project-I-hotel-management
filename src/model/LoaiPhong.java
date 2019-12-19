@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.Objects;
+
 public class LoaiPhong {
 
   private String maLoaiPhong;
@@ -65,4 +67,16 @@ public class LoaiPhong {
     this.ghiChu = ghiChu;
   }
 
+  @Override
+  public String toString() {
+    return loaiPhong + " - " + String.format("%,3d", giaTien);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof LoaiPhong)) return false;
+    LoaiPhong loaiPhong = (LoaiPhong) o;
+    return Objects.equals(maLoaiPhong, loaiPhong.maLoaiPhong);
+  }
 }

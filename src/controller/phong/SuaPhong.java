@@ -104,7 +104,6 @@ public class SuaPhong {
     // UI INITIALIZE
 
     public void init() {
-        phong = new Phong();
         dsChiTietPhong = FXCollections.observableArrayList();
         doTable.setItems(dsChiTietPhong);
 
@@ -127,6 +126,7 @@ public class SuaPhong {
         maPhongField.setText(String.valueOf(phong.getMaPhong()));
         loaiPhongCombo.getSelectionModel().select(phong.getLoaiPhong());
         trangThaiCombo.getSelectionModel().select(phong.getTrangThai());
+        tangField.setText(String.valueOf(phong.getTang()));
         ghiChuField.setText(phong.getGhiChu());
 
         doTable.setItems(dsChiTietPhong);
@@ -241,8 +241,8 @@ public class SuaPhong {
                         phong,
                         tenDoField.getText(),
                         Integer.parseInt(slDoField.getText()),
-                        Long.parseLong(giaTienCol.getText()),
-                        donViCol.getText(),
+                        Long.parseLong(donGiaField.getText()),
+                        donViField.getText(),
                         trangThaiDoCombo.getSelectionModel().getSelectedIndex(),
                         ghiChuDoField.getText()
                 ));
@@ -262,6 +262,12 @@ public class SuaPhong {
     //// END OF UI INITIALIZATION
 
     public void update() {
+        phong.setMaPhong(Integer.parseInt(maPhongField.getText()));
+        phong.setLoaiPhong(loaiPhongCombo.getSelectionModel().getSelectedItem());
+        phong.setTang(Integer.parseInt(tangField.getText()));
+        phong.setTrangThai(trangThaiCombo.getSelectionModel().getSelectedIndex());
+        phong.setGhiChu(ghiChuDoField.getText());
+
         boolean success = PhongDAO.getInstance().update(phong) &&
                 ChiTietPhongDAO.getInstance().delete(pendingDelete) &&
                 ChiTietPhongDAO.getInstance().update(dsChiTietPhong);
@@ -275,6 +281,14 @@ public class SuaPhong {
     }
 
     public void add() {
+        phong = new Phong();
+        phong.setMaPhong(Integer.parseInt(maPhongField.getText()));
+        phong.setLoaiPhong(loaiPhongCombo.getSelectionModel().getSelectedItem());
+        phong.setTang(Integer.parseInt(tangField.getText()));
+        phong.setTrangThai(trangThaiCombo.getSelectionModel().getSelectedIndex());
+        phong.setGhiChu(ghiChuDoField.getText());
+        phong.setDsChiTietPhong(dsChiTietPhong);
+
         boolean success = PhongDAO.getInstance().create(phong) && ChiTietPhongDAO.getInstance().create(dsChiTietPhong);
         if (success) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -1,5 +1,7 @@
 package dao;
 
+import javafx.collections.ObservableList;
+import model.ChiTietDatPhong;
 import model.LoaiPhong;
 import model.Phong;
 import util.DbConnection;
@@ -61,9 +63,10 @@ public class PhongDAO {
             rs = stmt.executeQuery();
 
             while(rs.next()) {
+                System.out.println("trang thai = " + rs.getInt("trang_thai"));
                 phong = new Phong(
                         rs.getInt("ma_phong"),
-                        dsLoaiPhong.get(rs.getInt("ma_loai_phong")),
+                        dsLoaiPhong.get(rs.getString("ma_loai_phong")),
                         rs.getInt("tang"),
                         rs.getInt("trang_thai"),
                         rs.getNString("ghi_chu")
@@ -135,6 +138,28 @@ public class PhongDAO {
             ExHandler.handle(e);
         }
 
+        return result;
+    }
+
+    public boolean update(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
+        String sql = "UPDATE phong SET trang_thai=? WHERE ma_phong=?";
+
+        boolean result = false;
+        Connection con = DbConnection.getConnection();
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhong) {
+                stmt.setInt(1, chiTietDatPhong.getPhong().getTrangThai());
+                stmt.setInt(2, chiTietDatPhong.getPhong().getMaPhong());
+                stmt.executeUpdate();
+            }
+            stmt.close();
+            con.close();
+            result = true;
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
         return result;
     }
 

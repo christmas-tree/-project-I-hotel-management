@@ -248,7 +248,7 @@ public class TimKhachHang {
             new JMetro(editRoot, Style.LIGHT);
 
             Stage stage = new Stage();
-            Scene scene = new Scene(editRoot, 600, 500);
+            Scene scene = new Scene(editRoot);
 
             stage.setTitle("Thêm khách hàng");
             stage.setScene(scene);
@@ -315,7 +315,7 @@ public class TimKhachHang {
             new JMetro(editRoot, Style.LIGHT);
 
             Stage stage = new Stage();
-            Scene scene = new Scene(editRoot, 600, 500);
+            Scene scene = new Scene(editRoot);
             stage.setTitle("Sửa khách hàng");
             stage.setScene(scene);
             stage.setResizable(false);

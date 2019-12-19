@@ -25,8 +25,10 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import model.LoaiPhong;
 import model.Phong;
+import util.AlertGenerator;
 import util.ExHandler;
 
+import javax.naming.Context;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,8 +53,6 @@ public class QLPhong {
 
     @FXML
     Button refreshBtn;
-
-    ContextMenu phongContextMenu;
 
     HashMap<String, LoaiPhong> dsLoaiPhong;
     ArrayList<Phong> dsPhong;
@@ -80,12 +80,12 @@ public class QLPhong {
     }
 
     public void themPhongUI(Phong phong) {
-        final String[] MAU_TRANG_THAI = {"#359200", "#8a0000", "#002992", "#a73d3d"};
+        final String[] MAU_TRANG_THAI = {"#359200", "#8a0000", "#1e90ff", "#ffd01f"};
 
         Rectangle rectangle = new Rectangle();
         rectangle.setArcHeight(5.0);
         rectangle.setArcWidth(5.0);
-        rectangle.setFill(Color.web("#359200"));
+        rectangle.setFill(Color.web(MAU_TRANG_THAI[phong.getTrangThai()]));
         rectangle.setStroke(Color.WHITE);
         rectangle.setStrokeType(StrokeType.INSIDE);
         rectangle.setHeight(80.0);
@@ -98,7 +98,7 @@ public class QLPhong {
 
         double firstTopAnchor = 110.0, firstLeftAnchor = 105.0;
 
-        AnchorPane.setLeftAnchor(phongUI, firstLeftAnchor + (115.0 * dsPhongUI.size()));
+        AnchorPane.setLeftAnchor(phongUI, firstLeftAnchor + 115.0 * (phong.getMaPhong() % 100 - 1));
         AnchorPane.setTopAnchor(phongUI, firstTopAnchor + (85 * (phong.getTang() - 1)));
 
         dsPhongUI.add(phongUI);
@@ -108,16 +108,16 @@ public class QLPhong {
         phong.trangThaiProperty().addListener((observableValue, number, t1) -> rectangle.setFill(Color.web(MAU_TRANG_THAI[t1.intValue()])));
 
         // Phong Context Menu
-        phongContextMenu = new ContextMenu();
+        ContextMenu phongContextMenu = new ContextMenu();
         MenuItem item1 = new MenuItem("Nhận phòng (Khách lẻ)");
-        item1.setOnAction(event -> nhanPhongLe(phong));
+        item1.setOnAction(event -> nhanPhongLeMoi(phong));
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         MenuItem item2 = new MenuItem("Thêm phòng");
-        item1.setOnAction(event -> themPhong());
+        item2.setOnAction(event -> themPhong());
         MenuItem item3 = new MenuItem("Sửa phòng");
-        item1.setOnAction(event -> suaPhong(phong));
+        item3.setOnAction(event -> suaPhong(phong));
         MenuItem item4 = new MenuItem("Xoá phòng");
-        item1.setOnAction(event -> xoaPhong(phong));
+        item4.setOnAction(event -> xoaPhong(phong));
 
         phongContextMenu.getItems().addAll(item1, separatorMenuItem, item2, item3, item4);
 
@@ -147,27 +147,6 @@ public class QLPhong {
         anchorPane.getChildren().add(tangUI);
     }
 
-    public void nhanPhongLe(Phong phong) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/nhanKhachLe.fxml"));
-        try {
-            Parent editRoot = loader.load();
-            new JMetro(editRoot, Style.LIGHT);
-
-            Stage stage = new Stage();
-            Scene scene = new Scene(editRoot);
-            stage.setTitle("Nhận phòng khách lẻ");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            NhanKhachLe nhanKhachLe = loader.getController();
-            nhanKhachLe.init(phong);
-
-            stage.showAndWait();
-        } catch (IOException e) {
-            ExHandler.handle(e);
-        }
-    }
-
     public void themPhong() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("view/phong/suaPhong.fxml"));
@@ -186,10 +165,12 @@ public class QLPhong {
             stage.showAndWait();
             Phong phongMoi = suaPhong.getPhongMoi();
 
-            if (phongMoi.getTang() > soTang)
-                themTangUI(phongMoi.getTang());
-            dsPhong.add(phongMoi);
-            themPhongUI(phongMoi);
+            if (phongMoi != null) {
+                if (phongMoi.getTang() > soTang)
+                    themTangUI(phongMoi.getTang());
+                dsPhong.add(phongMoi);
+                themPhongUI(phongMoi);
+            }
         } catch (IOException e) {
             ExHandler.handle(e);
         }
@@ -257,24 +238,50 @@ public class QLPhong {
         }
     }
 
-    public void nhanPhongDoan() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/nhanKhachLe.fxml"));
-        try {
-            Parent editRoot = loader.load();
-            new JMetro(editRoot, Style.LIGHT);
+    public void nhanPhongLeMoi(Phong phong) {
+        if (phong.getTrangThai() != Phong.SANSANG) {
+            AlertGenerator.error("Phòng đang ở trạng thái " + phong.getTrangThaiString() + ". Không được đặt phòng.");
+            return;
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/nhanKhachLe.fxml"));
+            try {
+                Parent editRoot = loader.load();
+                new JMetro(editRoot, Style.LIGHT);
 
-            Stage stage = new Stage();
-            Scene scene = new Scene(editRoot);
-            stage.setTitle("Nhận phòng khách lẻ");
-            stage.setScene(scene);
-            stage.setResizable(false);
-             nhanKhachLe = loader.getController();
-            nhanKhachLe.init();
+                Stage stage = new Stage();
+                Scene scene = new Scene(editRoot);
+                stage.setTitle("Nhận phòng khách lẻ");
+                stage.setScene(scene);
+                stage.setResizable(false);
+                NhanKhachLe nhanKhachLe = loader.getController();
+                nhanKhachLe.initNew(phong);
 
-            stage.showAndWait();
-        } catch (IOException e) {
-            ExHandler.handle(e);
+                stage.showAndWait();
+            } catch (IOException e) {
+                ExHandler.handle(e);
+            }
         }
     }
+
+//    public void nhanPhongDoan() {
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/nhanKhachLe.fxml"));
+//        try {
+//            Parent editRoot = loader.load();
+//            new JMetro(editRoot, Style.LIGHT);
+//
+//            Stage stage = new Stage();
+//            Scene scene = new Scene(editRoot);
+//            stage.setTitle("Nhận phòng khách lẻ");
+//            stage.setScene(scene);
+//            stage.setResizable(false);
+//             nhanKhachLe = loader.getController();
+//            nhanKhachLe.init();
+//
+//            stage.showAndWait();
+//        } catch (IOException e) {
+//            ExHandler.handle(e);
+//        }
+//    }
 }

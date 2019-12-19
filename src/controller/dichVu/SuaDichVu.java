@@ -31,7 +31,7 @@ public class SuaDichVu {
     private TextField tenDvField;
 
     @FXML
-    private TextField ghiChuField;
+    private TextArea ghiChuField;
 
     @FXML
     private TextField donViField;

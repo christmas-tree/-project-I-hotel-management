@@ -122,6 +122,8 @@ public class SuaNhanVien {
     }
 
     public void uiInit() {
+        loaiNvComboBox.getItems().addAll("Quản lý", "Lễ tân");
+
         gioiTinhToggle.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (t1) {
                 gioiTinhToggle.setText("Nam");

@@ -122,24 +122,40 @@ public class NhanKhachLe {
     private ObservableList<KhachHang> dsKhachHang;
 
     private ObservableList<KhachHang> dsKhachOPhong;
-    private ArrayList<KhachHang> dsXoa;
+    private ArrayList<KhachHang> dsXoa = new ArrayList<>();
     private DatPhong datPhong;
     private ChiTietDatPhong chiTietDatPhong;
 
     public void init() {
+        dsKhachOPhong = FXCollections.observableArrayList();
         uiInit();
-        luuBtn.setOnAction(event -> add());
-
+        luuBtn.setOnAction(event -> {
+            add();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        });
     }
 
-    public void init(Phong phong) {
+    public void initNew(Phong phong) {
+        dsKhachOPhong = FXCollections.observableArrayList();
+
+        phongCombo.getSelectionModel().select(phong);
+        phongCombo.setDisable(true);
+        giaField.setText(String.valueOf(phongCombo.getSelectionModel().getSelectedItem().getLoaiPhong().getGiaTien()));
+        uiInit();
+        luuBtn.setOnAction(event -> {
+            add();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        });
+    }
+
+    public void initOld(Phong phong) {
         phongCombo.setDisable(true);
 
         chiTietDatPhong = ChiTietDatPhongDAO.getInstance().getByPhong(phong);
         datPhong = chiTietDatPhong.getDatPhong();
 
         maDatPhongLabel.setText(String.format("%06d", datPhong.getMaDatPhong()));
-        phongCombo.getSelectionModel().select(chiTietDatPhong.getPhong());
+        phongCombo.getSelectionModel().select(phong);
         giaField.setText(String.valueOf(chiTietDatPhong.getPhong().getLoaiPhong().getGiaTien()));
         LocalDateTime ngayVao = datPhong.getNgayCheckin().toLocalDateTime();
         ngayVaoDuKienDate.setValue(ngayVao.toLocalDate());
@@ -173,10 +189,14 @@ public class NhanKhachLe {
 
         uiInit();
 
-        luuBtn.setOnAction(event -> update());
+        luuBtn.setOnAction(event -> {
+            update();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        });
     }
 
     public void uiInit() {
+        giaField.setDisable(true);
         // COMBOBOX
         Runnable task = () -> {
             dsPhong = FXCollections.observableArrayList(PhongDAO.getInstance().getAll(LoaiPhongDAO.getInstance().getMap()));
@@ -184,16 +204,16 @@ public class NhanKhachLe {
             dsNhanVien = FXCollections.observableArrayList(NhanVienDAO.getInstance().getAll());
             Platform.runLater(() -> {
                 phongCombo.getItems().addAll(dsPhong);
-                khachDatCombo.getItems().addAll(dsKhachHang);
+                khachDatCombo.setItems(dsKhachHang);
                 nhanVienDatCombo.getItems().addAll(dsNhanVien);
                 nhanVienLeTanCombo.getItems().addAll(dsNhanVien);
-                khachOCombo.getItems().addAll(dsKhachHang);
+                khachOCombo.setItems(dsKhachHang);
             });
         };
         new Thread(task).start();
 
         // FIELD CHECKER
-        forceNumberOnly(giaField, heSoGiamGiaField, heSoNgayLeField);
+        forceNumberOnly(datCocField, giaField, heSoGiamGiaField, heSoNgayLeField);
 
         // BUTTONS
         themKhachDatBtn.setOnAction(event -> {
@@ -237,6 +257,9 @@ public class NhanKhachLe {
 
         huyBtn.setOnAction(event -> ((Node) (event.getSource())).getScene().getWindow().hide());
 
+        // FIELD RUNNER
+        phongCombo.selectionModelProperty().addListener((observableValue, phongSingleSelectionModel, t1) -> giaField.setText(String.format("%,3d", t1.getSelectedItem().getLoaiPhong().getGiaTien())));
+
         // TABLE
         tenCol.setCellValueFactory(new PropertyValueFactory<>("tenKhach"));
         gioiTinhCol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
@@ -270,9 +293,12 @@ public class NhanKhachLe {
                     ghiChuField.getText()
             );
 
+            phongCombo.getSelectionModel().getSelectedItem().setTrangThai(1);
+
             if (DatPhongDAO.getInstance().create(datPhong)
                     && ChiTietDatPhongDAO.getInstance().create(chiTietDatPhong)
                     && ChiTietDatPhongDAO.getInstance().updateDsKhachO(chiTietDatPhong, dsKhachOPhong, dsXoa)
+                    && PhongDAO.getInstance().update(phongCombo.getSelectionModel().getSelectedItem())
             ) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Thành công!");
@@ -307,8 +333,8 @@ public class NhanKhachLe {
                     ngayVaoThucTeTimeField.getText().isBlank() ? null : Timestamp.valueOf(LocalDateTime.of(ngayVaoThucTeDate.getValue(), LocalTime.parse(ngayVaoThucTeTimeField.getText()))),
                     null,
                     nhanVienLeTanCombo.getSelectionModel().getSelectedItem(),
-                    heSoNgayLeField.getText().isBlank() ? 0 : Float.parseFloat(heSoNgayLeField.getText()),
-                    heSoGiamGiaField.getText().isBlank() ? 0 : Float.parseFloat(heSoGiamGiaField.getText()),
+                    heSoNgayLeField.getText().isBlank() ? 1 : Float.parseFloat(heSoNgayLeField.getText()),
+                    heSoGiamGiaField.getText().isBlank() ? 1 : Float.parseFloat(heSoGiamGiaField.getText()),
                     ghiChuField.getText()
             );
 
@@ -359,7 +385,9 @@ public class NhanKhachLe {
 
             stage.showAndWait();
             KhachHang khachHangMoi = suaKhachHang.getKhachHangMoi();
-            dsKhachHang.add(khachHangMoi);
+            if (khachHangMoi != null) {
+                dsKhachHang.add(khachHangMoi);
+            }
             return khachHangMoi;
         } catch (IOException e) {
             ExHandler.handle(e);
@@ -371,6 +399,9 @@ public class NhanKhachLe {
         String err = "";
         if (phongCombo.getSelectionModel().isEmpty()) {
             err += "Không được bỏ trống số phòng.\n";
+        } else {
+            if (phongCombo.getSelectionModel().getSelectedItem().getTrangThai() != 0)
+                err += "Phòng đã chọn đang ở trạng thái " + phongCombo.getSelectionModel().getSelectedItem().getTrangThaiString();
         }
         if (giaField.getText().isBlank()) {
             err += "Không được bỏ trống giá.\n";
@@ -396,7 +427,6 @@ public class NhanKhachLe {
         if (nhanVienDatCombo.getSelectionModel().isEmpty()) {
             err += "Không được bỏ trống nhân viên đặt.\n";
         }
-
         if (err.isBlank())
             return true;
         else {

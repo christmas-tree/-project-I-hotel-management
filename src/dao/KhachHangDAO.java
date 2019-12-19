@@ -67,7 +67,7 @@ public class KhachHangDAO {
             while (rs.next()) {
                 khachHang = new KhachHang(
                         rs.getInt("ma_kh"),
-                        rs.getNString("ten_khachHang"),
+                        rs.getNString("ten_khach"),
                         rs.getBoolean("gioi_tinh"),
                         rs.getLong("cmnd"),
                         rs.getLong("dien_thoai"),
@@ -104,7 +104,7 @@ public class KhachHangDAO {
             while (rs.next()) {
                 khachHang = new KhachHang(
                         rs.getInt("ma_kh"),
-                        rs.getNString("ten_khachHang"),
+                        rs.getNString("ten_khach"),
                         rs.getBoolean("gioi_tinh"),
                         rs.getLong("cmnd"),
                         rs.getLong("dien_thoai"),
@@ -179,6 +179,15 @@ public class KhachHangDAO {
                         ExHandler.handle(e);
                     }
                     break;
+                case 5: // Dien thoai
+                    sql += " WHERE email LIKE ?";
+                    stmt = con.prepareStatement(sql);
+                    try {
+                        stmt.setNString(1, "%" + value + "%");
+                    } catch (NumberFormatException e) {
+                        ExHandler.handle(e);
+                    }
+                    break;
 
                 default:
                     throw new IllegalArgumentException("Illegal Searching Method.");
@@ -188,7 +197,7 @@ public class KhachHangDAO {
             while (rs.next()) {
                 khachHang = new KhachHang(
                         rs.getInt("ma_kh"),
-                        rs.getNString("ten_khachHang"),
+                        rs.getNString("ten_khach"),
                         rs.getBoolean("gioi_tinh"),
                         rs.getLong("cmnd"),
                         rs.getLong("dien_thoai"),

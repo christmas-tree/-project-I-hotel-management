@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import model.LoaiPhong;
@@ -31,7 +32,7 @@ public class SuaLoaiPhong {
     private TextField soNguoiField;
 
     @FXML
-    private TextField ghiChuField;
+    private TextArea ghiChuField;
 
     public void init() {
         uiInit();

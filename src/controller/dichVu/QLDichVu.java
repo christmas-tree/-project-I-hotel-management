@@ -137,7 +137,7 @@ public class QLDichVu {
             new JMetro(editRoot, Style.LIGHT);
 
             Stage stage = new Stage();
-            Scene scene = new Scene(editRoot, 600, 500);
+            Scene scene = new Scene(editRoot);
 
             stage.setTitle("Thêm dịch vụ");
             stage.setScene(scene);
@@ -198,7 +198,7 @@ public class QLDichVu {
         }
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("view/dichVu/qlDichVu.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("view/dichVu/suaDichVu.fxml"));
         try {
             Parent editRoot = loader.load();
             new JMetro(editRoot, Style.LIGHT);
