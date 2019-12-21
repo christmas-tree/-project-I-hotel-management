@@ -14,6 +14,7 @@
                 <TableColumn fx:id="idCol" editable="false" minWidth="100.0" prefWidth="100.0" text="Mã DV" />
                 <TableColumn fx:id="tenDvCol" editable="false" minWidth="150.0" prefWidth="200.0" text="Tên DV" />
                 <TableColumn fx:id="giaDvCol" editable="false" minWidth="100.0" prefWidth="100.0" text="Giá tiền" />
+                <TableColumn fx:id="donViCol" editable="false" minWidth="100.0" prefWidth="100.0" text="Đơn vị tính" />
                 <TableColumn fx:id="ghiChuCol" editable="false" minWidth="150.0" prefWidth="200.0" sortable="false" text="Ghi chú" />
             </columns>
             <placeholder>

@@ -3,6 +3,7 @@ package controller.phong;
 import dao.ChiTietPhongDAO;
 import dao.LoaiPhongDAO;
 import dao.PhongDAO;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -161,7 +162,7 @@ public class SuaPhong {
         giaTienCol.setCellValueFactory(new PropertyValueFactory<>("giaTien"));
         slDoCol.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
         donViCol.setCellValueFactory(new PropertyValueFactory<>("donVi"));
-        trangThaiDoCol.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
+        trangThaiDoCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getTrangThaiString()));
         ghiChuDoCol.setCellValueFactory(new PropertyValueFactory<>("ghiChu"));
 
         giaTienCol.setCellFactory(p -> {
@@ -187,16 +188,30 @@ public class SuaPhong {
             p.setGiaTien(newValue);
         });
 
-        slDoCol.setCellFactory(p -> new TextFieldTableCell<>());
+        slDoCol.setCellFactory(p -> {
+            TextFieldTableCell<ChiTietPhong, Integer> cell = new TextFieldTableCell<>();
+            cell.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(Integer value) {
+                    return String.valueOf(value);
+                }
+
+                @Override
+                public Integer fromString(String string) {
+                    return Integer.parseInt(string);
+                }
+            });
+            return cell;
+        });
         slDoCol.setOnEditCommit((event) -> {
             TablePosition<ChiTietPhong, Integer> pos = event.getTablePosition();
             Integer newValue = event.getNewValue();
             int row = pos.getRow();
             ChiTietPhong p = event.getTableView().getItems().get(row);
-            p.setSoLuong(newValue);
+            p.setGiaTien(newValue);
         });
 
-        donViCol.setCellFactory(p -> new TextFieldTableCell<>());
+        donViCol.setCellFactory(TextFieldTableCell.forTableColumn());
         donViCol.setOnEditCommit((event) -> {
             TablePosition<ChiTietPhong, String> pos = event.getTablePosition();
             String newValue = event.getNewValue();
@@ -218,7 +233,7 @@ public class SuaPhong {
             p.setTrangThai(newValue);
         });
 
-        ghiChuDoCol.setCellFactory(p -> new TextFieldTableCell<>());
+        ghiChuDoCol.setCellFactory(TextFieldTableCell.<ChiTietPhong>forTableColumn());
         ghiChuDoCol.setOnEditCommit((event) -> {
             TablePosition<ChiTietPhong, String> pos = event.getTablePosition();
             String newValue = event.getNewValue();
@@ -266,7 +281,7 @@ public class SuaPhong {
         phong.setLoaiPhong(loaiPhongCombo.getSelectionModel().getSelectedItem());
         phong.setTang(Integer.parseInt(tangField.getText()));
         phong.setTrangThai(trangThaiCombo.getSelectionModel().getSelectedIndex());
-        phong.setGhiChu(ghiChuDoField.getText());
+        phong.setGhiChu(ghiChuField.getText());
 
         boolean success = PhongDAO.getInstance().update(phong) &&
                 ChiTietPhongDAO.getInstance().delete(pendingDelete) &&
@@ -286,7 +301,7 @@ public class SuaPhong {
         phong.setLoaiPhong(loaiPhongCombo.getSelectionModel().getSelectedItem());
         phong.setTang(Integer.parseInt(tangField.getText()));
         phong.setTrangThai(trangThaiCombo.getSelectionModel().getSelectedIndex());
-        phong.setGhiChu(ghiChuDoField.getText());
+        phong.setGhiChu(ghiChuField.getText());
         phong.setDsChiTietPhong(dsChiTietPhong);
 
         boolean success = PhongDAO.getInstance().create(phong) && ChiTietPhongDAO.getInstance().create(dsChiTietPhong);

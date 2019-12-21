@@ -18,6 +18,8 @@ public class ChiTietDatPhong {
     private long thanhTien;
     private String ghiChu;
 
+    private Long donGiaSauHeSo;
+
     private ArrayList<KhachHang> dsKhachHang = new ArrayList<>();
     private ObservableList<ChiTietDichVu> dsDichVuSuDung = FXCollections.observableArrayList();
     private ObservableList<BoiThuong> dsBoiThuong = FXCollections.observableArrayList();
@@ -155,5 +157,13 @@ public class ChiTietDatPhong {
     @Override
     public String toString() {
         return phong.toString();
+    }
+
+    public Long getDonGiaSauHeSo() {
+        return donGiaSauHeSo;
+    }
+
+    public void setDonGiaSauHeSo(Long donGiaSauHeSo) {
+        this.donGiaSauHeSo = donGiaSauHeSo;
     }
 }

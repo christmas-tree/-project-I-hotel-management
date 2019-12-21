@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.phong.QLLoaiPhong">
+    <children>
+        <TableView fx:id="loaiPhongTable" layoutX="115.0" layoutY="70.0" prefHeight="448.0" prefWidth="824.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+            <columns>
+                <TableColumn fx:id="idCol" editable="false" minWidth="100.0" prefWidth="100.0" text="Mã loại phòng" />
+                <TableColumn fx:id="loaiPhongCol" editable="false" minWidth="150.0" prefWidth="200.0" text="Loại phòng" />
+                <TableColumn fx:id="giaTienCol" editable="false" minWidth="100.0" prefWidth="100.0" text="Giá tiền" />
+                <TableColumn fx:id="soNguoiCol" editable="false" minWidth="100.0" prefWidth="150.0" text="Số người tối đa" />
+                <TableColumn fx:id="ghiChuCol" editable="false" minWidth="150.0" prefWidth="200.0" sortable="false" text="Ghi chú" />
+            </columns>
+            <placeholder>
+                <Label text="Không có dữ liệu." />
+            </placeholder>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+        <Button fx:id="searchBtn" defaultButton="true" mnemonicParsing="false" text="Tìm kiếm" visible="false" AnchorPane.leftAnchor="615.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="refreshBtn" layoutY="20.0" mnemonicParsing="false" prefHeight="30.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <graphic>
+                <ImageView fx:id="refreshIcon" fitHeight="18.0" fitWidth="15.0" layoutX="807.0" layoutY="20.0" pickOnBounds="false" preserveRatio="true" AnchorPane.rightAnchor="20.0">
+                    <image>
+                        <Image url="@../../resources/icon/refresh.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="addBtn" layoutX="740.0" layoutY="16.0" mnemonicParsing="false" prefHeight="30.0" text="Thêm" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="20.0" />
+        <Button fx:id="deleteBtn" layoutX="675.0" layoutY="16.0" mnemonicParsing="false" prefHeight="30.0" text="Xoá" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="20.0" />
+        <Button fx:id="editBtn" layoutX="660.0" layoutY="15.0" mnemonicParsing="false" prefHeight="30.0" text="Sửa" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="20.0" />
+      <Label layoutX="27.0" layoutY="17.0" text="Loại phòng">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+
+    </children>
+</AnchorPane>

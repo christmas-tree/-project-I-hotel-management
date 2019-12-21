@@ -3,6 +3,7 @@ package controller.khachSan;
 import controller.khachHang.SuaKhachHang;
 import dao.*;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -118,7 +119,7 @@ public class NhanKhachLe {
     private Button huyDatBtn;
 
     private ObservableList<NhanVien> dsNhanVien;
-    private ObservableList<Phong> dsPhong;
+    private ArrayList<Phong> dsPhong;
     private ObservableList<KhachHang> dsKhachHang;
 
     private ObservableList<KhachHang> dsKhachOPhong;
@@ -126,29 +127,84 @@ public class NhanKhachLe {
     private DatPhong datPhong;
     private ChiTietDatPhong chiTietDatPhong;
 
-    public void init() {
+    public void initBook(Phong phong, ArrayList<Phong> dsPhong) {
+        ngayVaoThucTeDate.setEditable(false);
+        ngayVaoThucTeTimeField.setEditable(false);
+        nhanVienLeTanCombo.setEditable(false);
+        ngayVaoThucTeDate.setDisable(true);
+        ngayVaoThucTeTimeField.setDisable(true);
+        nhanVienLeTanCombo.setDisable(true);
+        layGioBtn.setDisable(true);
+
+        initNew(phong, dsPhong);
+    }
+
+    public void init(DatPhong datPhong, ArrayList<Phong> dsPhong) {
+        chiTietDatPhong = ChiTietDatPhongDAO.getInstance().get(datPhong, dsPhong);
         dsKhachOPhong = FXCollections.observableArrayList();
-        uiInit();
+
+        uiInit(dsPhong);
+
+        phongCombo.setDisable(true);
+        maDatPhongLabel.setText(String.format("%06d", datPhong.getMaDatPhong()));
+        phongCombo.getSelectionModel().select(chiTietDatPhong.getPhong());
+        giaField.setText(String.valueOf(chiTietDatPhong.getPhong().getLoaiPhong().getGiaTien()));
+        LocalDateTime ngayVao = datPhong.getNgayCheckin().toLocalDateTime();
+        ngayVaoDuKienDate.setValue(ngayVao.toLocalDate());
+        ngayVaoThucTeTimeField.setText(ngayVao.toLocalTime().toString());
+        LocalDateTime ngayRa = datPhong.getNgayCheckout().toLocalDateTime();
+        ngayRaDuKienDate.setValue(ngayRa.toLocalDate());
+        ngayRaDuKienTimeField.setText(ngayRa.toLocalTime().toString());
+        phuongThucField.setText(datPhong.getPhuongThuc());
+        datCocField.setText(String.valueOf(datPhong.getTienDatCoc()));
+
+        heSoNgayLeField.setText(String.valueOf(chiTietDatPhong.getHeSoNgayLe()));
+        heSoGiamGiaField.setText(String.valueOf(chiTietDatPhong.getHeSoKhuyenMai()));
+
+        ghiChuField.setText(datPhong.getGhiChu());
+
+        nhanVienDatCombo.getSelectionModel().select(datPhong.getNvNhan());
+        nhanVienLeTanCombo.getSelectionModel().select(chiTietDatPhong.getNvLeTan());
+
+        if (chiTietDatPhong.getNgayCheckinTt() != null) {
+            LocalDateTime ngay = chiTietDatPhong.getNgayCheckinTt().toLocalDateTime();
+            ngayVaoThucTeDate.setValue(ngay.toLocalDate());
+            ngayVaoThucTeTimeField.setText(ngay.toLocalTime().toString());
+        }
+
+        khachDatCombo.getSelectionModel().select(datPhong.getKhachHang());
+
+        dsKhachOPhong = FXCollections.observableArrayList(chiTietDatPhong.getDsKhachHang());
+
+        if (chiTietDatPhong.getNgayCheckinTt() == null)
+            huyDatBtn.setVisible(true);
+
+
+
         luuBtn.setOnAction(event -> {
-            add();
-            ((Node) (event.getSource())).getScene().getWindow().hide();
+            if (validate()) {
+                update();
+                ((Node) (event.getSource())).getScene().getWindow().hide();
+            }
         });
     }
 
-    public void initNew(Phong phong) {
+    public void initNew(Phong phong, ArrayList<Phong> dsPhong) {
         dsKhachOPhong = FXCollections.observableArrayList();
+        uiInit(dsPhong);
 
         phongCombo.getSelectionModel().select(phong);
         phongCombo.setDisable(true);
         giaField.setText(String.valueOf(phongCombo.getSelectionModel().getSelectedItem().getLoaiPhong().getGiaTien()));
-        uiInit();
         luuBtn.setOnAction(event -> {
-            add();
-            ((Node) (event.getSource())).getScene().getWindow().hide();
+            if (validate()) {
+                add();
+                ((Node) (event.getSource())).getScene().getWindow().hide();
+            }
         });
     }
 
-    public void initOld(Phong phong) {
+    public void initOld(Phong phong, ArrayList<Phong> dsPhong) {
         phongCombo.setDisable(true);
 
         chiTietDatPhong = ChiTietDatPhongDAO.getInstance().getByPhong(phong);
@@ -187,7 +243,7 @@ public class NhanKhachLe {
         if (chiTietDatPhong.getNgayCheckinTt() == null)
             huyDatBtn.setVisible(true);
 
-        uiInit();
+        uiInit(dsPhong);
 
         luuBtn.setOnAction(event -> {
             update();
@@ -195,11 +251,10 @@ public class NhanKhachLe {
         });
     }
 
-    public void uiInit() {
+    public void uiInit(ArrayList<Phong> dsPhong) {
         giaField.setDisable(true);
         // COMBOBOX
         Runnable task = () -> {
-            dsPhong = FXCollections.observableArrayList(PhongDAO.getInstance().getAll(LoaiPhongDAO.getInstance().getMap()));
             dsKhachHang = FXCollections.observableArrayList(KhachHangDAO.getInstance().getAll());
             dsNhanVien = FXCollections.observableArrayList(NhanVienDAO.getInstance().getAll());
             Platform.runLater(() -> {
@@ -262,14 +317,13 @@ public class NhanKhachLe {
 
         // TABLE
         tenCol.setCellValueFactory(new PropertyValueFactory<>("tenKhach"));
-        gioiTinhCol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
+        gioiTinhCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getGioiTinh()?"Nam":"Nữ"));
         cmndCol.setCellValueFactory(new PropertyValueFactory<>("cmnd"));
 
         khachOTable.setItems(dsKhachOPhong);
     }
 
     public void add() {
-        if (validate()) {
             datPhong = new DatPhong(
                     new Timestamp(System.currentTimeMillis()),
                     phuongThucField.getText(),
@@ -281,19 +335,20 @@ public class NhanKhachLe {
                     Long.parseLong(datCocField.getText()),
                     false,
                     false,
-                    ghiChuField.getText()
+                    ghiChuField.getText(),
+                    false
             );
             chiTietDatPhong = new ChiTietDatPhong(
                     datPhong,
                     phongCombo.getSelectionModel().getSelectedItem(),
                     ngayVaoThucTeTimeField.getText().isBlank() ? null : Timestamp.valueOf(LocalDateTime.of(ngayVaoThucTeDate.getValue(), LocalTime.parse(ngayVaoThucTeTimeField.getText()))),
                     nhanVienLeTanCombo.getSelectionModel().getSelectedItem(),
-                    heSoNgayLeField.getText().isBlank() ? 0 : Float.parseFloat(heSoNgayLeField.getText()),
-                    heSoGiamGiaField.getText().isBlank() ? 0 : Float.parseFloat(heSoGiamGiaField.getText()),
-                    ghiChuField.getText()
+                    heSoNgayLeField.getText().isBlank() ? 1 : Float.parseFloat(heSoNgayLeField.getText()),
+                    heSoGiamGiaField.getText().isBlank() ? 1 : Float.parseFloat(heSoGiamGiaField.getText())
             );
 
-            phongCombo.getSelectionModel().getSelectedItem().setTrangThai(1);
+            if (chiTietDatPhong.getNgayCheckinTt() != null)
+                phongCombo.getSelectionModel().getSelectedItem().setTrangThai(1);
 
             if (DatPhongDAO.getInstance().create(datPhong)
                     && ChiTietDatPhongDAO.getInstance().create(chiTietDatPhong)
@@ -312,11 +367,9 @@ public class NhanKhachLe {
             alert.setContentText("Đặt phòng thất bại.");
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
-        }
     }
 
     public void update() {
-        if (validate()) {
             datPhong.setProps(
                     phuongThucField.getText(),
                     ngayVaoDuKienTimeField.getText().isBlank() ? null : Timestamp.valueOf(LocalDateTime.of(ngayVaoDuKienDate.getValue(), LocalTime.parse(ngayVaoDuKienTimeField.getText()))),
@@ -354,7 +407,6 @@ public class NhanKhachLe {
             alert.setContentText("Cập nhật thông tin đặt phòng thất bại.");
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
-        }
     }
 
     public void forceNumberOnly(TextField... fields) {

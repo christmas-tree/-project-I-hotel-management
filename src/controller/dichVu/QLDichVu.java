@@ -76,6 +76,9 @@ public class QLDichVu {
     @FXML
     private ImageView refreshIcon;
 
+    @FXML
+    private TableColumn<DichVu, String> donViCol;
+
     private ObservableList<DichVu> data;
 
     public void init(IndexController c) {
@@ -83,6 +86,7 @@ public class QLDichVu {
         idCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%03d", p.getValue().getMaDv())));
         tenDvCol.setCellValueFactory(new PropertyValueFactory<>("tenDv"));
         giaDvCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getGiaDv())));
+        donViCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getDonVi()));
         ghiChuCol.setCellValueFactory(new PropertyValueFactory<>("ghiChu"));
 
         reloadData();

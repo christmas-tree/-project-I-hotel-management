@@ -1,5 +1,6 @@
 package dao;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
 import util.DbConnection;
@@ -7,6 +8,7 @@ import util.ExHandler;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ChiTietDatPhongDAO {
 
@@ -80,11 +82,11 @@ public class ChiTietDatPhongDAO {
         }
     }
 
-    public ArrayList<ChiTietDatPhong> getAll(DatPhong datPhong, ArrayList<Phong> dsPhong) {
-        ArrayList<ChiTietDatPhong> dsChiTietDatPhong = new ArrayList<>();
+    public ObservableList<ChiTietDatPhong> getAll(DatPhong datPhong, ArrayList<Phong> dsPhong) {
+        ObservableList<ChiTietDatPhong> dsChiTietDatPhong = FXCollections.observableArrayList();
         ChiTietDatPhong chiTietDatPhong = null;
 
-        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, he_so_ngay_le, he_so_khuyen_mai, thanh_tien, ghi_chu " +
+        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, he_so_ngay_le, he_so_khuyen_mai, thanh_tien, chi_tiet_dat_phong.ghi_chu " +
                 "FROM chi_tiet_dat_phong, nhan_vien WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND ma_dat_phong=?";
 
         Connection con = DbConnection.getConnection();
@@ -119,6 +121,65 @@ public class ChiTietDatPhongDAO {
         return dsChiTietDatPhong;
     }
 
+
+    public ChiTietDatPhong get(DatPhong datPhong, ArrayList<Phong> dsPhong) {
+        ObservableList<ChiTietDatPhong> dsChiTietDatPhong = FXCollections.observableArrayList();
+        ChiTietDatPhong chiTietDatPhong = null;
+
+        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, he_so_ngay_le, he_so_khuyen_mai, thanh_tien, chi_tiet_dat_phong.ghi_chu " +
+                "FROM chi_tiet_dat_phong, nhan_vien WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND ma_dat_phong=?";
+
+        String sql2 = "SELECT khach_hang.ma_kh, ten_khach FROM ds_noi_o, khach_hang WHERE ds_noi_o.ma_kh=khach_hang.ma_kh AND ds_noi_o.ma_phong=? AND ds_noi_o.ma_dat_phong=?";
+
+        Connection con = DbConnection.getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, datPhong.getMaDatPhong());
+            rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                chiTietDatPhong = new ChiTietDatPhong(
+                        datPhong,
+                        getPhongFromArray(dsPhong, rs.getInt(1)),
+                        rs.getTimestamp(2),
+                        rs.getTimestamp(3),
+                        new NhanVien(rs.getInt(4), rs.getNString(5)),
+                        rs.getFloat(6),
+                        rs.getFloat(7),
+                        rs.getLong(8),
+                        rs.getNString(9)
+                );
+            }
+            rs.close();
+            stmt.close();
+
+            ArrayList<KhachHang> dsKhachHang = new ArrayList<>();
+            while (rs.next()) {
+                KhachHang khachHang = new KhachHang(
+                        rs.getInt(1),
+                        rs.getNString(2)
+                );
+                dsKhachHang.add(khachHang);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+
+            stmt = con.prepareStatement(sql2);
+            stmt.setInt(1, chiTietDatPhong.getPhong().getMaPhong());
+            stmt.setInt(2, chiTietDatPhong.getDatPhong().getMaDatPhong());
+
+            chiTietDatPhong.setDsKhachHang(dsKhachHang);
+            con.close();
+
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
+        return chiTietDatPhong;
+    }
+
     public ChiTietDatPhong getByPhong(Phong phong) {
         ChiTietDatPhong chiTietDatPhong = null;
 
@@ -135,7 +196,7 @@ public class ChiTietDatPhongDAO {
             stmt.setInt(1, phong.getMaPhong());
             rs = stmt.executeQuery();
 
-            while(rs.next())
+            while (rs.next())
                 chiTietDatPhong = new ChiTietDatPhong(
                         DatPhongDAO.getInstance().get(rs.getInt(1)),
                         phong,
@@ -156,7 +217,7 @@ public class ChiTietDatPhongDAO {
             rs = stmt.executeQuery();
 
             ArrayList<KhachHang> dsKhachHang = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 KhachHang khachHang = new KhachHang(
                         rs.getInt(1),
                         rs.getNString(2)
@@ -317,6 +378,13 @@ public class ChiTietDatPhongDAO {
             ExHandler.handle(e);
             return false;
         }
+    }
+    public Phong timPhong(int maPhong, ObservableList<Phong> dsPhong) {
+        for (Phong phong: dsPhong) {
+            if (maPhong == phong.getMaPhong())
+                return phong;
+        }
+        return null;
     }
 }
 

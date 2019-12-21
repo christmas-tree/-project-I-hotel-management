@@ -219,7 +219,9 @@ public class KhachHangDAO {
     }
 
     public boolean update(KhachHang khachHang) {
-        String sql = "UPDATE khach_hang(ten_khachHang, gioi_tinh, cmnd, dien_thoai, email, dia_chi, ghi_chu) SET (?, ?, ?, ?, ?, ?, ?) WHERE ma_kh=?";
+        String sql = "UPDATE khach_hang " +
+                "SET ten_khach=?, gioi_tinh=?, cmnd=?, dien_thoai=?, email=?, dia_chi =? , ghi_chu =? " +
+                "WHERE ma_kh=?";
 
         boolean result = false;
 

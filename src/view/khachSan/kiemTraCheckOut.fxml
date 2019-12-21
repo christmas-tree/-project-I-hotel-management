@@ -3,19 +3,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="295.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.phong.ChiTietPhong">
+<AnchorPane prefHeight="300.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.khachSan.KiemPhong">
 <children>
-    <TableView layoutX="30.0" layoutY="27.0" prefHeight="247.0" prefWidth="668.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <TableView fx:id="boiThuongTable" editable="true" layoutX="30.0" layoutY="27.0" prefHeight="247.0" prefWidth="668.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-            <TableColumn minWidth="100.0" prefWidth="100.0" text="Tên đồ" />
-            <TableColumn minWidth="50.0" prefWidth="50.0" text="SL" />
-            <TableColumn minWidth="50.0" prefWidth="75.0" text="Trạng thái" />
-            <TableColumn minWidth="100.0" prefWidth="100.0" text="Ghi chú" />
+            <TableColumn fx:id="phongCol" minWidth="50.0" prefWidth="75.0" text="Phòng" />
+            <TableColumn fx:id="tenDoCol" minWidth="100.0" prefWidth="100.0" text="Tên đồ" />
+            <TableColumn fx:id="soLuongCol" minWidth="50.0" prefWidth="50.0" text="SL" />
+            <TableColumn fx:id="trangThaiCol" minWidth="75.0" prefWidth="100.0" text="Trạng thái" />
+            <TableColumn fx:id="slBoiThuongCol" minWidth="75.0" prefWidth="100.0" text="SL bồi thường" />
+            <TableColumn fx:id="boiThuongCol" minWidth="75.0" prefWidth="100.0" text="Bồi thường" />
+            <TableColumn fx:id="ghiChuCol" minWidth="100.0" prefWidth="100.0" text="Ghi chú" />
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
-      <Button layoutX="545.0" layoutY="258.0" mnemonicParsing="false" text="Hoàn tất kiểm tra phòng" AnchorPane.rightAnchor="15.0" />
+      <Button fx:id="luuBtn" layoutX="545.0" layoutY="258.0" mnemonicParsing="false" text="Hoàn tất kiểm tra phòng" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
 </children>
 </AnchorPane>

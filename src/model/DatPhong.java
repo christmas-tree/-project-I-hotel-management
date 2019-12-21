@@ -20,13 +20,18 @@ public class DatPhong {
   private boolean khachDoan;
   private boolean daHuy;
   private String ghiChu;
+  private boolean daXong;
 
   private ObservableList<ChiTietDatPhong> dsChiTietDatPhong;
 
   public DatPhong() {
   }
 
-  public DatPhong(int maDatPhong, Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu) {
+  public DatPhong(int maDatPhong) {
+    this.maDatPhong = maDatPhong;
+  }
+
+  public DatPhong(int maDatPhong, Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu, boolean daXong) {
     this.maDatPhong = maDatPhong;
     this.ngayDat = ngayDat;
     this.phuongThuc = phuongThuc;
@@ -39,9 +44,10 @@ public class DatPhong {
     this.khachDoan = khachDoan;
     this.daHuy = daHuy;
     this.ghiChu = ghiChu;
+    this.daXong = daXong;
   }
 
-  public DatPhong(Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu) {
+  public DatPhong(Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu, boolean daXong) {
     this.ngayDat = ngayDat;
     this.phuongThuc = phuongThuc;
     this.ngayCheckin = ngayCheckin;
@@ -53,6 +59,7 @@ public class DatPhong {
     this.khachDoan = khachDoan;
     this.daHuy = daHuy;
     this.ghiChu = ghiChu;
+    this.daXong = daXong;
   }
 
   public void setProps(Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu) {
@@ -188,5 +195,13 @@ public class DatPhong {
 
   public void setDsChiTietDatPhong(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
     this.dsChiTietDatPhong = dsChiTietDatPhong;
+  }
+
+  public boolean isDaXong() {
+    return daXong;
+  }
+
+  public void setDaXong(boolean daXong) {
+    this.daXong = daXong;
   }
 }

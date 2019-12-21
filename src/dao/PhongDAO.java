@@ -157,6 +157,7 @@ public class PhongDAO {
             stmt.close();
             con.close();
             result = true;
+            System.out.println("true");
         } catch (SQLException e) {
             ExHandler.handle(e);
         }

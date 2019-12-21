@@ -107,11 +107,6 @@ public class NhanKhachDoan {
     private TableColumn<ChiTietDatPhong, String> newLoaiPhongCol;
 
     @FXML
-    private TableColumn<ChiTietDatPhong, NhanVien> newLeTanCol;
-    @FXML
-    private TableColumn<ChiTietDatPhong, Timestamp> newNgayCheckinCol;
-
-    @FXML
     private TextField phuongThucField;
 
     @FXML
@@ -120,7 +115,7 @@ public class NhanKhachDoan {
     @FXML
     private Button layGioBtn;
 
-    private ObservableList<Phong> dsPhong;
+    private ArrayList<Phong> dsPhong;
     private ObservableList<KhachHang> dsKhachHang;
     private ObservableList<NhanVien> dsNhanVien;
 
@@ -134,10 +129,15 @@ public class NhanKhachDoan {
         dsChiTietDatPhong = FXCollections.observableArrayList();
     }
 
-    public void uiInit() {
+    public void init(DatPhong datPhong, ArrayList<Phong> dsPhong) {
+        dsChiTietDatPhong = ChiTietDatPhongDAO.getInstance().getAll(datPhong, dsPhong);
+    }
+
+    public void uiInit(ArrayList<Phong> dsPhong) {
         // COMBOBOX
         Runnable task = () -> {
-            dsPhong = FXCollections.observableArrayList(PhongDAO.getInstance().getAll(LoaiPhongDAO.getInstance().getMap()));
+            this.dsPhong = dsPhong;
+//            dsPhong = PhongDAO.getInstance().getAll(LoaiPhongDAO.getInstance().getMap());
             dsKhachHang = FXCollections.observableArrayList(KhachHangDAO.getInstance().getAll());
             dsNhanVien = FXCollections.observableArrayList(NhanVienDAO.getInstance().getAll());
             Platform.runLater(() -> {
@@ -208,8 +208,6 @@ public class NhanKhachDoan {
         newPhongCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getPhong().getMaPhong()));
         newLoaiPhongCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getPhong().getLoaiPhong().getLoaiPhong()));
         newGiaTienCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getPhong().getLoaiPhong().getGiaTien())));
-        newLeTanCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNvLeTan()));
-        newNgayCheckinCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayCheckinTt()));
 
         newPhongTable.setItems(dsChiTietDatPhong);
     }
@@ -349,9 +347,6 @@ public class NhanKhachDoan {
         String err = "";
         if (newPhongCombo.getSelectionModel().isEmpty()) {
             err += "Không được bỏ trống phòng.\n";
-        }
-        if (nhanVienLeTanCombo.getSelectionModel().isEmpty()) {
-            err += "Không được bỏ trống nhân viên lễ tân.\n";
         }
         if (err.isBlank())
             return true;

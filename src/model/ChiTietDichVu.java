@@ -23,6 +23,15 @@ public class ChiTietDichVu {
     this.ghiChu = ghiChu;
   }
 
+  public ChiTietDichVu(DichVu dichVu, DatPhong datPhong, Phong phong, Timestamp ngayDv, int soLuong, long thanhTien) {
+    this.dichVu = dichVu;
+    this.datPhong = datPhong;
+    this.phong = phong;
+    this.ngayDv = ngayDv;
+    this.soLuong = soLuong;
+    this.thanhTien = thanhTien;
+  }
+
   public DichVu getDichVu() {
     return dichVu;
   }
