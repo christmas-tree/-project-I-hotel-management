@@ -1,21 +1,28 @@
 package controller.phong;
 
+import com.flexganttfx.extras.GanttChartToolBar;
+import com.flexganttfx.model.Layer;
+import com.flexganttfx.model.layout.GanttLayout;
+import com.flexganttfx.view.GanttChart;
+import com.flexganttfx.view.graphics.GraphicsBase;
+import com.flexganttfx.view.graphics.renderer.ActivityBarRenderer;
+import com.flexganttfx.view.timeline.Timeline;
 import controller.basic.IndexController;
 import controller.khachSan.DungDichVu;
 import controller.khachSan.NhanKhachLe;
+import controller.khachSan.TimelineDatPhong;
 import controller.khachSan.TraPhongKhachLe;
+import dao.ChiTietDatPhongDAO;
 import dao.LoaiPhongDAO;
 import dao.PhongDAO;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -25,12 +32,17 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
+import model.ChiTietDatPhong;
 import model.LoaiPhong;
 import model.Phong;
+import model.timeline.ChiTietDatPhongWrapper;
+import model.timeline.PhongWrapper;
 import util.AlertGenerator;
 import util.ExHandler;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -82,29 +94,34 @@ public class QLPhong {
         refreshBtn.setOnAction(event -> {
 
         });
+        timelineBtn.setOnAction(event -> timeline());
+
     }
 
     public void themPhongUI(Phong phong) {
         final String[] MAU_TRANG_THAI = {"#359200", "#8a0000", "#1e90ff", "#ffd01f"};
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setArcHeight(5.0);
-        rectangle.setArcWidth(5.0);
         rectangle.setFill(Color.web(MAU_TRANG_THAI[phong.getTrangThai()]));
         rectangle.setStroke(Color.WHITE);
         rectangle.setStrokeType(StrokeType.INSIDE);
-        rectangle.setHeight(80.0);
-        rectangle.setWidth(110.0);
-        Label label = new Label(String.valueOf(phong.getMaPhong()));
-        label.setFont(new Font("System Bold", 14.0));
+        rectangle.setHeight(100.0);
+        rectangle.setWidth(150.0);
+        Label phongLabel = new Label(String.valueOf(phong.getMaPhong()));
+        phongLabel.setFont(new Font("System Bold", 14.0));
+
+        Label loaiPhongLabel = new Label(phong.getLoaiPhong().getLoaiPhong());
+        loaiPhongLabel.setFont(new Font("System Bold", 16.0));
 
         StackPane phongUI = new StackPane();
-        phongUI.getChildren().addAll(rectangle, label);
+        phongUI.getChildren().addAll(rectangle, phongLabel, loaiPhongLabel);
+        StackPane.setMargin(loaiPhongLabel, new Insets(0.0, 0.0, 20.0,0.0));
+        StackPane.setMargin(phongLabel, new Insets(20.0, 0.0, 0.0,0.0));
 
         double firstTopAnchor = 110.0, firstLeftAnchor = 105.0;
 
-        AnchorPane.setLeftAnchor(phongUI, firstLeftAnchor + 115.0 * (phong.getMaPhong() % 100 - 1));
-        AnchorPane.setTopAnchor(phongUI, firstTopAnchor + (85 * (phong.getTang() - 1)));
+        AnchorPane.setLeftAnchor(phongUI, firstLeftAnchor + 155.0 * (phong.getMaPhong() % 100 - 1));
+        AnchorPane.setTopAnchor(phongUI, firstTopAnchor + (105.0 * (phong.getTang() - 1)));
 
         dsPhongUI.add(phongUI);
         anchorPane.getChildren().add(phongUI);
@@ -178,13 +195,11 @@ public class QLPhong {
 
     public void themTangUI(int tang) {
         Rectangle rectangle = new Rectangle();
-        rectangle.setArcHeight(5.0);
-        rectangle.setArcWidth(5.0);
         rectangle.setFill(Color.web("#797979"));
         rectangle.setStroke(Color.WHITE);
         rectangle.setStrokeType(StrokeType.INSIDE);
-        rectangle.setHeight(80.0);
         rectangle.setWidth(65.0);
+        rectangle.setHeight(100.0);
         Label label = new Label(String.valueOf(tang));
         label.setFont(new Font("System Bold", 12.0));
 
@@ -194,7 +209,7 @@ public class QLPhong {
         double firstTopAnchor = 110.0, firstLeftAnchor = 35.0;
 
         AnchorPane.setLeftAnchor(tangUI, firstLeftAnchor);
-        AnchorPane.setTopAnchor(tangUI, firstTopAnchor + 85 * (tang - 1));
+        AnchorPane.setTopAnchor(tangUI, firstTopAnchor + 105 * (tang - 1));
 
         anchorPane.getChildren().add(tangUI);
     }
@@ -301,7 +316,7 @@ public class QLPhong {
 
                 Stage stage = new Stage();
                 Scene scene = new Scene(editRoot);
-                stage.setTitle("Nhận phòng khách lẻ");
+                stage.setTitle("Đặt phòng khách lẻ");
                 stage.setScene(scene);
                 stage.setResizable(false);
                 NhanKhachLe nhanKhachLe = loader.getController();
@@ -381,4 +396,51 @@ public class QLPhong {
 //            ExHandler.handle(e);
 //        }
 //    }
+
+    public void timeline() {
+
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        ArrayList<ChiTietDatPhong> dsChiTietDatPhongActive = ChiTietDatPhongDAO.getInstance().getAllActive(dsPhong);
+
+        GanttChart<PhongWrapper> gantt = new GanttChart<>();
+
+        Layer khachLe = new Layer("Khách lẻ");
+        Layer khachDoan = new Layer("Khách đoàn");
+        gantt.getLayers().addAll(khachLe, khachDoan);
+
+        ArrayList<PhongWrapper> dsPhongWrapper = PhongWrapper.from(dsPhong);
+        for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhongActive) {
+            getPhongWrapper(chiTietDatPhong, dsPhongWrapper).addActivity(chiTietDatPhong.getDatPhong().isKhachDoan()?khachDoan:khachLe, new ChiTietDatPhongWrapper(chiTietDatPhong));
+        }
+
+        gantt.getRoot().getChildren().setAll(dsPhongWrapper);
+
+        Timeline timeline = gantt.getTimeline();
+        timeline.showTemporalUnit(ChronoUnit.HOURS, 10);
+
+        GraphicsBase<PhongWrapper> graphics = gantt.getGraphics();
+        graphics.setActivityRenderer(ChiTietDatPhongWrapper.class, GanttLayout.class,
+                new ActivityBarRenderer<>(graphics, "Flight Renderer"));
+        graphics.setRowControlsFactory(new TimelineDatPhong(dsPhong));
+        graphics.showEarliestActivities();
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(new GanttChartToolBar<>(gantt));
+        borderPane.setCenter(gantt);
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(borderPane);
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.centerOnScreen();
+        stage.show();
+    }
+
+    private PhongWrapper getPhongWrapper(ChiTietDatPhong chiTietDatPhong, ArrayList<PhongWrapper> dsPhongWrapper) {
+        for (PhongWrapper phongWrapper: dsPhongWrapper) {
+            if (phongWrapper.getPhong().equals(chiTietDatPhong.getPhong()))
+                return phongWrapper;
+        }
+        return null;
+    }
 }

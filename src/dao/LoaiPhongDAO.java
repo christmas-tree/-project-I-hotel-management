@@ -2,6 +2,7 @@ package dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.GiaPhongTroi;
 import model.LoaiPhong;
 import util.DbConnection;
 import util.ExHandler;
@@ -53,6 +54,8 @@ public class LoaiPhongDAO {
 
         String sql = "SELECT ma_loai_phong, loai_phong, gia_tien, so_nguoi, ghi_chu FROM loai_phong";
 
+        String sql2 = "SELECT ma_gia_phong, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu FROM gia_phong_troi WHERE ma_loai_phong=? AND hieu_luc=1";
+
         Connection con = DbConnection.getConnection();
         ResultSet rs;
 
@@ -72,6 +75,28 @@ public class LoaiPhongDAO {
             }
             rs.close();
             stmt.close();
+            stmt = con.prepareStatement(sql2);
+
+            for (LoaiPhong loaiPhongA: dsLoaiPhong) {
+                ArrayList<GiaPhongTroi> dsGiaPhongTroi = new ArrayList<>();
+                stmt.setString(1, loaiPhongA.getMaLoaiPhong());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    GiaPhongTroi giaPhongTroi = new GiaPhongTroi(
+                            rs.getInt(1),
+                            loaiPhongA,
+                            rs.getDate(2),
+                            rs.getDate(3),
+                            rs.getBoolean(4),
+                            rs.getBoolean(5),
+                            rs.getLong(6),
+                            rs.getFloat(7),
+                            rs.getNString(8)
+                    );
+                    dsGiaPhongTroi.add(giaPhongTroi);
+                }
+                loaiPhongA.setDsGiaTroi(dsGiaPhongTroi);
+            }
             con.close();
         } catch (SQLException e) {
             ExHandler.handle(e);

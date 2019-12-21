@@ -13,9 +13,7 @@ public class ChiTietDatPhong {
     private Timestamp ngayCheckinTt;
     private Timestamp ngayCheckoutTt;
     private NhanVien nvLeTan;
-    private float heSoNgayLe;
-    private float heSoKhuyenMai;
-    private long thanhTien;
+    private Long thanhTien;
     private String ghiChu;
 
     private Long donGiaSauHeSo;
@@ -24,33 +22,27 @@ public class ChiTietDatPhong {
     private ObservableList<ChiTietDichVu> dsDichVuSuDung = FXCollections.observableArrayList();
     private ObservableList<BoiThuong> dsBoiThuong = FXCollections.observableArrayList();
 
-    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, float heSoNgayLe, float heSoKhuyenMai, long thanhTien, String ghiChu) {
+    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, long thanhTien, String ghiChu) {
         this.datPhong = datPhong;
         this.phong = phong;
         this.ngayCheckinTt = ngayCheckinTt;
         this.ngayCheckoutTt = ngayCheckoutTt;
         this.nvLeTan = nvLeTan;
-        this.heSoNgayLe = heSoNgayLe;
-        this.heSoKhuyenMai = heSoKhuyenMai;
         this.thanhTien = thanhTien;
         this.ghiChu = ghiChu;
     }
 
-    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, NhanVien nvLeTan, float heSoNgayLe, float heSoKhuyenMai) {
+    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, NhanVien nvLeTan) {
         this.datPhong = datPhong;
         this.phong = phong;
         this.ngayCheckinTt = ngayCheckinTt;
         this.nvLeTan = nvLeTan;
-        this.heSoNgayLe = heSoNgayLe;
-        this.heSoKhuyenMai = heSoKhuyenMai;
     }
 
-    public void setProps(Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, float heSoNgayLe, float heSoKhuyenMai, String ghiChu) {
+    public void setProps(Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, String ghiChu) {
         this.ngayCheckinTt = ngayCheckinTt;
         this.ngayCheckoutTt = ngayCheckoutTt;
         this.nvLeTan = nvLeTan;
-        this.heSoNgayLe = heSoNgayLe;
-        this.heSoKhuyenMai = heSoKhuyenMai;
         this.ghiChu = ghiChu;
     }
 
@@ -79,24 +71,6 @@ public class ChiTietDatPhong {
         this.ngayCheckoutTt = ngayCheckoutTt;
     }
 
-    public float getHeSoNgayLe() {
-        return heSoNgayLe;
-    }
-
-    public void setHeSoNgayLe(float heSoNgayLe) {
-        this.heSoNgayLe = heSoNgayLe;
-    }
-
-
-    public float getHeSoKhuyenMai() {
-        return heSoKhuyenMai;
-    }
-
-    public void setHeSoKhuyenMai(float heSoKhuyenMai) {
-        this.heSoKhuyenMai = heSoKhuyenMai;
-    }
-
-
     public long getThanhTien() {
         return thanhTien;
     }
@@ -104,7 +78,6 @@ public class ChiTietDatPhong {
     public void setThanhTien(long thanhTien) {
         this.thanhTien = thanhTien;
     }
-
 
     public String getGhiChu() {
         return ghiChu;
@@ -154,16 +127,23 @@ public class ChiTietDatPhong {
         this.dsBoiThuong = dsBoiThuong;
     }
 
-    @Override
-    public String toString() {
-        return phong.toString();
-    }
-
     public Long getDonGiaSauHeSo() {
         return donGiaSauHeSo;
     }
 
     public void setDonGiaSauHeSo(Long donGiaSauHeSo) {
         this.donGiaSauHeSo = donGiaSauHeSo;
+    }
+
+    public ObservableList<TienPhong> tinhTienPhong() {
+        ObservableList
+        long donGia = Math.round(phong.getLoaiPhong().getGiaTien() * Float.parseFloat(heSoGiamGiaField.getText()) * Float.parseFloat(heSoNgayLeField.getText()) / 1000) * 1000;
+        chiTietDatPhong.setDonGiaSauHeSo(donGia);
+        chiTietDatPhong.setThanhTien(donGia * soNgay);
+    }
+
+    @Override
+    public String toString() {
+        return phong.toString();
     }
 }

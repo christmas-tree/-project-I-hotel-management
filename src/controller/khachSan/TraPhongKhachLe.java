@@ -45,9 +45,6 @@ public class TraPhongKhachLe {
     private Label gioVaoLabel;
 
     @FXML
-    private TextField heSoGiamGiaField;
-
-    @FXML
     private Label thanhToanLabel;
 
     @FXML
@@ -88,9 +85,6 @@ public class TraPhongKhachLe {
 
     @FXML
     private TableColumn<BoiThuong, String> donGiaBtCol;
-
-    @FXML
-    private TextField heSoNgayLeField;
 
     @FXML
     private TableColumn<ChiTietDatPhong, String> donGiaPCol;
@@ -155,17 +149,6 @@ public class TraPhongKhachLe {
             tinhHoaDon();
         });
 
-        heSoGiamGiaField.textProperty().addListener(((observableValue, s, t1) -> {
-            tinhGiaPhongSauHeSo();
-            tinhHoaDon();
-            tienPhongTable.refresh();
-        }));
-        heSoNgayLeField.textProperty().addListener(((observableValue, s, t1) -> {
-            tinhGiaPhongSauHeSo();
-            tinhHoaDon();
-            tienPhongTable.refresh();
-        }));
-
         // INIT TABLE
         sttBtCol.setCellFactory(col -> new TableCell<>() {
             @Override
@@ -213,8 +196,6 @@ public class TraPhongKhachLe {
         gioRaLabel.setText(chiTietDatPhong.getNgayCheckoutTt().toString());
         maDPLabel.setText(String.format("%06d", chiTietDatPhong.getDatPhong().getMaDatPhong()));
         datCocField.setText(String.format("%,3d", chiTietDatPhong.getDatPhong().getTienDatCoc()));
-        heSoNgayLeField.setText(String.valueOf(chiTietDatPhong.getHeSoNgayLe()));
-        heSoGiamGiaField.setText(String.valueOf(chiTietDatPhong.getHeSoKhuyenMai()));
 
         kiemDoBtn.setOnAction(event -> {
             FXMLLoader loader = new FXMLLoader();

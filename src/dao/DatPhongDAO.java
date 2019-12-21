@@ -9,11 +9,10 @@ import model.Phong;
 import util.DbConnection;
 import util.ExHandler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DatPhongDAO {
     private static DatPhongDAO instance = new DatPhongDAO();
@@ -59,19 +58,22 @@ public class DatPhongDAO {
         return (datPhong.getMaDatPhong() != 0);
     }
 
-    public ArrayList<DatPhong> getAll() {
+    public ArrayList<DatPhong> getAllActiveBooking() {
+
+        Timestamp today = Timestamp.valueOf(LocalDate.now().atStartOfDay());
         ArrayList<DatPhong> dsDatPhong = new ArrayList<>();
         DatPhong datPhong = null;
 
         String sql = "SELECT ma_dat_phong, ngay_dat, phuong_thuc, ngay_checkin, ngay_checkout, ma_kh_dat, ten_khach, ma_nv_nhan, ten_nv, so_nguoi, tien_dat_coc, la_khach_doan, da_huy, ghi_chu, da_xong " +
                 "FROM dat_phong, khach_hang, nhan_vien " +
-                "WHERE dat_phong.ma_kh_dat=khach_hang.ma_kh AND nhan_vien.ma_nv=dat_phong.ma_nv_nhan";
+                "WHERE dat_phong.ma_kh_dat=khach_hang.ma_kh AND nhan_vien.ma_nv=dat_phong.ma_nv_nhan AND da_huy=0 AND ngay_checkin > ?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
 
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setTimestamp(1, today);
             rs = stmt.executeQuery();
 
             while (rs.next()) {

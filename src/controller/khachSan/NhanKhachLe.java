@@ -127,6 +127,14 @@ public class NhanKhachLe {
     private DatPhong datPhong;
     private ChiTietDatPhong chiTietDatPhong;
 
+    public void initBook(int phong, ArrayList<Phong> dsPhong) {
+        for (Phong phongItem: dsPhong) {
+            if (phongItem.getMaPhong() == phong)
+                initBook(phongItem, dsPhong);
+                break;
+        }
+    }
+
     public void initBook(Phong phong, ArrayList<Phong> dsPhong) {
         ngayVaoThucTeDate.setEditable(false);
         ngayVaoThucTeTimeField.setEditable(false);

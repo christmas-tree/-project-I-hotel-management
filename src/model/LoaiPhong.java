@@ -1,82 +1,109 @@
 package model;
 
-
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoaiPhong {
 
-  private String maLoaiPhong;
-  private String loaiPhong;
-  private long giaTien;
-  private int soNguoi;
-  private String ghiChu;
+    public static final boolean THEMTIEN = true;
+    public static final boolean HESO = false;
 
-  public LoaiPhong(String maLoaiPhong, String loaiPhong) {
-    this.maLoaiPhong = maLoaiPhong;
-    this.loaiPhong = loaiPhong;
-  }
+    private String maLoaiPhong;
+    private String loaiPhong;
+    private long giaTien;
+    private int soNguoi;
+    private String ghiChu;
 
-  public LoaiPhong(String maLoaiPhong, String loaiPhong, long giaTien, int soNguoi, String ghiChu) {
-    this.maLoaiPhong = maLoaiPhong;
-    this.loaiPhong = loaiPhong;
-    this.giaTien = giaTien;
-    this.soNguoi = soNguoi;
-    this.ghiChu = ghiChu;
-  }
+    private ArrayList<GiaPhongTroi> dsGiaTroi;
 
-  public String getMaLoaiPhong() {
-    return maLoaiPhong;
-  }
+    public LoaiPhong(String maLoaiPhong, String loaiPhong) {
+        this.maLoaiPhong = maLoaiPhong;
+        this.loaiPhong = loaiPhong;
+    }
 
-  public void setMaLoaiPhong(String maLoaiPhong) {
-    this.maLoaiPhong = maLoaiPhong;
-  }
+    public LoaiPhong(String maLoaiPhong, String loaiPhong, long giaTien, int soNguoi, String ghiChu) {
+        this.maLoaiPhong = maLoaiPhong;
+        this.loaiPhong = loaiPhong;
+        this.giaTien = giaTien;
+        this.soNguoi = soNguoi;
+        this.ghiChu = ghiChu;
+    }
 
+    public String getMaLoaiPhong() {
+        return maLoaiPhong;
+    }
 
-  public String getLoaiPhong() {
-    return loaiPhong;
-  }
-
-  public void setLoaiPhong(String loaiPhong) {
-    this.loaiPhong = loaiPhong;
-  }
+    public void setMaLoaiPhong(String maLoaiPhong) {
+        this.maLoaiPhong = maLoaiPhong;
+    }
 
 
-  public long getGiaTien() {
-    return giaTien;
-  }
+    public String getLoaiPhong() {
+        return loaiPhong;
+    }
 
-  public void setGiaTien(long giaTien) {
-    this.giaTien = giaTien;
-  }
+    public void setLoaiPhong(String loaiPhong) {
+        this.loaiPhong = loaiPhong;
+    }
 
 
-  public int getSoNguoi() {
-    return soNguoi;
-  }
+    public long getGiaTien() {
+        return giaTien;
+    }
 
-  public void setSoNguoi(int soNguoi) {
-    this.soNguoi = soNguoi;
-  }
+    public void setGiaTien(long giaTien) {
+        this.giaTien = giaTien;
+    }
 
-  public String getGhiChu() {
-    return ghiChu;
-  }
 
-  public void setGhiChu(String ghiChu) {
-    this.ghiChu = ghiChu;
-  }
+    public int getSoNguoi() {
+        return soNguoi;
+    }
 
-  @Override
-  public String toString() {
-    return loaiPhong + " - " + String.format("%,3d", giaTien);
-  }
+    public void setSoNguoi(int soNguoi) {
+        this.soNguoi = soNguoi;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof LoaiPhong)) return false;
-    LoaiPhong loaiPhong = (LoaiPhong) o;
-    return Objects.equals(maLoaiPhong, loaiPhong.maLoaiPhong);
-  }
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
+    @Override
+    public String toString() {
+        return loaiPhong + " - " + String.format("%,3d", giaTien);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LoaiPhong)) return false;
+        LoaiPhong loaiPhong = (LoaiPhong) o;
+        return Objects.equals(maLoaiPhong, loaiPhong.maLoaiPhong);
+    }
+
+    public ArrayList<GiaPhongTroi> getDsGiaTroi() {
+        return dsGiaTroi;
+    }
+
+    public void setDsGiaTroi(ArrayList<GiaPhongTroi> dsQuyTacGia) {
+        this.dsGiaTroi = dsQuyTacGia;
+    }
+
+    public Long getDonGia(Date ngay) {
+        long donGia = giaTien;
+        for (GiaPhongTroi giaPhongTroi : dsGiaTroi) {
+            if (giaPhongTroi.getNgayBatDau().compareTo(ngay) <= 0 && giaPhongTroi.getNgayKetThuc().compareTo(ngay) >= 0)
+                if (giaPhongTroi.getLoaiGia())
+                    donGia += giaPhongTroi.getGiaTri();
+                else
+                    donGia = Math.round(donGia * giaPhongTroi.getHeSo() / 1000) * 1000;
+
+        }
+        return donGia;
+    }
 }
