@@ -148,6 +148,7 @@
       </list>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectId" id="1TprxbzV2LTwfDb0B0BhtklAiNF" />
@@ -418,6 +419,10 @@
       <screen x="1920" y="23" width="1920" height="1057" />
     </state>
     <state x="2505" y="382" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/1920.23.1920.1057/0.23.1920.1013@1920.23.1920.1057" timestamp="1576929213220" />
+    <state x="537" y="148" key="CommitChangelistDialog2" timestamp="1577023252597">
+      <screen x="0" y="23" width="1920" height="1007" />
+    </state>
+    <state x="537" y="148" key="CommitChangelistDialog2/1920.57.1920.1057/0.23.1920.1007@0.23.1920.1007" timestamp="1577023252597" />
     <state x="2463" y="237" key="DetectedRootsChooserDialog" timestamp="1576916723800">
       <screen x="1920" y="23" width="1920" height="1057" />
     </state>
@@ -427,6 +432,10 @@
     </state>
     <state x="269" y="104" key="SettingsEditor/1920.23.1920.1057/0.23.1920.1013@0.23.1920.1013" timestamp="1576936421321" />
     <state x="2189" y="108" key="SettingsEditor/1920.23.1920.1057/0.23.1920.1013@1920.23.1920.1057" timestamp="1576916744846" />
+    <state x="825" y="467" key="VCS.ChangelistChooser" timestamp="1577023263231">
+      <screen x="0" y="23" width="1920" height="1007" />
+    </state>
+    <state x="825" y="467" key="VCS.ChangelistChooser/1920.57.1920.1057/0.23.1920.1007@0.23.1920.1007" timestamp="1577023263231" />
     <state x="616" y="364" key="com.intellij.ide.util.TipDialog" timestamp="1576907604800">
       <screen x="0" y="23" width="1920" height="1013" />
     </state>
