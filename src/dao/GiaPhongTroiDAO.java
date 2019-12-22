@@ -22,21 +22,22 @@ public class GiaPhongTroiDAO {
 
     public boolean create(GiaPhongTroi giaPhongTroi) {
 
-        String sql = "INSERT INTO gia_phong(ma_loai_phong, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO gia_phong_troi(ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu, hieu_luc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         boolean result = false;
-
         Connection con = DbConnection.getConnection();
 
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setNString(1, giaPhongTroi.getLoaiPhong().getMaLoaiPhong());
-            stmt.setDate(2, giaPhongTroi.getNgayBatDau());
-            stmt.setDate(3, giaPhongTroi.getNgayKetThuc());
-            stmt.setBoolean(4, giaPhongTroi.getLoaiGia());
+            stmt.setNString(2, giaPhongTroi.getTen());
+            stmt.setDate(3, giaPhongTroi.getNgayBatDau());
+            stmt.setDate(4, giaPhongTroi.getNgayKetThuc());
             stmt.setBoolean(5, giaPhongTroi.getLoaiGia());
-            stmt.setLong(6, giaPhongTroi.getGiaTri());
-            stmt.setFloat(7, giaPhongTroi.getHeSo());
-            stmt.setNString(8, giaPhongTroi.getGhiChu());
+            stmt.setBoolean(6, giaPhongTroi.getLoaiGia());
+            stmt.setLong(7, giaPhongTroi.getGiaTri());
+            stmt.setFloat(8, giaPhongTroi.getHeSo());
+            stmt.setNString(9, giaPhongTroi.getGhiChu());
+            stmt.setBoolean(10, false);
 
             result = (stmt.executeUpdate() > 0);
 
@@ -54,7 +55,7 @@ public class GiaPhongTroiDAO {
         ObservableList<GiaPhongTroi> dsGiaPhongTroi = FXCollections.observableArrayList();
         GiaPhongTroi giaPhongTroi = null;
 
-        String sql = "SELECT ma_gia_phong, ma_loai_phong, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu FROM gia_phong_troi";
+        String sql = "SELECT ma_gia_phong, ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu, hieu_luc FROM gia_phong_troi";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
@@ -67,13 +68,15 @@ public class GiaPhongTroiDAO {
                 giaPhongTroi = new GiaPhongTroi(
                         rs.getInt(1),
                         getLoaiPhongTuArray(rs.getNString(2), dsLoaiPhong),
+                        rs.getNString(3),
                         rs.getDate(3),
                         rs.getDate(4),
                         rs.getBoolean(5),
                         rs.getBoolean(6),
                         rs.getLong(7),
                         rs.getFloat(8),
-                        rs.getNString(9)
+                        rs.getNString(9),
+                        rs.getBoolean(10)
                 );
                 dsGiaPhongTroi.add(giaPhongTroi);
             }
@@ -87,21 +90,23 @@ public class GiaPhongTroiDAO {
     }
 
     public boolean update(GiaPhongTroi giaPhongTroi) {
-        String sql = "UPDATE gia_phong_troi SET ma_loai_phong=?, ngay_bd=?, ngay_kt=?, lap_lai=?, loai_gia=?, luong=?, he_so=?, ghi_chu=? WHERE ma_gia_phong=?";
+        String sql = "UPDATE gia_phong_troi SET ma_loai_phong=?, ten=?, ngay_bd=?, ngay_kt=?, lap_lai=?, loai_gia=?, luong=?, he_so=?, ghi_chu=?, hieu_luc=? WHERE ma_gia_phong=?";
         Connection con = DbConnection.getConnection();
         boolean result = false;
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setNString(1, giaPhongTroi.getLoaiPhong().getMaLoaiPhong());
-            stmt.setDate(2, giaPhongTroi.getNgayBatDau());
-            stmt.setDate(3, giaPhongTroi.getNgayKetThuc());
-            stmt.setBoolean(4, giaPhongTroi.isLapLai());
-            stmt.setBoolean(5, giaPhongTroi.getLoaiGia());
-            stmt.setLong(6, giaPhongTroi.getGiaTri());
-            stmt.setFloat(7, giaPhongTroi.getHeSo());
-            stmt.setNString(8, giaPhongTroi.getGhiChu());
-            stmt.setInt(9, giaPhongTroi.getMaGiaPhong());
+            stmt.setNString(2, giaPhongTroi.getTen());
+            stmt.setDate(3, giaPhongTroi.getNgayBatDau());
+            stmt.setDate(4, giaPhongTroi.getNgayKetThuc());
+            stmt.setBoolean(5, giaPhongTroi.isLapLai());
+            stmt.setBoolean(6, giaPhongTroi.getLoaiGia());
+            stmt.setLong(7, giaPhongTroi.getGiaTri());
+            stmt.setFloat(8, giaPhongTroi.getHeSo());
+            stmt.setNString(9, giaPhongTroi.getGhiChu());
+            stmt.setInt(10, giaPhongTroi.getMaGiaPhong());
+            stmt.setBoolean(11, giaPhongTroi.isHieuLuc());
 
             result = (stmt.executeUpdate() > 0);
             stmt.close();

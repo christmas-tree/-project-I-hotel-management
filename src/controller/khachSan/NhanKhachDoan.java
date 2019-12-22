@@ -175,9 +175,7 @@ public class NhanKhachDoan {
                         datPhong,
                         phong,
                         gioVaoTTField.getText().isBlank()? null : Timestamp.valueOf(LocalDateTime.of(ngayVaoTTDate.getValue(), LocalTime.parse(gioVaoTTField.getText()))),
-                        nhanVienLeTanCombo.getSelectionModel().getSelectedItem(),
-                        heSoNgayLeField.getText().isEmpty() ? 1 : Float.parseFloat(heSoNgayLeField.getText()),
-                        heSoGiamGiaField.getText().isEmpty() ? 1 : Float.parseFloat(heSoGiamGiaField.getText())
+                        nhanVienLeTanCombo.getSelectionModel().getSelectedItem()
                 ));
             }
         });

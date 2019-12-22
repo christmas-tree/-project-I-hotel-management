@@ -402,25 +402,25 @@ public class QLPhong {
         Timestamp now = new Timestamp(System.currentTimeMillis());
         ArrayList<ChiTietDatPhong> dsChiTietDatPhongActive = ChiTietDatPhongDAO.getInstance().getAllActive(dsPhong);
 
-        GanttChart<PhongWrapper> gantt = new GanttChart<>();
+        PhongWrapper root = new PhongWrapper("Danh sách phòng");
+        GanttChart<PhongWrapper> gantt = new GanttChart<>(root);
+        root.setExpanded(true);
 
         Layer khachLe = new Layer("Khách lẻ");
         Layer khachDoan = new Layer("Khách đoàn");
         gantt.getLayers().addAll(khachLe, khachDoan);
 
         ArrayList<PhongWrapper> dsPhongWrapper = PhongWrapper.from(dsPhong);
+        root.getChildren().addAll(dsPhongWrapper);
         for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhongActive) {
             getPhongWrapper(chiTietDatPhong, dsPhongWrapper).addActivity(chiTietDatPhong.getDatPhong().isKhachDoan()?khachDoan:khachLe, new ChiTietDatPhongWrapper(chiTietDatPhong));
         }
-
-        gantt.getRoot().getChildren().setAll(dsPhongWrapper);
 
         Timeline timeline = gantt.getTimeline();
         timeline.showTemporalUnit(ChronoUnit.HOURS, 10);
 
         GraphicsBase<PhongWrapper> graphics = gantt.getGraphics();
-        graphics.setActivityRenderer(ChiTietDatPhongWrapper.class, GanttLayout.class,
-                new ActivityBarRenderer<>(graphics, "Flight Renderer"));
+
         graphics.setRowControlsFactory(new TimelineDatPhong(dsPhong));
         graphics.showEarliestActivities();
 

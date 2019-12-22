@@ -1,10 +1,12 @@
 <component name="libraryTable">
   <library name="lib1">
     <CLASSES>
-      <root url="file://$USER_HOME$/Downloads/flexganttfx-8.9.0-bin/lib" />
+      <root url="file://E:/Useful Resources/flexgantt11/lib" />
+      <root url="file://E:/Useful Resources/flexgantt11/ext" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$USER_HOME$/Downloads/flexganttfx-8.9.0-bin/lib" recursive="false" />
+    <jarDirectory url="file://E:/Useful Resources/flexgantt11/ext" recursive="false" />
+    <jarDirectory url="file://E:/Useful Resources/flexgantt11/lib" recursive="false" />
   </library>
 </component>

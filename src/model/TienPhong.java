@@ -4,19 +4,29 @@ import java.sql.Date;
 
 public class TienPhong {
     private Phong phong;
+    private String ten;
     private Date batDau;
     private Date ketThuc;
     private long donGia;
     private int soNgay;
     private long thanhTien;
 
-    public TienPhong(Phong phong, Date batDau, Date ketThuc, long donGia, int soNgay, long thanhTien) {
+    public TienPhong(Phong phong, String ten, Date batDau, Date ketThuc, long donGia, int soNgay, long thanhTien) {
+        this.ten = ten;
         this.phong = phong;
         this.batDau = batDau;
         this.ketThuc = ketThuc;
         this.donGia = donGia;
         this.soNgay = soNgay;
         this.thanhTien = thanhTien;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
     public Phong getPhong() {

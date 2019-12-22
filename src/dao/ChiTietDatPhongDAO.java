@@ -232,8 +232,8 @@ public class ChiTietDatPhongDAO {
         ArrayList<ChiTietDatPhong> dsChiTietDatPhong = new ArrayList<>();
         ChiTietDatPhong chiTietDatPhong = null;
 
-        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, thanh_tien, dat_phong.ghi_chu " +
-                "FROM chi_tiet_dat_phong, nhan_vien " +
+        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, thanh_tien, chi_tiet_dat_phong.ghi_chu " +
+                "FROM chi_tiet_dat_phong, nhan_vien,  dat_phong " +
                 "WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND dat_phong.ma_dat_phong=chi_tiet_dat_phong.ma_dat_phong AND dat_phong.ma_dat_phong=?";
 
         Connection con = DbConnection.getConnection();
@@ -255,11 +255,11 @@ public class ChiTietDatPhongDAO {
                             rs.getNString(7)
                     );
                     dsChiTietDatPhong.add(chiTietDatPhong);
-                    rs.close();
-                    stmt.close();
-                    con.close();
                 }
+                rs.close();
+                stmt.close();
             }
+            con.close();
         } catch (SQLException e) {
             ExHandler.handle(e);
         }

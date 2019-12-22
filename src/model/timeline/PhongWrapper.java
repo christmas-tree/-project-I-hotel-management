@@ -11,6 +11,10 @@ public class PhongWrapper extends Row<PhongWrapper, PhongWrapper, ChiTietDatPhon
         this.phong = phong;
     }
 
+    public PhongWrapper(String name) {
+        super(name);
+    }
+
     public static ArrayList<PhongWrapper> from(ArrayList<Phong> dsPhong) {
         ArrayList<PhongWrapper> dsPhongWrapper = new ArrayList<>();
         for (Phong phong: dsPhong) {

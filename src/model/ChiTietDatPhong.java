@@ -135,12 +135,12 @@ public class ChiTietDatPhong {
         this.donGiaSauHeSo = donGiaSauHeSo;
     }
 
-    public ObservableList<TienPhong> tinhTienPhong() {
-        ObservableList
-        long donGia = Math.round(phong.getLoaiPhong().getGiaTien() * Float.parseFloat(heSoGiamGiaField.getText()) * Float.parseFloat(heSoNgayLeField.getText()) / 1000) * 1000;
-        chiTietDatPhong.setDonGiaSauHeSo(donGia);
-        chiTietDatPhong.setThanhTien(donGia * soNgay);
-    }
+//    public ObservableList<TienPhong> tinhTienPhong() {
+//        ObservableList
+//        long donGia = Math.round(phong.getLoaiPhong().getGiaTien() * Float.parseFloat(heSoGiamGiaField.getText()) * Float.parseFloat(heSoNgayLeField.getText()) / 1000) * 1000;
+//        chiTietDatPhong.setDonGiaSauHeSo(donGia);
+//        chiTietDatPhong.setThanhTien(donGia * soNgay);
+//    }
 
     @Override
     public String toString() {

@@ -54,7 +54,7 @@ public class LoaiPhongDAO {
 
         String sql = "SELECT ma_loai_phong, loai_phong, gia_tien, so_nguoi, ghi_chu FROM loai_phong";
 
-        String sql2 = "SELECT ma_gia_phong, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu FROM gia_phong_troi WHERE ma_loai_phong=? AND hieu_luc=1";
+        String sql2 = "SELECT ma_gia_phong, ten, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu, hieu_luc FROM gia_phong_troi WHERE ma_loai_phong=?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
@@ -85,13 +85,15 @@ public class LoaiPhongDAO {
                     GiaPhongTroi giaPhongTroi = new GiaPhongTroi(
                             rs.getInt(1),
                             loaiPhongA,
+                            rs.getNString(2),
                             rs.getDate(2),
                             rs.getDate(3),
                             rs.getBoolean(4),
                             rs.getBoolean(5),
                             rs.getLong(6),
                             rs.getFloat(7),
-                            rs.getNString(8)
+                            rs.getNString(8),
+                            rs.getBoolean(9)
                     );
                     dsGiaPhongTroi.add(giaPhongTroi);
                 }

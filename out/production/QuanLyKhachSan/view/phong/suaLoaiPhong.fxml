@@ -12,7 +12,7 @@
          </font>
       </Label>
       <Label layoutX="31.0" layoutY="93.0" text="Mã loại phòng" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="93.0" />
-      <TextField fx:id="idField" layoutX="151.0" layoutY="88.0" prefHeight="31.0" prefWidth="254.0" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="88.0" />
+      <TextField fx:id="idField" layoutX="151.0" layoutY="88.0" prefHeight="31.0" prefWidth="121.0" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="88.0" />
       <Label layoutX="31.0" layoutY="136.0" text="Loại phòng" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="136.0" />
       <TextField fx:id="loaiPhongField" layoutX="150.0" layoutY="131.0" prefHeight="31.0" prefWidth="578.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="49.0" AnchorPane.topAnchor="131.0" />
       <Label layoutX="32.0" layoutY="182.0" text="Giá tiền" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="182.0" />

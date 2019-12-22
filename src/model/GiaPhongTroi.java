@@ -5,6 +5,7 @@ import java.sql.Date;
 public class GiaPhongTroi {
     private int maGiaPhong;
     private LoaiPhong loaiPhong;
+    private String ten;
     private Date ngayBatDau;
     private Date ngayKetThuc;
     private boolean loaiGia;
@@ -12,10 +13,12 @@ public class GiaPhongTroi {
     private Float heSo;
     private boolean lapLai;
     private String ghiChu;
+    private boolean hieuLuc;
 
-    public GiaPhongTroi(int maGiaPhong, LoaiPhong loaiPhong, Date ngayBatDau, Date ngayKetThuc, boolean lapLai, boolean loaiGia, Long giaTri, Float heSo, String ghiChu) {
+    public GiaPhongTroi(int maGiaPhong, LoaiPhong loaiPhong, String ten, Date ngayBatDau, Date ngayKetThuc, boolean lapLai, boolean loaiGia, Long giaTri, Float heSo, String ghiChu, boolean hieuLuc) {
         this.maGiaPhong = maGiaPhong;
         this.loaiPhong = loaiPhong;
+        this.ten = ten;
         this.ngayBatDau = ngayBatDau;
         this.ngayKetThuc = ngayKetThuc;
         this.loaiGia = loaiGia;
@@ -23,6 +26,15 @@ public class GiaPhongTroi {
         this.heSo = heSo;
         this.lapLai = lapLai;
         this.ghiChu = ghiChu;
+        this.hieuLuc = hieuLuc;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
     public int getMaGiaPhong() {
@@ -95,5 +107,13 @@ public class GiaPhongTroi {
 
     public void setLapLai(boolean lapLai) {
         this.lapLai = lapLai;
+    }
+
+    public boolean isHieuLuc() {
+        return hieuLuc;
+    }
+
+    public void setHieuLuc(boolean hieuLuc) {
+        this.hieuLuc = hieuLuc;
     }
 }

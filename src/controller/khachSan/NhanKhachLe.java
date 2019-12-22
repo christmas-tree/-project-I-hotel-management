@@ -128,10 +128,12 @@ public class NhanKhachLe {
     private ChiTietDatPhong chiTietDatPhong;
 
     public void initBook(int phong, ArrayList<Phong> dsPhong) {
+        System.out.println("phong = " + phong);
         for (Phong phongItem: dsPhong) {
-            if (phongItem.getMaPhong() == phong)
+            if (phongItem.getMaPhong() == phong) {
                 initBook(phongItem, dsPhong);
                 break;
+            }
         }
     }
 
@@ -165,9 +167,6 @@ public class NhanKhachLe {
         ngayRaDuKienTimeField.setText(ngayRa.toLocalTime().toString());
         phuongThucField.setText(datPhong.getPhuongThuc());
         datCocField.setText(String.valueOf(datPhong.getTienDatCoc()));
-
-        heSoNgayLeField.setText(String.valueOf(chiTietDatPhong.getHeSoNgayLe()));
-        heSoGiamGiaField.setText(String.valueOf(chiTietDatPhong.getHeSoKhuyenMai()));
 
         ghiChuField.setText(datPhong.getGhiChu());
 
@@ -229,9 +228,6 @@ public class NhanKhachLe {
         ngayRaDuKienTimeField.setText(ngayRa.toLocalTime().toString());
         phuongThucField.setText(datPhong.getPhuongThuc());
         datCocField.setText(String.valueOf(datPhong.getTienDatCoc()));
-
-        heSoNgayLeField.setText(String.valueOf(chiTietDatPhong.getHeSoNgayLe()));
-        heSoGiamGiaField.setText(String.valueOf(chiTietDatPhong.getHeSoKhuyenMai()));
 
         ghiChuField.setText(datPhong.getGhiChu());
 
@@ -350,9 +346,7 @@ public class NhanKhachLe {
                     datPhong,
                     phongCombo.getSelectionModel().getSelectedItem(),
                     ngayVaoThucTeTimeField.getText().isBlank() ? null : Timestamp.valueOf(LocalDateTime.of(ngayVaoThucTeDate.getValue(), LocalTime.parse(ngayVaoThucTeTimeField.getText()))),
-                    nhanVienLeTanCombo.getSelectionModel().getSelectedItem(),
-                    heSoNgayLeField.getText().isBlank() ? 1 : Float.parseFloat(heSoNgayLeField.getText()),
-                    heSoGiamGiaField.getText().isBlank() ? 1 : Float.parseFloat(heSoGiamGiaField.getText())
+                    nhanVienLeTanCombo.getSelectionModel().getSelectedItem()
             );
 
             if (chiTietDatPhong.getNgayCheckinTt() != null)
@@ -394,8 +388,6 @@ public class NhanKhachLe {
                     ngayVaoThucTeTimeField.getText().isBlank() ? null : Timestamp.valueOf(LocalDateTime.of(ngayVaoThucTeDate.getValue(), LocalTime.parse(ngayVaoThucTeTimeField.getText()))),
                     null,
                     nhanVienLeTanCombo.getSelectionModel().getSelectedItem(),
-                    heSoNgayLeField.getText().isBlank() ? 1 : Float.parseFloat(heSoNgayLeField.getText()),
-                    heSoGiamGiaField.getText().isBlank() ? 1 : Float.parseFloat(heSoGiamGiaField.getText()),
                     ghiChuField.getText()
             );
 

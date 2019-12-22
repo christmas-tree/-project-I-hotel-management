@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.khachSan.NhanPhongDaDat">
+    <children>
+        <TableView fx:id="bangTable" layoutY="55.0" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+                <TableColumn fx:id="tenKhachCol" prefWidth="75.0" text="Tên khách hàng" />
+                <TableColumn fx:id="ngayDatCol" prefWidth="75.0" text="Ngày đặt" />
+                <TableColumn fx:id="ngayDenCol" prefWidth="75.0" text="Ngày dự kiến đến" />
+                <TableColumn fx:id="ngayDiCol" prefWidth="75.0" text="Ngày dự kiến đi" />
+                <TableColumn fx:id="tienCocCol" prefWidth="75.0" text="Tiền cọc" />
+            </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+        </TableView>
+        <Button fx:id="nhanPhongBtn" layoutX="344.0" layoutY="350.0" mnemonicParsing="false" text="Nhận phòng" />
+        <Button fx:id="huyBtn" layoutX="534.0" layoutY="350.0" mnemonicParsing="false" text="Huỷ" />
+        <Button fx:id="huyDatPhongBtn" layoutX="433.0" layoutY="350.0" mnemonicParsing="false" text="Huỷ đặt phòng" />
+    </children>
+</AnchorPane>
