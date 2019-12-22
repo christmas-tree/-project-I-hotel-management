@@ -1,6 +1,6 @@
 package controller.phong;
 
-import controller.basic.IndexController;
+import controller.basic.KhungUngDung;
 import dao.LoaiPhongDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -75,7 +75,7 @@ public class QLLoaiPhong {
 
     private ObservableList<LoaiPhong> data;
 
-    public void init(IndexController c) {
+    public void init(KhungUngDung c) {
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("maLoaiPhong"));
         loaiPhongCol.setCellValueFactory(new PropertyValueFactory<>("loaiPhong"));

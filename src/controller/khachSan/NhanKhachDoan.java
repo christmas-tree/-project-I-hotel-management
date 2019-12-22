@@ -1,6 +1,5 @@
 package controller.khachSan;
 
-import controller.basic.IndexController;
 import controller.khachHang.SuaKhachHang;
 import dao.*;
 import javafx.application.Platform;
@@ -13,7 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;

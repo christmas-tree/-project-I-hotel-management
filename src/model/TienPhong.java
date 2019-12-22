@@ -1,24 +1,29 @@
 package model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class TienPhong {
-    private Phong phong;
+    private int phong;
     private String ten;
-    private Date batDau;
-    private Date ketThuc;
     private long donGia;
     private int soNgay;
     private long thanhTien;
 
-    public TienPhong(Phong phong, String ten, Date batDau, Date ketThuc, long donGia, int soNgay, long thanhTien) {
+    private Integer loaiGia;
+    private LocalDate ngay;
+
+    public TienPhong(int phong, String ten, long donGia, int soNgay, long thanhTien) {
         this.ten = ten;
         this.phong = phong;
-        this.batDau = batDau;
-        this.ketThuc = ketThuc;
         this.donGia = donGia;
         this.soNgay = soNgay;
         this.thanhTien = thanhTien;
+    }
+
+    public TienPhong(LocalDate ngay, long donGia, Integer loaiGia) {
+        this.ngay = ngay;
+        this.donGia = donGia;
+        this.loaiGia = loaiGia;
     }
 
     public String getTen() {
@@ -29,28 +34,12 @@ public class TienPhong {
         this.ten = ten;
     }
 
-    public Phong getPhong() {
+    public int getPhong() {
         return phong;
     }
 
-    public void setPhong(Phong phong) {
+    public void setPhong(int phong) {
         this.phong = phong;
-    }
-
-    public Date getBatDau() {
-        return batDau;
-    }
-
-    public void setBatDau(Date batDau) {
-        this.batDau = batDau;
-    }
-
-    public Date getKetThuc() {
-        return ketThuc;
-    }
-
-    public void setKetThuc(Date ketThuc) {
-        this.ketThuc = ketThuc;
     }
 
     public long getDonGia() {
@@ -75,5 +64,21 @@ public class TienPhong {
 
     public void setThanhTien(long thanhTien) {
         this.thanhTien = thanhTien;
+    }
+
+    public Integer getLoaiGia() {
+        return loaiGia;
+    }
+
+    public void setLoaiGia(Integer loaiGia) {
+        this.loaiGia = loaiGia;
+    }
+
+    public LocalDate getNgay() {
+        return ngay;
+    }
+
+    public void setNgay(LocalDate ngay) {
+        this.ngay = ngay;
     }
 }

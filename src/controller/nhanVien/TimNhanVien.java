@@ -5,7 +5,7 @@
 
 package controller.nhanVien;
 
-import controller.basic.IndexController;
+import controller.basic.KhungUngDung;
 import dao.NhanVienDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -41,14 +41,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
@@ -98,7 +93,7 @@ public class TimNhanVien {
 
     private int searchType = -1;
 
-    public void init(IndexController c) {
+    public void init(KhungUngDung c) {
 
         TableColumn<NhanVien, String> idCol = new TableColumn<>("ID");
         TableColumn<NhanVien, String> tenCol = new TableColumn<>("Họ tên");

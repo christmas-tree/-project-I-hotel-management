@@ -5,7 +5,7 @@
 
 package controller.nhanVien;
 
-import controller.basic.IndexController;
+import controller.basic.KhungUngDung;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -77,7 +77,7 @@ public class BaoCaoNhanVien {
     private final String SQLTable1 = "SELECT [Giới tính] = (CASE WHEN gender=1 THEN N'Nam' ELSE N'Nữ' END), COUNT(*) [Số lượng] FROM staff GROUP BY gender";
     private final String SQLTable2 = "SELECT FORMAT(created, 'yyyy-MM') [Thời gian], COUNT(NULLIF(0, gender)) [Nam], COUNT(NULLIF(1, gender)) [Nữ] FROM staff GROUP BY FORMAT(created, 'yyyy-MM') ORDER BY FORMAT(created, 'yyyy-MM') DESC";
 
-    public void init(IndexController c) {
+    public void init(KhungUngDung c) {
 
         // COUNT INIT
         staffNumber = getCount(SQL1);

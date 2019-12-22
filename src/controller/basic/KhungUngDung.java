@@ -38,7 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-public class IndexController {
+public class KhungUngDung {
 
     @FXML
     private BorderPane window;
@@ -166,7 +166,7 @@ public class IndexController {
         // FORM MENU
 
 //        formBookMenu.setOnAction(event -> {
-//            String[] headers = {"MaSach", "TenSach", "Gia", "MaTheLoai", "TacGia", "MaNXB", "NamXB", "MaNN", "ViTri", "SL"};
+//            String[] headers = {"Phong", "TenSach", "Gia", "MaTheLoai", "TacGia", "MaNXB", "NamXB", "MaNN", "ViTri", "SL"};
 //            saveForm(headers, "Form Nhap Sach");
 //        });
 //

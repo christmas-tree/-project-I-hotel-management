@@ -14,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
@@ -26,7 +25,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class LoginController {
+public class DangNhap {
 
     @FXML
     private TextField usernameField;
@@ -86,19 +85,14 @@ public class LoginController {
                     stage.setScene(new Scene(root, 450, 450));
                     stage.setMaximized(true);
 
-                    IndexController indexController = loader.getController();
-                    indexController.init(user);
+                    KhungUngDung khungUngDung = loader.getController();
+                    khungUngDung.init(user);
 
 //                    stage.getIcons().add(new Image("/resources/icon/app-icon.png"));
                     stage.show();
                     ((Node)(event.getSource())).getScene().getWindow().hide();
                 } catch (IOException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Lỗi!");
-                    alert.setHeaderText("Có lỗi xảy ra!");
-                    alert.setContentText(e.getMessage());
-                    alert.showAndWait();
-                    System.out.println(e.getMessage());
+                    ExHandler.handle(e);
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

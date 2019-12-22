@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="700.0" maxWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.thongKe.MauBaoCaoChung">
+    <children>
+        <TableView fx:id="bangTable" layoutX="65.0" layoutY="63.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+        <Label fx:id="headerLabel" layoutX="31.0" layoutY="25.0" text="Loại phòng" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="25.0">
+            <font>
+                <Font size="25.0" />
+            </font>
+        </Label>
+        <Button fx:id="inBtn" layoutX="905.0" layoutY="37.0" mnemonicParsing="false" text="In file" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="30.0" />
+    </children>
+</AnchorPane>

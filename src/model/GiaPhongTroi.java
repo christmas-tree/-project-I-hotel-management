@@ -1,40 +1,37 @@
 package model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class GiaPhongTroi {
+    public static final String[] dsChuKy = {"Không", "Tuần", "Tháng", "Năm"};
+
+    public static final int LAPLAI_KHONG = 0;
+    public static final int CHUKY_TUAN = 1;
+    public static final int CHUKY_THANG = 2;
+    public static final int CHUKY_NAM = 3;
+
     private int maGiaPhong;
     private LoaiPhong loaiPhong;
     private String ten;
     private Date ngayBatDau;
     private Date ngayKetThuc;
-    private boolean loaiGia;
-    private Long giaTri;
-    private Float heSo;
-    private boolean lapLai;
+    private int lapLai;
+    private Long giaTien;
     private String ghiChu;
-    private boolean hieuLuc;
 
-    public GiaPhongTroi(int maGiaPhong, LoaiPhong loaiPhong, String ten, Date ngayBatDau, Date ngayKetThuc, boolean lapLai, boolean loaiGia, Long giaTri, Float heSo, String ghiChu, boolean hieuLuc) {
+    private LocalDate ngayBatDauLocalDate;
+    private LocalDate ngayKetThucLocalDate;
+
+    public GiaPhongTroi(int maGiaPhong, LoaiPhong loaiPhong, String ten, Date ngayBatDau, Date ngayKetThuc, int lapLai, Long giaTien, String ghiChu) {
         this.maGiaPhong = maGiaPhong;
         this.loaiPhong = loaiPhong;
         this.ten = ten;
         this.ngayBatDau = ngayBatDau;
         this.ngayKetThuc = ngayKetThuc;
-        this.loaiGia = loaiGia;
-        this.giaTri = giaTri;
-        this.heSo = heSo;
         this.lapLai = lapLai;
+        this.giaTien = giaTien;
         this.ghiChu = ghiChu;
-        this.hieuLuc = hieuLuc;
-    }
-
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
     }
 
     public int getMaGiaPhong() {
@@ -53,6 +50,14 @@ public class GiaPhongTroi {
         this.loaiPhong = loaiPhong;
     }
 
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
     public Date getNgayBatDau() {
         return ngayBatDau;
     }
@@ -69,28 +74,20 @@ public class GiaPhongTroi {
         this.ngayKetThuc = ngayKetThuc;
     }
 
-    public boolean getLoaiGia() {
-        return loaiGia;
+    public int getLapLai() {
+        return lapLai;
     }
 
-    public void setLoaiGia(boolean loaiGia) {
-        this.loaiGia = loaiGia;
+    public void setLapLai(int lapLai) {
+        this.lapLai = lapLai;
     }
 
-    public Long getGiaTri() {
-        return giaTri;
+    public Long getGiaTien() {
+        return giaTien;
     }
 
-    public void setGiaTri(Long giaTri) {
-        this.giaTri = giaTri;
-    }
-
-    public Float getHeSo() {
-        return heSo;
-    }
-
-    public void setHeSo(Float heSo) {
-        this.heSo = heSo;
+    public void setGiaTien(Long giaTien) {
+        this.giaTien = giaTien;
     }
 
     public String getGhiChu() {
@@ -101,19 +98,21 @@ public class GiaPhongTroi {
         this.ghiChu = ghiChu;
     }
 
-    public boolean isLapLai() {
-        return lapLai;
+    public LocalDate getNgayBatDauLocalDate() {
+        if (this.ngayBatDauLocalDate == null) {
+            this.ngayBatDauLocalDate = ngayBatDau.toLocalDate();
+        }
+        return ngayBatDauLocalDate;
     }
 
-    public void setLapLai(boolean lapLai) {
-        this.lapLai = lapLai;
+    public LocalDate getNgayKetThucLocalDate() {
+        if (this.ngayKetThucLocalDate == null) {
+            this.ngayKetThucLocalDate = ngayKetThuc.toLocalDate();
+        }
+        return ngayKetThucLocalDate;
     }
 
-    public boolean isHieuLuc() {
-        return hieuLuc;
-    }
-
-    public void setHieuLuc(boolean hieuLuc) {
-        this.hieuLuc = hieuLuc;
+    public String getChuKyString() {
+        return dsChuKy[lapLai];
     }
 }

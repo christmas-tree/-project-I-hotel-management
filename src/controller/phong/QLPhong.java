@@ -7,7 +7,7 @@ import com.flexganttfx.view.GanttChart;
 import com.flexganttfx.view.graphics.GraphicsBase;
 import com.flexganttfx.view.graphics.renderer.ActivityBarRenderer;
 import com.flexganttfx.view.timeline.Timeline;
-import controller.basic.IndexController;
+import controller.basic.KhungUngDung;
 import controller.khachSan.DungDichVu;
 import controller.khachSan.NhanKhachLe;
 import controller.khachSan.TimelineDatPhong;
@@ -74,7 +74,7 @@ public class QLPhong {
     ArrayList<StackPane> dsPhongUI = new ArrayList<>();
     int soTang = 0;
 
-    public void init(IndexController c) {
+    public void init(KhungUngDung c) {
         // Init Phong
         dsLoaiPhong = LoaiPhongDAO.getInstance().getMap();
         dsPhong = PhongDAO.getInstance().getAll(dsLoaiPhong);

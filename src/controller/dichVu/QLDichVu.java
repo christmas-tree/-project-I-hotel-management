@@ -1,10 +1,9 @@
 package controller.dichVu;
 
-import controller.basic.IndexController;
+import controller.basic.KhungUngDung;
 import dao.DichVuDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,12 +12,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -38,8 +34,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
@@ -81,7 +75,7 @@ public class QLDichVu {
 
     private ObservableList<DichVu> data;
 
-    public void init(IndexController c) {
+    public void init(KhungUngDung c) {
 
         idCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%03d", p.getValue().getMaDv())));
         tenDvCol.setCellValueFactory(new PropertyValueFactory<>("tenDv"));

@@ -1,6 +1,6 @@
 package controller.khachHang;
 
-import controller.basic.IndexController;
+import controller.basic.KhungUngDung;
 import dao.KhachHangDAO;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -112,7 +112,7 @@ public class TimKhachHang {
 
     private int searchType = -1;
 
-    public void init(IndexController c) {
+    public void init(KhungUngDung c) {
 
         idCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%06d", p.getValue().getMaKh())));
         tenCol.setCellValueFactory(new PropertyValueFactory<>("tenKhach"));

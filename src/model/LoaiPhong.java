@@ -93,21 +93,4 @@ public class LoaiPhong {
     public void setDsGiaTroi(ArrayList<GiaPhongTroi> dsQuyTacGia) {
         this.dsGiaTroi = dsQuyTacGia;
     }
-
-    public TienPhong getDonGia(Date ngay) {
-        long donGia = giaTien;
-        long giaTroiCong = 0;
-        for (GiaPhongTroi giaPhongTroi : dsGiaTroi) {
-            if (giaPhongTroi.isLapLai()) {
-
-            } else {
-                if (giaPhongTroi.getNgayBatDau().compareTo(ngay) <= 0 && giaPhongTroi.getNgayKetThuc().compareTo(ngay) >= 0)
-                    if (giaPhongTroi.getLoaiGia())
-                        giaTroiCong += giaPhongTroi.getGiaTri();
-                    else
-                        donGia = Math.round(donGia * giaPhongTroi.getHeSo() / 1000) * 1000;
-            }
-        }
-        return donGia + giaTroiCong;
-    }
 }
