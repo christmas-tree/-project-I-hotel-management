@@ -4,12 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 public class ChiTietDatPhongDAO {
 
@@ -21,8 +19,8 @@ public class ChiTietDatPhongDAO {
 
     public boolean create(ChiTietDatPhong chiTietDatPhong) {
 
-        String sql = "INSERT INTO chi_tiet_dat_phong(ma_dat_phong, ma_phong, ngay_checkin_tt, ma_nv_le_tan, ghi_chu) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO chi_tiet_dat_phong(ma_dat_phong, ma_phong) " +
+                "VALUES (?, ?)";
         boolean result = false;
         Connection con = DbConnection.getConnection();
 
@@ -30,19 +28,13 @@ public class ChiTietDatPhongDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, chiTietDatPhong.getDatPhong().getMaDatPhong());
             stmt.setInt(2, chiTietDatPhong.getPhong().getMaPhong());
-            stmt.setTimestamp(3, chiTietDatPhong.getNgayCheckinTt());
-            if (chiTietDatPhong.getNvLeTan() != null)
-                stmt.setInt(4, chiTietDatPhong.getNvLeTan().getMaNv());
-            else
-                stmt.setNull(4, Types.INTEGER);
-            stmt.setNString(5, chiTietDatPhong.getGhiChu());
 
             result = (stmt.executeUpdate() > 0);
 
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -50,8 +42,8 @@ public class ChiTietDatPhongDAO {
 
     public boolean create(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
 
-        String sql = "INSERT INTO chi_tiet_dat_phong(ma_dat_phong, ma_phong, ngay_checkin_tt, ma_nv_le_tan, ghi_chu) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO chi_tiet_dat_phong(ma_dat_phong, ma_phong) " +
+                "VALUES (?, ?)";
         Connection con = DbConnection.getConnection();
 
         try {
@@ -60,12 +52,8 @@ public class ChiTietDatPhongDAO {
 
             for (int i = 0; i < dsChiTietDatPhong.size(); i++) {
                 chiTietDatPhong = dsChiTietDatPhong.get(i);
-
                 stmt.setInt(1, chiTietDatPhong.getDatPhong().getMaDatPhong());
                 stmt.setInt(2, chiTietDatPhong.getPhong().getMaPhong());
-                stmt.setTimestamp(3, chiTietDatPhong.getNgayCheckinTt());
-                stmt.setInt(4, chiTietDatPhong.getNvLeTan().getMaNv());
-                stmt.setNString(5, chiTietDatPhong.getGhiChu());
 
                 stmt.executeUpdate();
             }
@@ -74,7 +62,7 @@ public class ChiTietDatPhongDAO {
 
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }
@@ -83,8 +71,7 @@ public class ChiTietDatPhongDAO {
         ObservableList<ChiTietDatPhong> dsChiTietDatPhong = FXCollections.observableArrayList();
         ChiTietDatPhong chiTietDatPhong = null;
 
-        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, thanh_tien, chi_tiet_dat_phong.ghi_chu " +
-                "FROM chi_tiet_dat_phong, nhan_vien WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND ma_dat_phong=?";
+        String sql = "SELECT ma_phong FROM chi_tiet_dat_phong WHERE ma_dat_phong=?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
@@ -97,12 +84,7 @@ public class ChiTietDatPhongDAO {
             while (rs.next()) {
                 chiTietDatPhong = new ChiTietDatPhong(
                         datPhong,
-                        getPhongFromArray(dsPhong, rs.getInt(1)),
-                        rs.getTimestamp(2),
-                        rs.getTimestamp(3),
-                        new NhanVien(rs.getInt(4), rs.getNString(5)),
-                        rs.getLong(6),
-                        rs.getNString(7)
+                        getPhongFromArray(dsPhong, rs.getInt(1))
                 );
                 dsChiTietDatPhong.add(chiTietDatPhong);
             }
@@ -111,44 +93,39 @@ public class ChiTietDatPhongDAO {
             con.close();
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return dsChiTietDatPhong;
     }
 
 
     public ChiTietDatPhong get(DatPhong datPhong, ArrayList<Phong> dsPhong) {
-        ObservableList<ChiTietDatPhong> dsChiTietDatPhong = FXCollections.observableArrayList();
         ChiTietDatPhong chiTietDatPhong = null;
 
-        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, thanh_tien, chi_tiet_dat_phong.ghi_chu " +
-                "FROM chi_tiet_dat_phong, nhan_vien WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND ma_dat_phong=?";
+        String sql = "SELECT ma_phong FROM chi_tiet_dat_phong WHERE ma_dat_phong=?";
 
         String sql2 = "SELECT khach_hang.ma_kh, ten_khach FROM ds_noi_o, khach_hang WHERE ds_noi_o.ma_kh=khach_hang.ma_kh AND ds_noi_o.ma_phong=? AND ds_noi_o.ma_dat_phong=?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
-
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, datPhong.getMaDatPhong());
             rs = stmt.executeQuery();
-
             while (rs.next()) {
                 chiTietDatPhong = new ChiTietDatPhong(
                         datPhong,
-                        getPhongFromArray(dsPhong, rs.getInt(1)),
-                        rs.getTimestamp(2),
-                        rs.getTimestamp(3),
-                        new NhanVien(rs.getInt(4), rs.getNString(5)),
-                        rs.getLong(6),
-                        rs.getNString(7)
+                        getPhongFromArray(dsPhong, rs.getInt(1))
                 );
             }
             rs.close();
             stmt.close();
 
             ArrayList<KhachHang> dsKhachHang = new ArrayList<>();
+            stmt = con.prepareStatement(sql2);
+            stmt.setInt(1, chiTietDatPhong.getPhong().getMaPhong());
+            stmt.setInt(2, chiTietDatPhong.getDatPhong().getMaDatPhong());
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 KhachHang khachHang = new KhachHang(
                         rs.getInt(1),
@@ -159,16 +136,9 @@ public class ChiTietDatPhongDAO {
             rs.close();
             stmt.close();
             con.close();
-
-            stmt = con.prepareStatement(sql2);
-            stmt.setInt(1, chiTietDatPhong.getPhong().getMaPhong());
-            stmt.setInt(2, chiTietDatPhong.getDatPhong().getMaDatPhong());
-
             chiTietDatPhong.setDsKhachHang(dsKhachHang);
-            con.close();
-
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return chiTietDatPhong;
     }
@@ -176,9 +146,8 @@ public class ChiTietDatPhongDAO {
     public ChiTietDatPhong getByPhong(Phong phong) {
         ChiTietDatPhong chiTietDatPhong = null;
 
-        String sql = "SELECT dat_phong.ma_dat_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, thanh_tien, dat_phong.ghi_chu " +
-                "FROM chi_tiet_dat_phong, nhan_vien, dat_phong " +
-                "WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND dat_phong.ma_dat_phong=chi_tiet_dat_phong.ma_dat_phong AND ma_phong=? AND ngay_checkout_tt IS NULL AND ngay_checkin_tt IS NOT NULL AND da_huy=0";
+        String sql = "SELECT dat_phong.ma_dat_phong FROM chi_tiet_dat_phong, nhan_vien, dat_phong " +
+                "WHERE dat_phong.ma_dat_phong=chi_tiet_dat_phong.ma_dat_phong AND ma_phong=? AND ngay_checkout_tt IS NULL AND ngay_checkin_tt IS NOT NULL";
 
         String sql2 = "SELECT khach_hang.ma_kh, ten_khach FROM ds_noi_o, khach_hang WHERE ds_noi_o.ma_kh=khach_hang.ma_kh AND ds_noi_o.ma_phong=? AND ds_noi_o.ma_dat_phong=?";
         Connection con = DbConnection.getConnection();
@@ -192,12 +161,7 @@ public class ChiTietDatPhongDAO {
             while (rs.next())
                 chiTietDatPhong = new ChiTietDatPhong(
                         DatPhongDAO.getInstance().get(rs.getInt(1)),
-                        phong,
-                        rs.getTimestamp(2),
-                        rs.getTimestamp(3),
-                        new NhanVien(rs.getInt(4), rs.getNString(5)),
-                        rs.getLong(6),
-                        rs.getNString(7)
+                        phong
                 );
             rs.close();
             stmt.close();
@@ -221,7 +185,7 @@ public class ChiTietDatPhongDAO {
             con.close();
             chiTietDatPhong.setDsKhachHang(dsKhachHang);
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return chiTietDatPhong;
     }
@@ -232,116 +196,85 @@ public class ChiTietDatPhongDAO {
         ArrayList<ChiTietDatPhong> dsChiTietDatPhong = new ArrayList<>();
         ChiTietDatPhong chiTietDatPhong = null;
 
-        String sql = "SELECT ma_phong, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, ten_nv, thanh_tien, chi_tiet_dat_phong.ghi_chu " +
-                "FROM chi_tiet_dat_phong, nhan_vien,  dat_phong " +
-                "WHERE chi_tiet_dat_phong.ma_nv_le_tan=nhan_vien.ma_nv AND dat_phong.ma_dat_phong=chi_tiet_dat_phong.ma_dat_phong AND dat_phong.ma_dat_phong=?";
+        String sql = "SELECT ma_phong FROM chi_tiet_dat_phong ct, dat_phong dp " +
+                "WHERE dp.ma_dat_phong=ct.ma_dat_phong AND ct.ma_dat_phong=?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
         try {
+            PreparedStatement stmt = con.prepareStatement(sql);
             for (DatPhong datPhong : dsDatPhongActive) {
-                PreparedStatement stmt = con.prepareStatement(sql);
                 stmt.setInt(1, datPhong.getMaDatPhong());
                 rs = stmt.executeQuery();
 
                 while (rs.next()) {
                     chiTietDatPhong = new ChiTietDatPhong(
                             datPhong,
-                            getPhongFromArray(dsPhong, rs.getInt(1)),
-                            rs.getTimestamp(2),
-                            rs.getTimestamp(3),
-                            new NhanVien(rs.getInt(4), rs.getNString(5)),
-                            rs.getLong(6),
-                            rs.getNString(7)
+                            getPhongFromArray(dsPhong, rs.getInt(1))
                     );
                     dsChiTietDatPhong.add(chiTietDatPhong);
                 }
                 rs.close();
-                stmt.close();
             }
+            stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return dsChiTietDatPhong;
     }
 
-    public boolean update(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
-        String sql = "UPDATE chi_tiet_dat_phong " +
-                "SET ngay_checkin_tt=?, ngay_checkout_tt=?, ma_nv_le_tan=?, thanh_tien=?, ghi_chu=? " +
-                "WHERE ma_dat_phong=? AND ma_phong=?";
+//    public boolean update(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
+//        String sql = "UPDATE chi_tiet_dat_phong " +
+//                "SET ma_phong=? " +
+//                "WHERE ma_dat_phong=? AND ma_phong=?";
+//        Connection con = DbConnection.getConnection();
+//
+//        try {
+//            PreparedStatement stmt = con.prepareStatement(sql);
+//            ChiTietDatPhong chiTietDatPhong = null;
+//
+//            for (int i = 0; i < dsChiTietDatPhong.size(); i++) {
+//                chiTietDatPhong = dsChiTietDatPhong.get(i);
+//
+//                stmt.setInt(1, chiTietDatPhong.getPhong().getMaPhong());
+//                stmt.setInt(2, chiTietDatPhong.getDatPhong().getMaDatPhong());
+//                stmt.setInt(3, chiTietDatPhong.getPhong().getMaPhong());
+//
+//                stmt.executeUpdate();
+//            }
+//            stmt.close();
+//            con.close();
+//            return true;
+//        } catch (SQLException e) {
+//            ExHandler.handle(e);
+//            return false;
+//        }
+//    }
+
+    public boolean update(ObservableList<ChiTietDatPhong> dsChiTietDatPhong, ArrayList<ChiTietDatPhong> dsChiTietDatPhongXoa) {
+        String sql = "IF NOT EXISTS (SELECT * FROM chi_tiet_dat_phong WHERE ma_phong=? AND ma_dat_phong=?) " +
+                "INSERT INTO chi_tiet_dat_phong(ma_phong, ma_dat_phong) VALUES (?, ?)";
+
+        String sql2 = "DELETE FROM chi_tiet_dat_phong WHERE ma_dat_phong=? AND ma_phong=?";
+
         Connection con = DbConnection.getConnection();
 
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ChiTietDatPhong chiTietDatPhong = null;
-
-            for (int i = 0; i < dsChiTietDatPhong.size(); i++) {
-                chiTietDatPhong = dsChiTietDatPhong.get(i);
-
-                stmt.setTimestamp(1, chiTietDatPhong.getNgayCheckinTt());
-                stmt.setTimestamp(2, chiTietDatPhong.getNgayCheckoutTt());
-                stmt.setInt(3, chiTietDatPhong.getNvLeTan().getMaNv());
-                stmt.setLong(4, chiTietDatPhong.getThanhTien());
-                stmt.setNString(5, chiTietDatPhong.getGhiChu());
-                stmt.setInt(6, chiTietDatPhong.getDatPhong().getMaDatPhong());
-                stmt.setInt(7, chiTietDatPhong.getPhong().getMaPhong());
-
+            for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhong) {
+                stmt.setInt(1, chiTietDatPhong.getPhong().getMaPhong());
+                stmt.setInt(2, chiTietDatPhong.getDatPhong().getMaDatPhong());
+                stmt.setInt(3, chiTietDatPhong.getPhong().getMaPhong());
+                stmt.setInt(4, chiTietDatPhong.getDatPhong().getMaDatPhong());
                 stmt.executeUpdate();
             }
             stmt.close();
-            con.close();
-            return true;
-        } catch (SQLException e) {
-            ExHandler.handle(e);
-            return false;
-        }
-    }
 
-    public boolean update(ChiTietDatPhong chiTietDatPhong) {
-        String sql = "UPDATE chi_tiet_dat_phong " +
-                "SET ngay_checkin_tt=?, ngay_checkout_tt=?, ma_nv_le_tan=?, thanh_tien=?, ghi_chu=? " +
-                "WHERE ma_dat_phong=? AND ma_phong=?";
-
-        Connection con = DbConnection.getConnection();
-
-        try {
-            PreparedStatement stmt = con.prepareStatement(sql);
-
-            stmt.setTimestamp(1, chiTietDatPhong.getNgayCheckinTt());
-            stmt.setTimestamp(2, chiTietDatPhong.getNgayCheckoutTt());
-            stmt.setInt(3, chiTietDatPhong.getNvLeTan().getMaNv());
-            stmt.setLong(4, chiTietDatPhong.getThanhTien());
-            stmt.setNString(5, chiTietDatPhong.getGhiChu());
-            stmt.setInt(6, chiTietDatPhong.getDatPhong().getMaDatPhong());
-            stmt.setInt(7, chiTietDatPhong.getPhong().getMaPhong());
-
-            stmt.executeUpdate();
-            stmt.close();
-            con.close();
-
-            return true;
-        } catch (SQLException e) {
-            ExHandler.handle(e);
-            return false;
-        }
-    }
-
-    public boolean delete(ArrayList<ChiTietDatPhong> dsChiTietDatPhongXoa) {
-        String sql = "DELETE FROM chi_tiet_dat_phong WHERE ma_dat_phong=? AND ma_phong=?";
-
-        Connection con = DbConnection.getConnection();
-
-        try {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ChiTietDatPhong chiTietDatPhong = null;
-
-            for (int i = 0; i < dsChiTietDatPhongXoa.size(); i++) {
-                chiTietDatPhong = dsChiTietDatPhongXoa.get(i);
-
+            stmt = con.prepareStatement(sql2);
+            for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhongXoa) {
                 stmt.setInt(1, chiTietDatPhong.getDatPhong().getMaDatPhong());
                 stmt.setInt(2, chiTietDatPhong.getPhong().getMaPhong());
-
                 stmt.executeUpdate();
             }
             stmt.close();
@@ -349,12 +282,39 @@ public class ChiTietDatPhongDAO {
 
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }
 
-    public Phong getPhongFromArray(ArrayList<Phong> dsPhong, int maPhong) {
+//    public boolean delete(ArrayList<ChiTietDatPhong> dsChiTietDatPhongXoa) {
+//        String sql = "DELETE FROM chi_tiet_dat_phong WHERE ma_dat_phong=? AND ma_phong=?";
+//
+//        Connection con = DbConnection.getConnection();
+//
+//        try {
+//            PreparedStatement stmt = con.prepareStatement(sql);
+//            ChiTietDatPhong chiTietDatPhong = null;
+//
+//            for (int i = 0; i < dsChiTietDatPhongXoa.size(); i++) {
+//                chiTietDatPhong = dsChiTietDatPhongXoa.get(i);
+//
+//                stmt.setInt(1, chiTietDatPhong.getDatPhong().getMaDatPhong());
+//                stmt.setInt(2, chiTietDatPhong.getPhong().getMaPhong());
+//
+//                stmt.executeUpdate();
+//            }
+//            stmt.close();
+//            con.close();
+//
+//            return true;
+//        } catch (SQLException e) {
+//            ExHandler.handle(e);
+//            return false;
+//        }
+//    }
+
+    private Phong getPhongFromArray(ArrayList<Phong> dsPhong, int maPhong) {
         for (int i = 0; i < dsPhong.size(); i++) {
             if (dsPhong.get(i).getMaPhong() == maPhong)
                 return dsPhong.get(i);
@@ -402,17 +362,9 @@ public class ChiTietDatPhongDAO {
             con.close();
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
-    }
-
-    public Phong timPhong(int maPhong, ObservableList<Phong> dsPhong) {
-        for (Phong phong : dsPhong) {
-            if (maPhong == phong.getMaPhong())
-                return phong;
-        }
-        return null;
     }
 }
 

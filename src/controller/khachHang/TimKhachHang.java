@@ -28,7 +28,7 @@ import model.KhachHang;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.*;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.awt.*;
 import java.io.File;
@@ -197,6 +197,7 @@ public class TimKhachHang {
     public void reloadData() {
         data = FXCollections.observableArrayList(KhachHangDAO.getInstance().getAll());
         khachHangTable.setItems(data);
+        khachHangTable.refresh();
     }
 
     public void refresh() {
@@ -260,7 +261,7 @@ public class TimKhachHang {
             stage.showAndWait();
             reloadData();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
     }
@@ -269,7 +270,7 @@ public class TimKhachHang {
         KhachHang focusedKhachHang = khachHangTable.getSelectionModel().getSelectedItem();
 
         if (focusedKhachHang == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn khách hàng nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn khách hàng nào."));
             return;
         }
 
@@ -304,7 +305,7 @@ public class TimKhachHang {
         KhachHang focusedKhachHang = khachHangTable.getSelectionModel().getSelectedItem();
 
         if (focusedKhachHang == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn khách hàng nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn khách hàng nào."));
             return;
         }
 
@@ -323,8 +324,9 @@ public class TimKhachHang {
             suaKhachHang.init(focusedKhachHang);
 
             stage.showAndWait();
+            reloadData();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         reloadData();
@@ -332,7 +334,7 @@ public class TimKhachHang {
 
     public void export() {
         if (data.size() == 0) {
-            ExHandler.handle(new Exception("Không tìm thấy dữ liệu phù hợp với lựa chọn tìm kiếm."));
+            ExceptionHandler.handle(new Exception("Không tìm thấy dữ liệu phù hợp với lựa chọn tìm kiếm."));
         } else {
             File file = new File("src/resources/form/DsDocGia.xlsx");
 
@@ -343,7 +345,7 @@ public class TimKhachHang {
                 workbook = new XSSFWorkbook(inputStream);
                 inputStream.close();
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
                 return;
             }
 
@@ -465,7 +467,7 @@ public class TimKhachHang {
                 output.close();
                 Desktop.getDesktop().open(selectedFile);
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }
     }
@@ -492,7 +494,7 @@ public class TimKhachHang {
             excelWorkBook = new XSSFWorkbook(inputStream);
             inputStream.close();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return;
         }
 
@@ -519,7 +521,7 @@ public class TimKhachHang {
                 dsKhachHang.add(newKhachHang);
             }
         } else
-            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+            ExceptionHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
 
         KhachHangDAO.getInstance().importKhachHang(dsKhachHang);
         refresh();

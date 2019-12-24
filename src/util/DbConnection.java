@@ -1,7 +1,5 @@
 package util;
 
-import util.ExHandler;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +21,7 @@ public class DbConnection {
             Connection connection = DriverManager.getConnection(connectionUrl);
             return connection;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return null;
         }
     }

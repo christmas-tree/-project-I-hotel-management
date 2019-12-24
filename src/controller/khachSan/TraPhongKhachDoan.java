@@ -1,9 +1,6 @@
 package controller.khachSan;
 
-import dao.ChiTietDatPhongDAO;
-import dao.ChiTietDichVuDAO;
-import dao.DatPhongDAO;
-import dao.PhongDAO;
+import dao.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +15,11 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import model.*;
 import util.AlertGenerator;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class TraPhongKhachDoan {
@@ -29,22 +28,19 @@ public class TraPhongKhachDoan {
     private TableColumn<ChiTietDichVu, String> donGiaDvCol;
 
     @FXML
-    private TableColumn<ChiTietDatPhong, Integer> soNgayPCol;
+    private TableColumn<TienPhong, Integer> soNgayPCol;
 
     @FXML
     private Button luuBtn;
 
     @FXML
-    private TableView<ChiTietDatPhong> tienPhongTable;
+    private TableView<TienPhong> tienPhongTable;
 
     @FXML
     private Label maDPLabel;
 
     @FXML
     private Label gioVaoLabel;
-
-    @FXML
-    private TextField heSoGiamGiaField;
 
     @FXML
     private Label thanhToanLabel;
@@ -80,13 +76,13 @@ public class TraPhongKhachDoan {
     private TableColumn<ChiTietDichVu, String> thanhTienDvCol;
 
     @FXML
-    private TableColumn<ChiTietDatPhong, String> loaiPhongPCol;
+    private TableColumn<TienPhong, String> tenPCol;
 
     @FXML
-    private TableColumn<ChiTietDatPhong, String> thanhTienPCol;
+    private TableColumn<TienPhong, String> thanhTienPCol;
 
     @FXML
-    private TableColumn<ChiTietDatPhong, Integer> phongPCol;
+    private TableColumn<TienPhong, Integer> phongPCol;
 
     @FXML
     private TableColumn<ChiTietDichVu, Integer> phongBtCol;
@@ -98,10 +94,7 @@ public class TraPhongKhachDoan {
     private TableColumn<BoiThuong, String> donGiaBtCol;
 
     @FXML
-    private TextField heSoNgayLeField;
-
-    @FXML
-    private TableColumn<ChiTietDatPhong, String> donGiaPCol;
+    private TableColumn<TienPhong, String> donGiaPCol;
 
     @FXML
     private TableView<BoiThuong> boiThuongTable;
@@ -133,38 +126,37 @@ public class TraPhongKhachDoan {
     @FXML
     private TableColumn<BoiThuong, String> thanhTienBtCol;
 
+    @FXML
+    private TableColumn<TienPhong, Integer> sttPCol;
+
     private ObservableList<BoiThuong> dsBoiThuong;
+    private ObservableList<TienPhong> dsTienPhong;
+    private DatPhong datPhong;
     private ObservableList<ChiTietDatPhong> dsChiTietDatPhong;
     private ObservableList<ChiTietDichVu> dsChiTietDichVu;
 
     private long tienCoc = 0;
     private long thanhTien = 0;
     private long thanhToan = 0;
-    private int soNgay;
+    private ArrayList<HoaDon> dsCtHoaDon;
+    Timestamp now = new Timestamp(System.currentTimeMillis());
 
     public void init(DatPhong datPhong, ArrayList<Phong> dsPhong) {
+
+        this.datPhong = datPhong;
         dsChiTietDichVu = ChiTietDichVuDAO.getInstance().getAll(datPhong, dsPhong);
         dsChiTietDatPhong = ChiTietDatPhongDAO.getInstance().getAll(datPhong, dsPhong);
-
-        ChiTietDatPhong chiTietDatPhong = dsChiTietDatPhong.get(0);
-        soNgay = (int) Math.round((chiTietDatPhong.getNgayCheckoutTt().getTime() - chiTietDatPhong.getNgayCheckinTt().getTime()) / 86400000.0);
+        datPhong.setNgayCheckoutTt(now);
+        dsTienPhong = FXCollections.observableArrayList();
+        for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhong) {
+            dsTienPhong.addAll(chiTietDatPhong.getDsGia());
+        }
 
         // FIELDS
         datCocField.textProperty().addListener((observableValue, s, t1) -> {
             datCocField.setText(t1.replaceAll("[^\\d]", ""));
-            tinhHoaDon();
+            tinhTien();
         });
-
-        heSoGiamGiaField.textProperty().addListener(((observableValue, s, t1) -> {
-            tinhGiaPhongSauHeSo();
-            tinhHoaDon();
-            tienPhongTable.refresh();
-        }));
-        heSoNgayLeField.textProperty().addListener(((observableValue, s, t1) -> {
-            tinhGiaPhongSauHeSo();
-            tinhHoaDon();
-            tienPhongTable.refresh();
-        }));
 
         // INIT TABLE
         sttBtCol.setCellFactory(col -> new TableCell<>() {
@@ -184,10 +176,20 @@ public class TraPhongKhachDoan {
         donGiaBtCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getChiTietPhong().getGiaTien())));
         thanhTienBtCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getChiTietPhong().getGiaTien() * p.getValue().getSoLuong())));
 
+        sttPCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            public void updateIndex(int index) {
+                super.updateIndex(index);
+                if (isEmpty() || index < 0)
+                    setText(null);
+                else
+                    setText(Integer.toString(index + 1));
+            }
+        });
         phongPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getPhong().getMaPhong()));
-        loaiPhongPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getPhong().getLoaiPhong().getLoaiPhong()));
-        donGiaPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getDonGiaSauHeSo())));
-        soNgayPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(soNgay));
+        tenPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getTen()));
+        donGiaPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getDonGia())));
+        soNgayPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getSoNgay()));
         thanhTienPCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getThanhTien())));
 
         sttDvCol.setCellFactory(col -> new TableCell<>() {
@@ -201,20 +203,20 @@ public class TraPhongKhachDoan {
             }
         });
         phongDvCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getChiTietPhong().getPhong().getMaPhong()));
-        tenDvCol.setCellValueFactory(p-> new ReadOnlyObjectWrapper<>(p.getValue().getDichVu().getTenDv()));
-        donGiaDvCol.setCellValueFactory(p-> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getDichVu().getGiaDv())));
-        soLuongDvCol.setCellValueFactory(p-> new ReadOnlyObjectWrapper<>(p.getValue().getSoLuong()));
-        donViDvCol.setCellValueFactory(p-> new ReadOnlyObjectWrapper<>(p.getValue().getDichVu().getDonVi()));
-        thanhTienDvCol.setCellValueFactory(p-> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getThanhTien())));
+        tenDvCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getDichVu().getTenDv()));
+        donGiaDvCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getDichVu().getGiaDv())));
+        soLuongDvCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getSoLuong()));
+        donViDvCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getDichVu().getDonVi()));
+        thanhTienDvCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getThanhTien())));
 
-        tienPhongTable.setItems(dsChiTietDatPhong);
+        tienPhongTable.setItems(dsTienPhong);
         dichVuTable.setItems(dsChiTietDichVu);
 
         // Fields
-        khachHangLabel.setText(chiTietDatPhong.getDatPhong().getKhachHang().getTenKhach());
-        gioVaoLabel.setText(chiTietDatPhong.getNgayCheckinTt().toString());
-        gioRaLabel.setText(chiTietDatPhong.getNgayCheckoutTt().toString());
-        maDPLabel.setText(String.format("%06d", chiTietDatPhong.getDatPhong().getMaDatPhong()));
+        khachHangLabel.setText(datPhong.getKhachHang().getTenKhach());
+        gioVaoLabel.setText(datPhong.getNgayCheckinTt().toString());
+        gioRaLabel.setText(datPhong.getNgayCheckoutTt().toString());
+        maDPLabel.setText(String.format("%06d", datPhong.getMaDatPhong()));
 
         kiemDoBtn.setOnAction(event -> {
             FXMLLoader loader = new FXMLLoader();
@@ -234,10 +236,10 @@ public class TraPhongKhachDoan {
                 stage.showAndWait();
                 dsBoiThuong = kiemPhong.getDsBoiThuong();
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
-
             boiThuongTable.setItems(dsBoiThuong);
+            tinhTien();
         });
 
         luuBtn.setOnAction(event -> save());
@@ -249,45 +251,72 @@ public class TraPhongKhachDoan {
     }
 
     public void save() {
-        dsChiTietDatPhong.get(0).getDatPhong().setDaXong(true);
+        for (ChiTietDatPhong chiTietDatPhong : dsChiTietDatPhong) {
+            chiTietDatPhong.getPhong().setTrangThai(Phong.DANGDON);
+        }
+
+        for (TienPhong tienPhong : dsTienPhong) {
+            dsCtHoaDon.add(new HoaDon(
+                    datPhong.getMaDatPhong(),
+                    tienPhong.getTen(),
+                    tienPhong.getDonGia(),
+                    tienPhong.getSoNgay(),
+                    "ngày",
+                    tienPhong.getThanhTien()
+            ));
+        }
+
+        for (ChiTietDichVu chiTietDichVu : dsChiTietDichVu) {
+            dsCtHoaDon.add(new HoaDon(
+                    datPhong.getMaDatPhong(),
+                    chiTietDichVu.getDichVu().getTenDv() + new SimpleDateFormat("dd.MM.yy HH:mm").format(chiTietDichVu.getNgayDv()) + " Phòng " + chiTietDichVu.getPhong().getMaPhong(),
+                    chiTietDichVu.getDichVu().getGiaDv(),
+                    chiTietDichVu.getSoLuong(),
+                    chiTietDichVu.getDichVu().getDonVi(),
+                    chiTietDichVu.getThanhTien()
+            ));
+        }
+        if (dsBoiThuong != null)
+            for (BoiThuong boiThuong : dsBoiThuong) {
+                dsCtHoaDon.add(new HoaDon(
+                        datPhong.getMaDatPhong(),
+                        boiThuong.getChiTietPhong().getTenDo() + " " + boiThuong.getTrangThaiString(),
+                        null,
+                        boiThuong.getSoLuong(),
+                        boiThuong.getChiTietPhong().getDonVi(),
+                        boiThuong.getBoiThuong()
+                ));
+            }
         if (PhongDAO.getInstance().update(dsChiTietDatPhong)
-                && ChiTietDatPhongDAO.getInstance().update(dsChiTietDatPhong)
-                && DatPhongDAO.getInstance().update(dsChiTietDatPhong.get(0).getDatPhong()))
-        {
+                && DatPhongDAO.getInstance().update(datPhong)
+                && HoaDonDAO.getInstance().create(dsCtHoaDon)) {
             AlertGenerator.success("Trả phòng thành công");
         } else {
             AlertGenerator.error("Trả phòng thất bại");
         }
     }
 
-    public void tinhHoaDon() {
+    public void tinhTien() {
         thanhTien = 0;
         // Tien phong
-        for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhong) {
-            thanhTien += chiTietDatPhong.getThanhTien();
+        for (TienPhong tienPhong : dsTienPhong) {
+            thanhTien += tienPhong.getThanhTien();
         }
+
         if (dsBoiThuong != null) {
-            for (BoiThuong boiThuong: dsBoiThuong) {
+            for (BoiThuong boiThuong : dsBoiThuong) {
                 thanhTien += boiThuong.getBoiThuong();
             }
         }
-        for (ChiTietDichVu chiTietDichVu: dsChiTietDichVu) {
+        for (ChiTietDichVu chiTietDichVu : dsChiTietDichVu) {
             thanhTien += chiTietDichVu.getThanhTien();
         }
 
         tienCoc = Long.parseLong(datCocField.getText());
         thanhToan = thanhTien - tienCoc;
 
-        thanhTienTongLabel.setText(String.format("%,3d", thanhTien));
-        tienCocTongLabel.setText(String.format("%,3d", tienCoc));
-        thanhToanLabel.setText(String.format("%,3d", thanhToan));
-    }
-
-    public void tinhGiaPhongSauHeSo() {
-        for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhong) {
-            long donGia = Math.round(chiTietDatPhong.getPhong().getLoaiPhong().getGiaTien() * Float.parseFloat(heSoGiamGiaField.getText()) * Float.parseFloat(heSoNgayLeField.getText()) / 1000) * 1000;
-            chiTietDatPhong.setDonGiaSauHeSo(donGia);
-            chiTietDatPhong.setThanhTien(donGia * soNgay);
-        }
+        thanhTienTongLabel.setText(String.format("%,d", thanhTien));
+        tienCocTongLabel.setText(String.format("%,d", tienCoc));
+        thanhToanLabel.setText(String.format("%,d", thanhToan));
     }
 }

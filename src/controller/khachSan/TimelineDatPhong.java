@@ -1,7 +1,6 @@
 package controller.khachSan;
 
 import com.flexganttfx.view.graphics.GraphicsBase;
-import controller.khachSan.NhanKhachLe;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -14,8 +13,7 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import model.Phong;
 import model.timeline.PhongWrapper;
-import util.AlertGenerator;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,11 +45,11 @@ public class TimelineDatPhong extends StackPane implements Callback<GraphicsBase
                 stage.setScene(scene);
                 stage.setResizable(false);
                 NhanKhachLe nhanKhachLe = loader.getController();
-                nhanKhachLe.initBook(Integer.parseInt(param.getRow().getName()), dsPhong);
+                nhanKhachLe.initBookFromTimeline(Integer.parseInt(param.getRow().getName()), dsPhong);
 
                 stage.showAndWait();
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         });
         return this;

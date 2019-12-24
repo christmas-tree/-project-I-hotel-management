@@ -19,7 +19,7 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import model.NhanVien;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -42,7 +42,7 @@ public class DangNhap {
             Connection con = DbConnection.getConnection();
             if (con == null) {
                 Platform.runLater(() -> {
-                    ExHandler.handle(new Exception("Lỗi kết nối tới cơ sở dữ liệu! Chương trình sẽ thoát."));
+                    ExceptionHandler.handle(new Exception("Lỗi kết nối tới cơ sở dữ liệu! Chương trình sẽ thoát."));
                     System.exit(0);
                 });
             } else {
@@ -50,7 +50,7 @@ public class DangNhap {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    ExHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }
         };
@@ -81,7 +81,7 @@ public class DangNhap {
 
                     new JMetro(root, Style.LIGHT);
                     Stage stage = new Stage();
-                    stage.setTitle("QLTV");
+                    stage.setTitle("Gold Hotel");
                     stage.setScene(new Scene(root, 450, 450));
                     stage.setMaximized(true);
 
@@ -92,7 +92,7 @@ public class DangNhap {
                     stage.show();
                     ((Node)(event.getSource())).getScene().getWindow().hide();
                 } catch (IOException e) {
-                    ExHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

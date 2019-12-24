@@ -5,23 +5,18 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-
-<ScrollPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.khachSan.TraPhongKhachLe">
+<ScrollPane hbarPolicy="NEVER" maxWidth="710.0" minWidth="710.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.khachSan.TraPhongKhachLe">
    <content>
-      <AnchorPane prefHeight="842.0" prefWidth="708.0">
+      <AnchorPane maxWidth="710.0" minWidth="710.0" prefHeight="842.0" prefWidth="710.0">
           <children>
               <Label layoutX="25.0" layoutY="23.0" text="Trả phòng">
                   <font>
                       <Font size="24.0" />
                   </font>
               </Label>
-              <Label layoutX="29.0" layoutY="112.0" text="Vào lúc:" />
+              <Label layoutX="31.0" layoutY="112.0" text="Vào lúc:" />
               <Label layoutX="294.0" layoutY="80.0" text="Tiền đặt cọc" />
               <TextField fx:id="datCocField" layoutX="379.0" layoutY="75.0" prefHeight="26.0" prefWidth="175.0" />
-              <Label layoutX="279.0" layoutY="113.0" text="Hệ số giảm giá" />
-              <TextField fx:id="heSoGiamGiaField" layoutX="379.0" layoutY="109.0" prefHeight="26.0" prefWidth="175.0" />
-              <Label layoutX="283.0" layoutY="144.0" text="Hệ số ngày lễ" />
-              <TextField fx:id="heSoNgayLeField" layoutX="380.0" layoutY="140.0" prefHeight="26.0" prefWidth="175.0" />
               <Label layoutX="31.0" layoutY="144.0" text="Trả lúc:" />
               <Label layoutX="595.0" layoutY="32.0" text="Mã ĐP:" />
               <Label fx:id="maDPLabel" layoutX="639.0" layoutY="32.0" text="000000" />
@@ -41,7 +36,8 @@
             <Button fx:id="kiemDoBtn" layoutX="619.0" layoutY="175.0" mnemonicParsing="false" text="Kiểm đồ" />
             <TableView fx:id="tienPhongTable" layoutX="25.0" layoutY="380.0" prefHeight="132.0" prefWidth="651.0">
                <columns>
-                  <TableColumn fx:id="loaiPhongPCol" minWidth="100.0" prefWidth="100.0" text="Loại phòng" />
+                   <TableColumn fx:id="sttPCol" minWidth="75.0" prefWidth="75.0" text="STT" />
+                   <TableColumn fx:id="tenPCol" minWidth="100.0" prefWidth="100.0" text="Loại phòng" />
                   <TableColumn fx:id="donGiaPCol" minWidth="75.0" prefWidth="100.0" text="Đơn giá" />
                   <TableColumn fx:id="soNgayPCol" minWidth="75.0" prefWidth="100.0" text="Số ngày" />
                   <TableColumn fx:id="thanhTienPCol" minWidth="75.0" prefWidth="100.0" text="Thành tiền" />

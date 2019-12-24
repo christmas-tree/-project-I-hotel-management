@@ -2,7 +2,7 @@ package dao;
 
 import model.DichVu;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +38,7 @@ public class DichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return ketQua;
     }
@@ -67,7 +67,7 @@ public class DichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return dichVu;
     }
@@ -96,7 +96,7 @@ public class DichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return dsDichVu;
     }
@@ -120,7 +120,7 @@ public class DichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return ketQua;
     }
@@ -140,7 +140,7 @@ public class DichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return ketQua;
     }

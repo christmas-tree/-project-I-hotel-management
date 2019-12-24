@@ -5,14 +5,12 @@ import javafx.collections.ObservableList;
 import model.DatPhong;
 import model.KhachHang;
 import model.NhanVien;
-import model.Phong;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DatPhongDAO {
     private static DatPhongDAO instance = new DatPhongDAO();
@@ -20,11 +18,12 @@ public class DatPhongDAO {
     public static DatPhongDAO getInstance() {
         return instance;
     }
-    
+
     public boolean create(DatPhong datPhong) {
-        String sql = "INSERT INTO dat_phong(ngay_dat, phuong_thuc, ngay_checkin, ngay_checkout, ma_kh_dat, ma_nv_nhan ,so_nguoi, tien_dat_coc, la_khach_doan, da_huy, ghi_chu) " +
+        String sql = "INSERT INTO dat_phong(ngay_dat, phuong_thuc, khach_doan, tien_dat_coc, ngay_checkin, ngay_checkout, ma_kh_dat, ma_nv_nhan," +
+                "ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, da_huy, ghi_chu) " +
                 "OUTPUT INSERTED.ma_dat_phong " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection con = DbConnection.getConnection();
 
@@ -32,15 +31,20 @@ public class DatPhongDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setTimestamp(1, datPhong.getNgayDat());
             stmt.setNString(2, datPhong.getPhuongThuc());
-            stmt.setTimestamp(3, datPhong.getNgayCheckin());
-            stmt.setTimestamp(4, datPhong.getNgayCheckout());
-            stmt.setInt(5, datPhong.getKhachHang().getMaKh());
-            stmt.setInt(6, datPhong.getNvNhan().getMaNv());
-            stmt.setInt(7, datPhong.getSoNguoi());
-            stmt.setLong(8, datPhong.getTienDatCoc());
-            stmt.setBoolean(9, datPhong.isKhachDoan());
-            stmt.setBoolean(10, datPhong.isDaHuy());
-            stmt.setNString(11, datPhong.getGhiChu());
+            stmt.setBoolean(3, datPhong.isKhachDoan());
+            stmt.setLong(4, datPhong.getTienDatCoc());
+            stmt.setTimestamp(5, datPhong.getNgayCheckinDk());
+            stmt.setTimestamp(6, datPhong.getNgayCheckoutDk());
+            stmt.setInt(7, datPhong.getKhachHang().getMaKh());
+            stmt.setInt(8, datPhong.getNvNhanDat().getMaNv());
+            stmt.setTimestamp(9, datPhong.getNgayCheckinTt());
+            stmt.setTimestamp(10, datPhong.getNgayCheckoutTt());
+            if (datPhong.getNvLeTan() == null)
+                stmt.setNull(11, Types.INTEGER);
+            else
+                stmt.setInt(11, datPhong.getNvLeTan().getMaNv());
+            stmt.setBoolean(12, datPhong.isDaHuy());
+            stmt.setNString(13, datPhong.getGhiChu());
 
             ResultSet rs = stmt.executeQuery();
 
@@ -52,7 +56,7 @@ public class DatPhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return (datPhong.getMaDatPhong() != 0);
@@ -60,18 +64,21 @@ public class DatPhongDAO {
 
     public ArrayList<DatPhong> getAllActiveBooking() {
 
-        Timestamp today = Timestamp.valueOf(LocalDate.now().atStartOfDay());
         ArrayList<DatPhong> dsDatPhong = new ArrayList<>();
         DatPhong datPhong = null;
 
-        String sql = "SELECT ma_dat_phong, ngay_dat, phuong_thuc, ngay_checkin, ngay_checkout, ma_kh_dat, ten_khach, ma_nv_nhan, ten_nv, so_nguoi, tien_dat_coc, la_khach_doan, da_huy, dat_phong.ghi_chu, da_xong " +
-                "FROM dat_phong, khach_hang, nhan_vien " +
-                "WHERE dat_phong.ma_kh_dat=khach_hang.ma_kh AND nhan_vien.ma_nv=dat_phong.ma_nv_nhan AND da_huy=0 AND ngay_checkin > ?";
+        String sql = "SELECT ma_dat_phong, ngay_dat, phuong_thuc, khach_doan, tien_dat_coc, ngay_checkin, ngay_checkout, ma_kh_dat, ten_khach, ma_nv_nhan, nv1.ten_nv, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, nv2.ten_nv, da_huy, dp.ghi_chu\n" +
+                "FROM dat_phong dp\n" +
+                "JOIN khach_hang kh ON dp.ma_kh_dat=kh.ma_kh\n" +
+                "JOIN nhan_vien nv1 ON nv1.ma_nv=dp.ma_nv_nhan\n" +
+                "LEFT JOIN nhan_vien nv2 ON nv2.ma_nv=dp.ma_nv_le_tan\n" +
+                "WHERE da_huy=0 AND ngay_checkin_tt IS NULL AND ngay_checkin > ?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
 
         try {
+            Timestamp today = Timestamp.valueOf(LocalDate.now().plusDays(-3).atStartOfDay());
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setTimestamp(1, today);
             rs = stmt.executeQuery();
@@ -81,16 +88,17 @@ public class DatPhongDAO {
                         rs.getInt(1),
                         rs.getTimestamp(2),
                         rs.getNString(3),
-                        rs.getTimestamp(4),
-                        rs.getTimestamp(5),
-                        new KhachHang(rs.getInt(6), rs.getNString(7)),
-                        new NhanVien(rs.getInt(8), rs.getNString(9)),
-                        rs.getInt(10),
-                        rs.getLong(11),
-                        rs.getBoolean(12),
-                        rs.getBoolean(13),
-                        rs.getNString(14),
-                        rs.getBoolean(15)
+                        rs.getBoolean(4),
+                        rs.getLong(5),
+                        rs.getTimestamp(6),
+                        rs.getTimestamp(7),
+                        new KhachHang(rs.getInt(8), rs.getNString(9)),
+                        (rs.getNString(11) == null) ? null : new NhanVien(rs.getInt(10), rs.getNString(11)),
+                        rs.getTimestamp(12),
+                        rs.getTimestamp(13),
+                        (rs.getNString(15) == null) ? null : new NhanVien(rs.getInt(14), rs.getNString(15)),
+                        rs.getBoolean(16),
+                        rs.getNString(17)
                 );
                 dsDatPhong.add(datPhong);
             }
@@ -99,52 +107,7 @@ public class DatPhongDAO {
             con.close();
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
-        }
-
-        return dsDatPhong;
-    }
-
-    public ObservableList<DatPhong> getChuaCheckin() {
-        ObservableList<DatPhong> dsDatPhong = FXCollections.observableArrayList();
-        DatPhong datPhong = null;
-
-        String sql = "SELECT dat_phong.ma_dat_phong, ngay_dat, phuong_thuc, ngay_checkin, ngay_checkout, ma_kh_dat, ten_khach, ma_nv_nhan, ten_nv, so_nguoi, tien_dat_coc, la_khach_doan, da_huy, dat_phong.ghi_chu, da_xong " +
-                "FROM dat_phong, khach_hang, nhan_vien, chi_tiet_dat_phong " +
-                "WHERE dat_phong.ma_kh_dat=khach_hang.ma_kh AND nhan_vien.ma_nv=dat_phong.ma_nv_nhan AND chi_tiet_dat_phong.ma_dat_phong=dat_phong.ma_dat_phong AND da_huy=1 AND da_xong=0 AND chi_tiet_dat_phong.ngay_checkin_tt IS NULL " +
-                "ORDER BY ngay_checkin ASC";
-
-        Connection con = DbConnection.getConnection();
-        ResultSet rs;
-
-        try {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                datPhong = new DatPhong(
-                        rs.getInt(1),
-                        rs.getTimestamp(2),
-                        rs.getNString(3),
-                        rs.getTimestamp(4),
-                        rs.getTimestamp(5),
-                        new KhachHang(rs.getInt(6), rs.getNString(7)),
-                        new NhanVien(rs.getInt(8), rs.getNString(9)),
-                        rs.getInt(10),
-                        rs.getLong(11),
-                        rs.getBoolean(12),
-                        rs.getBoolean(13),
-                        rs.getNString(14),
-                        rs.getBoolean(15)
-                );
-                dsDatPhong.add(datPhong);
-            }
-            rs.close();
-            stmt.close();
-            con.close();
-
-        } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return dsDatPhong;
@@ -153,9 +116,9 @@ public class DatPhongDAO {
     public DatPhong get(int maDatPhong) {
         DatPhong datPhong = null;
 
-        String sql = "SELECT ma_dat_phong, ngay_dat, phuong_thuc, ngay_checkin, ngay_checkout, ma_kh_dat, ten_khach, ma_nv_nhan, ten_nv, so_nguoi, tien_dat_coc, la_khach_doan, da_huy, dat_phong.ghi_chu, da_xong " +
-                "FROM dat_phong, khach_hang, nhan_vien " +
-                "WHERE dat_phong.ma_kh_dat=khach_hang.ma_kh AND nhan_vien.ma_nv=dat_phong.ma_nv_nhan AND ma_dat_phong=?";
+        String sql = "SELECT ma_dat_phong, ngay_dat, phuong_thuc, khach_doan, tien_dat_coc, ngay_checkin, ngay_checkout, ma_kh_dat, ten_khach, ma_nv_nhan, nv1.ten_nv, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, nv2.ten_nv, da_huy, dp.ghi_chu " +
+                "FROM dat_phong dp, khach_hang kh, nhan_vien nv1, nhan_vien nv2 " +
+                "WHERE dp.ma_kh_dat=kh.ma_kh AND nv1.ma_nv=dp.ma_nv_nhan AND nv2.ma_nv=dp.ma_nv_le_tan AND dp.ma_dat_phong=?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
@@ -170,16 +133,17 @@ public class DatPhongDAO {
                         rs.getInt(1),
                         rs.getTimestamp(2),
                         rs.getNString(3),
-                        rs.getTimestamp(4),
-                        rs.getTimestamp(5),
-                        new KhachHang(rs.getInt(6), rs.getNString(7)),
-                        new NhanVien(rs.getInt(8), rs.getNString(9)),
-                        rs.getInt(10),
-                        rs.getLong(11),
-                        rs.getBoolean(12),
-                        rs.getBoolean(13),
-                        rs.getNString(14),
-                        rs.getBoolean(15)
+                        rs.getBoolean(4),
+                        rs.getLong(5),
+                        rs.getTimestamp(6),
+                        rs.getTimestamp(7),
+                        new KhachHang(rs.getInt(8), rs.getNString(9)),
+                        new NhanVien(rs.getInt(10), rs.getNString(11)),
+                        rs.getTimestamp(12),
+                        rs.getTimestamp(13),
+                        new NhanVien(rs.getInt(14), rs.getNString(15)),
+                        rs.getBoolean(16),
+                        rs.getNString(17)
                 );
             }
             rs.close();
@@ -187,15 +151,14 @@ public class DatPhongDAO {
             con.close();
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
-        System.out.println("dat phong: " + datPhong);
         return datPhong;
     }
 
     public boolean update(DatPhong datPhong) {
         String sql = "UPDATE dat_phong " +
-                "SET phuong_thuc=?, ngay_checkin=?, ngay_checkout=?, ma_kh_dat=?, so_nguoi=?, tien_dat_coc=?, la_khach_doan=?, da_huy=?, ghi_chu=?, da_xong=? " +
+                "SET phuong_thuc=?, tien_dat_coc=?, ngay_checkin=?, ngay_checkout=?, ma_kh_dat=?, ma_nv_nhan=?, ngay_checkin_tt=?, ngay_checkout_tt=?, ma_nv_le_tan=?, da_huy=?, ghi_chu=? " +
                 "WHERE ma_dat_phong=?";
 
         Connection con = DbConnection.getConnection();
@@ -204,24 +167,27 @@ public class DatPhongDAO {
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setNString(1, datPhong.getPhuongThuc());
-            stmt.setTimestamp(2, datPhong.getNgayCheckin());
-            stmt.setTimestamp(3, datPhong.getNgayCheckout());
-            stmt.setInt(4, datPhong.getKhachHang().getMaKh());
-            stmt.setInt(5, datPhong.getSoNguoi());
-            stmt.setLong(6, datPhong.getTienDatCoc());
-            stmt.setBoolean(7, datPhong.isKhachDoan());
-            stmt.setBoolean(8, datPhong.isDaHuy());
-            stmt.setNString(9, datPhong.getGhiChu());
-            stmt.setBoolean(10, datPhong.isDaXong());
-            stmt.setInt(11, datPhong.getMaDatPhong());
+            stmt.setLong(2, datPhong.getTienDatCoc());
+            stmt.setTimestamp(3, datPhong.getNgayCheckinDk());
+            stmt.setTimestamp(4, datPhong.getNgayCheckoutDk());
+            stmt.setInt(5, datPhong.getKhachHang().getMaKh());
+            stmt.setInt(6, datPhong.getNvNhanDat().getMaNv());
+            stmt.setTimestamp(7, datPhong.getNgayCheckinTt());
+            stmt.setTimestamp(8, datPhong.getNgayCheckoutTt());
+            if (datPhong.getNvLeTan() == null)
+                stmt.setNull(9, Types.INTEGER);
+            else
+                stmt.setInt(9, datPhong.getNvLeTan().getMaNv());
+            stmt.setBoolean(10, datPhong.isDaHuy());
+            stmt.setNString(11, datPhong.getGhiChu());
+            stmt.setInt(12, datPhong.getMaDatPhong());
 
-            System.out.println();
             ketQua = (stmt.executeUpdate() > 0);
 
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return ketQua;
     }
@@ -241,8 +207,158 @@ public class DatPhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return ketQua;
+    }
+
+    public ObservableList<DatPhong> getAllReceipts() {
+        ObservableList<DatPhong> dsDatPhong = FXCollections.observableArrayList();
+        DatPhong datPhong = null;
+
+        String sql = "SELECT dp.ma_dat_phong, khach_doan, ma_kh_dat, kh.ten_khach, kh.cmnd, kh.dien_thoai, ngay_checkin_tt, ngay_checkout_tt, SUM(thanh_tien), dp.ghi_chu " +
+                "FROM dat_phong dp, khach_hang kh, hoa_don hd " +
+                "WHERE dp.ma_kh_dat=kh.ma_kh AND dp.ma_dat_phong=hd.ma_dat_phong " +
+                "GROUP BY dp.ma_dat_phong, khach_doan, ma_kh_dat, kh.ten_khach, kh.cmnd, kh.dien_thoai, ngay_checkin_tt, ngay_checkout_tt, dp.ghi_chu";
+
+        Connection con = DbConnection.getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                datPhong = new DatPhong(
+                        rs.getInt(1),
+                        rs.getBoolean(2),
+                        new KhachHang(rs.getInt(3), rs.getNString(4), rs.getLong(5), rs.getLong(6)),
+                        rs.getTimestamp(7),
+                        rs.getTimestamp(8),
+                        rs.getLong(9),
+                        rs.getNString(10)
+                );
+                dsDatPhong.add(datPhong);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+        return dsDatPhong;
+    }
+
+    public ObservableList<DatPhong> searchReceipts(int searchType, String value) {
+        ObservableList<DatPhong> dsDatPhong = FXCollections.observableArrayList();
+        DatPhong datPhong = null;
+
+        Connection con = DbConnection.getConnection();
+        ResultSet rs;
+        String sql_var = "";
+
+        switch (searchType) {
+//            String searchChoices[] = {"Mã đặt phòng", "Tên khách", "CMND/CCCD", "Điện thoại", "Ngày đến", "Ngày đi"};
+            //                              0             1              2             3         4            5
+            case 0:
+                sql_var += "dp.ma_dat_phong=" + value;
+                break;
+            case 1:
+                sql_var += "kh.ten_khach LIKE N'%" + value + "%'";
+                break;
+            case 2:
+                sql_var += "CAST(kh.cmnd AS VARCHAR) LIKE '%" + value + "%'";
+                break;
+            case 3:
+                sql_var += "CAST(kh.dien_thoai AS VARCHAR) LIKE '%" + value + "%'";
+                break;
+            default:
+                ExceptionHandler.handle(new Exception("Illegal Searching Method"));
+        }
+
+        try {
+            String sql = "SELECT dp.ma_dat_phong, khach_doan, ma_kh_dat, kh.ten_khach, kh.cmnd, kh.dien_thoai, ngay_checkin_tt, ngay_checkout_tt, SUM(thanh_tien), dp.ghi_chu " +
+                    "FROM dat_phong dp, khach_hang kh, hoa_don hd " +
+                    "WHERE dp.ma_kh_dat=kh.ma_kh AND dp.ma_dat_phong=hd.ma_dat_phong AND " + sql_var + " " +
+                    "GROUP BY dp.ma_dat_phong, khach_doan, ma_kh_dat, kh.ten_khach, kh.cmnd, kh.dien_thoai, ngay_checkin_tt, ngay_checkout_tt, dp.ghi_chu";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                datPhong = new DatPhong(
+                        rs.getInt(1),
+                        rs.getBoolean(2),
+                        new KhachHang(rs.getInt(3), rs.getNString(4), rs.getLong(5), rs.getLong(6)),
+                        rs.getTimestamp(7),
+                        rs.getTimestamp(8),
+                        rs.getLong(9),
+                        rs.getNString(10)
+                );
+                dsDatPhong.add(datPhong);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return dsDatPhong;
+    }
+
+    public ObservableList<DatPhong> searchReceipts(int searchType, LocalDate value1, LocalDate value2) {
+        ObservableList<DatPhong> dsDatPhong = FXCollections.observableArrayList();
+        DatPhong datPhong = null;
+        String sql_var = "";
+
+        Connection con = DbConnection.getConnection();
+        ResultSet rs;
+        try {
+            switch (searchType) {
+//            String searchChoices[] = {"Mã đặt phòng", "Tên khách", "CMND/CCCD", "Điện thoại", "Ngày đến", "Ngày đi"};
+                //                              0             1              2             3         4            5
+                case 4:
+                    sql_var += "dp.ngay_checkin_tt BETWEEN ? AND ?";
+                    break;
+                case 5:
+                    sql_var += "dp.ngay_checkout_tt BETWEEN ? AND ?";
+                    break;
+                default:
+                    ExceptionHandler.handle(new Exception("Illegal Searching Method"));
+            }
+
+            String sql = "SELECT dp.ma_dat_phong, khach_doan, ma_kh_dat, kh.ten_khach, kh.cmnd, kh.dien_thoai, ngay_checkin_tt, ngay_checkout_tt, SUM(thanh_tien), dp.ghi_chu " +
+                    "FROM dat_phong dp, khach_hang kh, hoa_don hd " +
+                    "WHERE dp.ma_kh_dat=kh.ma_kh AND dp.ma_dat_phong=hd.ma_dat_phong AND " + sql_var + " " +
+                    "GROUP BY dp.ma_dat_phong, khach_doan, ma_kh_dat, kh.ten_khach, kh.cmnd, kh.dien_thoai, ngay_checkin_tt, ngay_checkout_tt, dp.ghi_chu";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setDate(1, Date.valueOf(value1));
+            stmt.setDate(2, Date.valueOf(value2));
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                datPhong = new DatPhong(
+                        rs.getInt(1),
+                        rs.getBoolean(2),
+                        new KhachHang(rs.getInt(3), rs.getNString(4), rs.getLong(5), rs.getLong(6)),
+                        rs.getTimestamp(7),
+                        rs.getTimestamp(8),
+                        rs.getLong(9),
+                        rs.getNString(10)
+                );
+                dsDatPhong.add(datPhong);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return dsDatPhong;
     }
 }

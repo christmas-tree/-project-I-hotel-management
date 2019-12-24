@@ -56,12 +56,25 @@ public class KiemPhong {
     private ObservableList<BoiThuong> dsBoiThuongTraVe = FXCollections.observableArrayList();
 
     public void init(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
-        for (ChiTietDatPhong chiTietDatPhong: dsChiTietDatPhong) {
+        for (ChiTietDatPhong chiTietDatPhong : dsChiTietDatPhong) {
             ObservableList<ChiTietPhong> dsDo = ChiTietPhongDAO.getInstance().getAll(chiTietDatPhong.getPhong());
-            for (ChiTietPhong chiTietPhong: dsDo) {
+            for (ChiTietPhong chiTietPhong : dsDo) {
                 dsBoiThuong.add(new BoiThuong(chiTietPhong, chiTietDatPhong));
             }
         }
+        uiInit();
+    }
+
+    public void init(ChiTietDatPhong chiTietDatPhong) {
+        ObservableList<ChiTietPhong> dsDo = ChiTietPhongDAO.getInstance().getAll(chiTietDatPhong.getPhong());
+        for (ChiTietPhong chiTietPhong : dsDo) {
+            dsBoiThuong.add(new BoiThuong(chiTietPhong, chiTietDatPhong));
+        }
+        uiInit();
+    }
+
+
+    public void uiInit() {
 
         // TABLE INIT
         phongCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getChiTietPhong().getPhong().getMaPhong()));
@@ -133,7 +146,7 @@ public class KiemPhong {
 
         luuBtn.setOnAction(event -> {
             if (validate()) {
-                for (BoiThuong boiThuong: dsBoiThuong) {
+                for (BoiThuong boiThuong : dsBoiThuong) {
                     if (boiThuong.getBoiThuong() != 0)
                         dsBoiThuongTraVe.add(boiThuong);
                 }
@@ -143,7 +156,7 @@ public class KiemPhong {
     }
 
     public boolean validate() {
-        for (BoiThuong boiThuong: dsBoiThuong)
+        for (BoiThuong boiThuong : dsBoiThuong)
             if (boiThuong.getTrangThai() == null) {
                 AlertGenerator.error("Chưa kiểm tra hết đồ đạc.");
                 return false;

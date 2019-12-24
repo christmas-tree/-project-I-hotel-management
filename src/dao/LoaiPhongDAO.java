@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import model.GiaPhongTroi;
 import model.LoaiPhong;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,7 +42,7 @@ public class LoaiPhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -54,7 +54,7 @@ public class LoaiPhongDAO {
 
         String sql = "SELECT ma_loai_phong, loai_phong, gia_tien, so_nguoi, ghi_chu FROM loai_phong";
 
-        String sql2 = "SELECT ma_gia_phong, ten, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu, hieu_luc FROM gia_phong_troi WHERE ma_loai_phong=?";
+        String sql2 = "SELECT ma_gia_phong, ten, ngay_bd, ngay_kt, lap_lai, gia_tien, ghi_chu FROM gia_phong_troi WHERE ma_loai_phong=?";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
@@ -86,14 +86,11 @@ public class LoaiPhongDAO {
                             rs.getInt(1),
                             loaiPhongA,
                             rs.getNString(2),
-                            rs.getDate(2),
                             rs.getDate(3),
-                            rs.getBoolean(4),
-                            rs.getBoolean(5),
+                            rs.getDate(4),
+                            rs.getInt(5),
                             rs.getLong(6),
-                            rs.getFloat(7),
-                            rs.getNString(8),
-                            rs.getBoolean(9)
+                            rs.getNString(7)
                     );
                     dsGiaPhongTroi.add(giaPhongTroi);
                 }
@@ -101,7 +98,7 @@ public class LoaiPhongDAO {
             }
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return dsLoaiPhong;
     }
@@ -111,6 +108,8 @@ public class LoaiPhongDAO {
         LoaiPhong loaiPhong = null;
 
         String sql = "SELECT ma_loai_phong, loai_phong, gia_tien, so_nguoi, ghi_chu FROM loai_phong";
+
+        String sql2 = "SELECT ma_gia_phong, ten, ngay_bd, ngay_kt, lap_lai, gia_tien, ghi_chu FROM gia_phong_troi WHERE ma_loai_phong=? ORDER BY lap_lai ASC ";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
@@ -131,9 +130,29 @@ public class LoaiPhongDAO {
             }
             rs.close();
             stmt.close();
+            stmt = con.prepareStatement(sql2);
+            for (LoaiPhong loaiPhongA: dsLoaiPhong.values()) {
+                ArrayList<GiaPhongTroi> dsGiaPhongTroi = new ArrayList<>();
+                stmt.setString(1, loaiPhongA.getMaLoaiPhong());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    GiaPhongTroi giaPhongTroi = new GiaPhongTroi(
+                            rs.getInt(1),
+                            loaiPhongA,
+                            rs.getNString(2),
+                            rs.getDate(3),
+                            rs.getDate(4),
+                            rs.getInt(5),
+                            rs.getLong(6),
+                            rs.getNString(7)
+                    );
+                    dsGiaPhongTroi.add(giaPhongTroi);
+                }
+                loaiPhongA.setDsGiaTroi(dsGiaPhongTroi);
+            }
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return dsLoaiPhong;
     }
@@ -162,7 +181,7 @@ public class LoaiPhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return loaiPhong;
     }
@@ -184,7 +203,7 @@ public class LoaiPhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return result;
     }
@@ -201,7 +220,7 @@ public class LoaiPhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return result;
     }

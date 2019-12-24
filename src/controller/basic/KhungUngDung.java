@@ -8,8 +8,10 @@ package controller.basic;
 import controller.dichVu.QLDichVu;
 import controller.khachHang.TimKhachHang;
 import controller.nhanVien.TimNhanVien;
+import controller.phong.QLGiaDacBiet;
 import controller.phong.QLLoaiPhong;
 import controller.phong.QLPhong;
+import QLHoaDon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,7 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
@@ -30,7 +31,7 @@ import model.NhanVien;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.awt.*;
 import java.io.File;
@@ -90,25 +91,38 @@ public class KhungUngDung {
 
         TreeItem rootItem = new TreeItem("Menu");
 
-        TreeItem transactMenu = new TreeItem("Quản lý phòng");
-        transactMenu.getChildren().add(new TreeItem("Thông tin phòng"));
-        transactMenu.getChildren().add(new TreeItem("Quản lý loại phòng"));
-        rootItem.getChildren().add(transactMenu);
-        transactMenu.setExpanded(true);
+        TreeItem qlPhongItem = new TreeItem("Quản lý phòng");
+        qlPhongItem.getChildren().add(new TreeItem("Thông tin phòng"));
+        qlPhongItem.getChildren().add(new TreeItem("Quản lý loại phòng"));
+        qlPhongItem.getChildren().add(new TreeItem("Quản lý giá phòng"));
+        rootItem.getChildren().add(qlPhongItem);
+        qlPhongItem.setExpanded(true);
 
 
-        TreeItem bookMenu = new TreeItem("Quản lý dịch vụ");
-        rootItem.getChildren().add(bookMenu);
-        bookMenu.setExpanded(true);
+        TreeItem qlDichVuItem = new TreeItem("Quản lý dịch vụ");
+        rootItem.getChildren().add(qlDichVuItem);
+        qlDichVuItem.setExpanded(true);
 
-        TreeItem readerMenu = new TreeItem("Quản lý khách hàng");
-        rootItem.getChildren().add(readerMenu);
-        readerMenu.setExpanded(true);
+        TreeItem qlKhachHangItem = new TreeItem("Quản lý khách hàng");
+        rootItem.getChildren().add(qlKhachHangItem);
+        qlKhachHangItem.setExpanded(true);
+
+        TreeItem qlHoaDonItem = new TreeItem("Quản lý hoá đơn");
+        rootItem.getChildren().add(qlHoaDonItem);
+        qlHoaDonItem.setExpanded(true);
+
+        TreeItem qlVatTuItem = new TreeItem("Quản lý vật tư");
+        rootItem.getChildren().add(qlVatTuItem);
+        qlVatTuItem.setExpanded(true);
+
+        TreeItem thongKeItem = new TreeItem("Báo cáo & Thống kê");
+        rootItem.getChildren().add(thongKeItem);
+        thongKeItem.setExpanded(true);
 
         if (currentUser.getLoaiNv() == 0) {
-            TreeItem staffMenu = new TreeItem("Quản lý nhân viên");
-            rootItem.getChildren().add(staffMenu);
-            staffMenu.setExpanded(true);
+            TreeItem qlNhanVienItem = new TreeItem("Quản lý nhân viên");
+            rootItem.getChildren().add(qlNhanVienItem);
+            qlNhanVienItem.setExpanded(true);
         }
 
         sideMenu.setRoot(rootItem);
@@ -149,7 +163,7 @@ public class KhungUngDung {
                 window.getScene().getWindow().hide();
                 stage.show();
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
                 System.exit(0);
             }
         });
@@ -207,7 +221,7 @@ public class KhungUngDung {
                     QLPhong qlPhong = loader.getController();
                     qlPhong.init(this);
                 } catch (Exception e) {
-                    ExHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
                 break;
             case "Quản lý loại phòng":
@@ -217,7 +231,17 @@ public class KhungUngDung {
                     QLLoaiPhong qlLoaiPhong = loader.getController();
                     qlLoaiPhong.init(this);
                 } catch (Exception e) {
-                    ExHandler.handle(e);
+                    ExceptionHandler.handle(e);
+                }
+                break;
+            case "Quản lý giá phòng":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/phong/qlGiaDacBiet.fxml"));
+                    window.setCenter(loader.load());
+                    QLGiaDacBiet qlGiaDacBiet = loader.getController();
+                    qlGiaDacBiet.init(this);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
                 }
                 break;
             case "Quản lý dịch vụ":
@@ -227,7 +251,7 @@ public class KhungUngDung {
                     QLDichVu qlDichVu = loader.getController();
                     qlDichVu.init(this);
                 } catch (Exception e) {
-                    ExHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
                 break;
             case "Quản lý khách hàng":
@@ -237,8 +261,38 @@ public class KhungUngDung {
                     TimKhachHang timKhachHang = loader.getController();
                     timKhachHang.init(this);
                 } catch (Exception e) {
-                    ExHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
+                break;
+            case "Quản lý hoá đơn":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/thongKe/danhSachHoaDon.fxml"));
+                    window.setCenter(loader.load());
+                    QLHoaDon qlHoaDon = loader.getController();
+                    qlHoaDon.init(this);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+                break;
+            case "Quản lý vật tư":
+//                try {
+//                    loader.setLocation(getClass().getClassLoader().getResource("view/khachHang/qlKhachHang.fxml"));
+//                    window.setCenter(loader.load());
+//                     timKhachHang = loader.getController();
+//                    timKhachHang.init(this);
+//                } catch (Exception e) {
+//                    ExHandler.handle(e);
+//                }
+                break;
+            case "Báo cáo & Thống kê":
+//                try {
+//                    loader.setLocation(getClass().getClassLoader().getResource("view/khachHang/qlKhachHang.fxml"));
+//                    window.setCenter(loader.load());
+//                    TimKhachHang timKhachHang = loader.getController();
+//                    timKhachHang.init(this);
+//                } catch (Exception e) {
+//                    ExHandler.handle(e);
+//                }
                 break;
             case "Quản lý nhân viên":
                 try {
@@ -247,7 +301,7 @@ public class KhungUngDung {
                     TimNhanVien timNhanVien = loader.getController();
                     timNhanVien.init(this);
                 } catch (Exception e) {
-                    ExHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
                 break;
         }
@@ -278,7 +332,7 @@ public class KhungUngDung {
             output.close();
             Desktop.getDesktop().open(selectedFile);
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }

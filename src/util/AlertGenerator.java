@@ -9,7 +9,8 @@ import java.util.Optional;
 public class AlertGenerator {
     public static void error(String message) {
         Alert alert = new javafx.scene.control.Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Có lỗi xảy ra!");
+        alert.setTitle("Lỗi!");
+        alert.setHeaderText("Có lỗi xảy ra!");
         alert.setContentText(message);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
@@ -18,6 +19,7 @@ public class AlertGenerator {
     public static void success(String message) {
         Alert alert = new javafx.scene.control.Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Thành công!");
+        alert.setHeaderText("Thành công!");
         alert.setContentText(message);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();

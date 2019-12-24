@@ -16,10 +16,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 import model.GiaPhongTroi;
 import model.LoaiPhong;
 import util.AlertGenerator;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -83,8 +85,8 @@ public class QLGiaDacBiet {
         phongCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getLoaiPhong().getLoaiPhong()));
         tenCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getTen()));
         ngayBdCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayBatDau()));
-        ngayKtCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayBatDau()));
-        lapLaiCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().isLapLai() ? (p.getValue().getChuKyString()) : ""));
+        ngayKtCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayKetThuc()));
+        lapLaiCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getLapLaiString()));
         giaTienCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getGiaTien())));
         ghiChuCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getGhiChu()));
 
@@ -101,11 +103,13 @@ public class QLGiaDacBiet {
             return row;
         });
 
-        searchBtn.setOnAction(event -> search());
+        searchBtn.setOnAction(event -> filter());
         editBtn.setOnAction(event -> edit());
         addBtn.setOnAction(event -> add());
         deleteBtn.setOnAction(event -> delete());
         refreshBtn.setOnAction(event -> refresh());
+
+        searchConditionChoiceBox.selectionModelProperty().addListener((observableValue, loaiPhongSingleSelectionModel, t1) -> filter());
 
 //        c.addMenu.setDisable(false);
 //        c.editMenu.setDisable(false);
@@ -139,9 +143,9 @@ public class QLGiaDacBiet {
         rt.play();
     }
 
-    public void search() {
+    public void filter() {
         Runnable searchTask = () -> {
-            data = GiaPhongTroiDAO.getInstance().search(searchConditionChoiceBox.getSelectionModel().getSelectedIndex());
+            data = GiaPhongTroiDAO.getInstance().get(searchConditionChoiceBox.getSelectionModel().getSelectedItem());
             Platform.runLater(() -> {
                 bangTable.setItems(data);
             });
@@ -169,7 +173,7 @@ public class QLGiaDacBiet {
             stage.showAndWait();
             reloadData();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
     }
@@ -216,7 +220,7 @@ public class QLGiaDacBiet {
 
             stage.showAndWait();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         reloadData();

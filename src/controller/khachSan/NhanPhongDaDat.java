@@ -2,6 +2,7 @@ package controller.khachSan;
 
 import dao.DatPhongDAO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,12 +18,11 @@ import jfxtras.styles.jmetro.Style;
 import model.DatPhong;
 import model.Phong;
 import util.AlertGenerator;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class NhanPhongDaDat {
 
@@ -56,13 +56,13 @@ public class NhanPhongDaDat {
     private ObservableList<DatPhong> dsDatPhong;
 
     public void init(ArrayList<Phong> dsPhong) {
-        dsDatPhong = DatPhongDAO.getInstance().getChuaCheckin();
+        dsDatPhong = FXCollections.observableArrayList(DatPhongDAO.getInstance().getAllActiveBooking());
 
         // TABLE
         tenKhachCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getKhachHang().getTenKhach()));
         ngayDatCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayDat()));
-        ngayDenCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayCheckin()));
-        ngayDiCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayCheckout()));
+        ngayDenCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayCheckinDk()));
+        ngayDiCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayCheckoutDk()));
         tienCocCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getTienDatCoc())));
 
         bangTable.setItems(dsDatPhong);
@@ -89,10 +89,10 @@ public class NhanPhongDaDat {
 
                         stage.showAndWait();
                     } catch (IOException e) {
-                        ExHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 } else {
-                    loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/checkoutKhachLe.fxml"));
+                    loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/nhanKhachLe.fxml"));
                     try {
                         Parent editRoot = loader.load();
                         new JMetro(editRoot, Style.LIGHT);
@@ -106,7 +106,7 @@ public class NhanPhongDaDat {
 
                         stage.showAndWait();
                     } catch (IOException e) {
-                        ExHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
                 ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -125,10 +125,17 @@ public class NhanPhongDaDat {
                         AlertGenerator.error("Huỷ thât bại. Vui lòng thử lại.");
                     }
                 }
+                refresh();
             }
         });
 
         huyBtn.setOnAction(event -> ((Node) (event.getSource())).getScene().getWindow().hide());
+    }
+
+    public void refresh() {
+        dsDatPhong = FXCollections.observableArrayList(DatPhongDAO.getInstance().getAllActiveBooking());
+        bangTable.setItems(dsDatPhong);
+        bangTable.refresh();
     }
 
 }

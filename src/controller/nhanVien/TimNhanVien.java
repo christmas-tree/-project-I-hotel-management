@@ -34,7 +34,7 @@ import model.NhanVien;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.*;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.awt.*;
 import java.io.File;
@@ -45,8 +45,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-
-import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class TimNhanVien {
 
@@ -242,7 +240,7 @@ public class TimNhanVien {
                     nhanVienTable.setItems(data);
                 });
             } catch (SQLException e) {
-                Platform.runLater(() -> ExHandler.handle(e));
+                Platform.runLater(() -> ExceptionHandler.handle(e));
             }
         };
         new Thread(searchTask).start();
@@ -269,7 +267,7 @@ public class TimNhanVien {
             reloadData();
 
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
     }
@@ -278,7 +276,7 @@ public class TimNhanVien {
         NhanVien focusedNhanVien = nhanVienTable.getSelectionModel().getSelectedItem();
 
         if (focusedNhanVien == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn nhân viên nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn nhân viên nào."));
             return;
         }
 
@@ -313,7 +311,7 @@ public class TimNhanVien {
         NhanVien focusedNhanVien = nhanVienTable.getSelectionModel().getSelectedItem();
 
         if (focusedNhanVien == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn nhân viên nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn nhân viên nào."));
             return;
         }
 
@@ -333,15 +331,15 @@ public class TimNhanVien {
 
             stage.showAndWait();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
-        reloadData();
+        nhanVienTable.refresh();
     }
 
     public void export() {
         if (data.size() == 0) {
-            ExHandler.handle(new Exception("Không tìm thấy dữ liệu phù hợp với lựa chọn tìm kiếm."));
+            ExceptionHandler.handle(new Exception("Không tìm thấy dữ liệu phù hợp với lựa chọn tìm kiếm."));
         } else {
             File file = new File("src/resources/form/DsNhanVien.xlsx");
 
@@ -352,7 +350,7 @@ public class TimNhanVien {
                 workbook = new XSSFWorkbook(inputStream);
                 inputStream.close();
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
                 return;
             }
 
@@ -481,7 +479,7 @@ public class TimNhanVien {
                 output.close();
                 Desktop.getDesktop().open(selectedFile);
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }
     }

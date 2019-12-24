@@ -4,13 +4,22 @@ public class HoaDon {
     private int maChiTietHoaDon;
     private int maDatPhong;
     private String tenMuc;
-    private long donGia;
-    private int soLuong;
+    private Long donGia;
+    private Integer soLuong;
     private String donVi;
     private long thanhTien;
 
-    public HoaDon(int maChiTietHoaDon, int maDatPhong, String tenMuc, long donGia, int soLuong, String donVi, long thanhTien) {
+    public HoaDon(int maChiTietHoaDon, int maDatPhong, String tenMuc, Long donGia, int soLuong, String donVi, Long thanhTien) {
         this.maChiTietHoaDon = maChiTietHoaDon;
+        this.maDatPhong = maDatPhong;
+        this.tenMuc = tenMuc;
+        this.donGia = donGia;
+        this.soLuong = soLuong;
+        this.donVi = donVi;
+        this.thanhTien = thanhTien;
+    }
+
+    public HoaDon(int maDatPhong, String tenMuc, Long donGia, int soLuong, String donVi, Long thanhTien) {
         this.maDatPhong = maDatPhong;
         this.tenMuc = tenMuc;
         this.donGia = donGia;

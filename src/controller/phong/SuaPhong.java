@@ -14,13 +14,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.util.StringConverter;
 import model.ChiTietPhong;
 import model.LoaiPhong;
 import model.Phong;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.util.ArrayList;
 
@@ -105,6 +104,7 @@ public class SuaPhong {
     // UI INITIALIZE
 
     public void init() {
+        phong = new Phong();
         dsChiTietPhong = FXCollections.observableArrayList();
         doTable.setItems(dsChiTietPhong);
 
@@ -296,7 +296,6 @@ public class SuaPhong {
     }
 
     public void add() {
-        phong = new Phong();
         phong.setMaPhong(Integer.parseInt(maPhongField.getText()));
         phong.setLoaiPhong(loaiPhongCombo.getSelectionModel().getSelectedItem());
         phong.setTang(Integer.parseInt(tangField.getText()));
@@ -330,7 +329,7 @@ public class SuaPhong {
         if (err.equals("")) {
             return true;
         } else {
-            ExHandler.handle(new Exception(err));
+            ExceptionHandler.handle(new Exception(err));
             return false;
         }
     }
@@ -351,7 +350,7 @@ public class SuaPhong {
         if (err.equals("")) {
             return true;
         } else {
-            ExHandler.handle(new Exception(err));
+            ExceptionHandler.handle(new Exception(err));
             return false;
         }
     }

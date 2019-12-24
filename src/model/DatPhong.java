@@ -4,23 +4,25 @@ package model;
 import javafx.collections.ObservableList;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 public class DatPhong {
 
   private int maDatPhong;
   private Timestamp ngayDat;
   private String phuongThuc;
-  private Timestamp ngayCheckin;
-  private Timestamp ngayCheckout;
-  private KhachHang khachHang;
-  private NhanVien nvNhan;
-  private int soNguoi;
-  private long tienDatCoc;
   private boolean khachDoan;
+  private long tienDatCoc;
+  private Timestamp ngayCheckinDk;
+  private Timestamp ngayCheckoutDk;
+  private KhachHang khachHang;
+  private NhanVien nvNhanDat;
+  private Timestamp ngayCheckinTt;
+  private Timestamp ngayCheckoutTt;
+  private NhanVien nvLeTan;
   private boolean daHuy;
   private String ghiChu;
-  private boolean daXong;
+
+  private Long tongThanhToan;
 
   private ObservableList<ChiTietDatPhong> dsChiTietDatPhong;
 
@@ -31,77 +33,74 @@ public class DatPhong {
     this.maDatPhong = maDatPhong;
   }
 
-  public DatPhong(int maDatPhong, Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu, boolean daXong) {
+  public DatPhong(int maDatPhong, Timestamp ngayDat, String phuongThuc, boolean khachDoan, long tienDatCoc, Timestamp ngayCheckinDk, Timestamp ngayCheckoutDk, KhachHang khachHang, NhanVien nvNhanDat, Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, boolean daHuy, String ghiChu) {
     this.maDatPhong = maDatPhong;
     this.ngayDat = ngayDat;
     this.phuongThuc = phuongThuc;
-    this.ngayCheckin = ngayCheckin;
-    this.ngayCheckout = ngayCheckout;
-    this.khachHang = khachHang;
-    this.nvNhan = nvNhan;
-    this.soNguoi = soNguoi;
-    this.tienDatCoc = tienDatCoc;
     this.khachDoan = khachDoan;
+    this.tienDatCoc = tienDatCoc;
+    this.ngayCheckinDk = ngayCheckinDk;
+    this.ngayCheckoutDk = ngayCheckoutDk;
+    this.khachHang = khachHang;
+    this.nvNhanDat = nvNhanDat;
+    this.ngayCheckinTt = ngayCheckinTt;
+    this.ngayCheckoutTt = ngayCheckoutTt;
+    this.nvLeTan = nvLeTan;
     this.daHuy = daHuy;
     this.ghiChu = ghiChu;
-    this.daXong = daXong;
   }
 
-  public DatPhong(Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu, boolean daXong) {
+  public DatPhong(Timestamp ngayDat, String phuongThuc, boolean khachDoan, long tienDatCoc, Timestamp ngayCheckinDk, Timestamp ngayCheckoutDk, KhachHang khachHang, NhanVien nvNhanDat, Timestamp ngayCheckinTt, NhanVien nvLeTan, String ghiChu) {
     this.ngayDat = ngayDat;
     this.phuongThuc = phuongThuc;
-    this.ngayCheckin = ngayCheckin;
-    this.ngayCheckout = ngayCheckout;
-    this.khachHang = khachHang;
-    this.nvNhan = nvNhan;
-    this.soNguoi = soNguoi;
-    this.tienDatCoc = tienDatCoc;
     this.khachDoan = khachDoan;
-    this.daHuy = daHuy;
+    this.tienDatCoc = tienDatCoc;
+    this.ngayCheckinDk = ngayCheckinDk;
+    this.ngayCheckoutDk = ngayCheckoutDk;
+    this.khachHang = khachHang;
+    this.nvNhanDat = nvNhanDat;
+    this.ngayCheckinTt = ngayCheckinTt;
+    this.nvLeTan = nvLeTan;
+    this.daHuy = false;
     this.ghiChu = ghiChu;
-    this.daXong = daXong;
   }
 
-  public void setProps(Timestamp ngayDat, String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean khachDoan, boolean daHuy, String ghiChu) {
+  public DatPhong(int maDatPhong, boolean khachDoan, KhachHang khachHang, Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, Long tongThanhToan, String ghiChu) {
+    this.maDatPhong = maDatPhong;
+    this.khachDoan = khachDoan;
+    this.khachHang = khachHang;
+    this.ngayCheckinTt = ngayCheckinTt;
+    this.ngayCheckoutTt = ngayCheckoutTt;
+    this.tongThanhToan = tongThanhToan;
+    this.ghiChu = ghiChu;
+  }
+
+  public void setProps(String phuongThuc, boolean khachDoan, long tienDatCoc, Timestamp ngayCheckinDk, Timestamp ngayCheckoutDk, KhachHang khachHang, NhanVien nvNhanDat, Timestamp ngayCheckinTt, NhanVien nvLeTan, String ghiChu) {
+    this.phuongThuc = phuongThuc;
+    this.khachDoan = khachDoan;
+    this.tienDatCoc = tienDatCoc;
+    this.ngayCheckinDk = ngayCheckinDk;
+    this.ngayCheckoutDk = ngayCheckoutDk;
+    this.khachHang = khachHang;
+    this.nvNhanDat = nvNhanDat;
+    this.ngayCheckinTt = ngayCheckinTt;
+    this.nvLeTan = nvLeTan;
+    this.ghiChu = ghiChu;
+  }
+
+  public void setProps(Timestamp ngayDat, String phuongThuc, boolean khachDoan, long tienDatCoc, Timestamp ngayCheckinDk, Timestamp ngayCheckoutDk, KhachHang khachHang, NhanVien nvNhanDat, Timestamp ngayCheckinTt, NhanVien nvLeTan, String ghiChu) {
     this.ngayDat = ngayDat;
     this.phuongThuc = phuongThuc;
-    this.ngayCheckin = ngayCheckin;
-    this.ngayCheckout = ngayCheckout;
-    this.khachHang = khachHang;
-    this.nvNhan = nvNhan;
-    this.soNguoi = soNguoi;
-    this.tienDatCoc = tienDatCoc;
     this.khachDoan = khachDoan;
-    this.daHuy = daHuy;
-    this.ghiChu = ghiChu;
-  }
-
-  public void setProps(String phuongThuc, Timestamp ngayCheckin, Timestamp ngayCheckout, KhachHang khachHang, NhanVien nvNhan, int soNguoi, long tienDatCoc, boolean daHuy, String ghiChu) {
-    this.phuongThuc = phuongThuc;
-    this.ngayCheckin = ngayCheckin;
-    this.ngayCheckout = ngayCheckout;
-    this.khachHang = khachHang;
-    this.nvNhan = nvNhan;
-    this.soNguoi = soNguoi;
     this.tienDatCoc = tienDatCoc;
-    this.daHuy = daHuy;
+    this.ngayCheckinDk = ngayCheckinDk;
+    this.ngayCheckoutDk = ngayCheckoutDk;
+    this.khachHang = khachHang;
+    this.nvNhanDat = nvNhanDat;
+    this.ngayCheckinTt = ngayCheckinTt;
+    this.nvLeTan = nvLeTan;
+    this.daHuy = false;
     this.ghiChu = ghiChu;
-  }
-
-  public boolean isKhachDoan() {
-    return khachDoan;
-  }
-
-  public void setKhachDoan(boolean khachDoan) {
-    this.khachDoan = khachDoan;
-  }
-
-  public boolean isDaHuy() {
-    return daHuy;
-  }
-
-  public void setDaHuy(boolean daHuy) {
-    this.daHuy = daHuy;
   }
 
   public int getMaDatPhong() {
@@ -112,7 +111,6 @@ public class DatPhong {
     this.maDatPhong = maDatPhong;
   }
 
-
   public Timestamp getNgayDat() {
     return ngayDat;
   }
@@ -120,7 +118,6 @@ public class DatPhong {
   public void setNgayDat(Timestamp ngayDat) {
     this.ngayDat = ngayDat;
   }
-
 
   public String getPhuongThuc() {
     return phuongThuc;
@@ -130,46 +127,12 @@ public class DatPhong {
     this.phuongThuc = phuongThuc;
   }
 
-
-  public Timestamp getNgayCheckin() {
-    return ngayCheckin;
+  public boolean isKhachDoan() {
+    return khachDoan;
   }
 
-  public void setNgayCheckin(Timestamp ngayCheckin) {
-    this.ngayCheckin = ngayCheckin;
-  }
-
-
-  public Timestamp getNgayCheckout() {
-    return ngayCheckout;
-  }
-
-  public void setNgayCheckout(Timestamp ngayCheckout) {
-    this.ngayCheckout = ngayCheckout;
-  }
-
-  public KhachHang getKhachHang() {
-    return khachHang;
-  }
-
-  public void setKhachHang(KhachHang khachHang) {
-    this.khachHang = khachHang;
-  }
-
-  public NhanVien getNvNhan() {
-    return nvNhan;
-  }
-
-  public void setNvNhan(NhanVien nvNhan) {
-    this.nvNhan = nvNhan;
-  }
-
-  public int getSoNguoi() {
-    return soNguoi;
-  }
-
-  public void setSoNguoi(int soNguoi) {
-    this.soNguoi = soNguoi;
+  public void setKhachDoan(boolean khachDoan) {
+    this.khachDoan = khachDoan;
   }
 
   public long getTienDatCoc() {
@@ -180,6 +143,69 @@ public class DatPhong {
     this.tienDatCoc = tienDatCoc;
   }
 
+  public Timestamp getNgayCheckinDk() {
+    return ngayCheckinDk;
+  }
+
+  public void setNgayCheckinDk(Timestamp ngayCheckinDk) {
+    this.ngayCheckinDk = ngayCheckinDk;
+  }
+
+  public Timestamp getNgayCheckoutDk() {
+    return ngayCheckoutDk;
+  }
+
+  public void setNgayCheckoutDk(Timestamp ngayCheckoutDk) {
+    this.ngayCheckoutDk = ngayCheckoutDk;
+  }
+
+  public KhachHang getKhachHang() {
+    return khachHang;
+  }
+
+  public void setKhachHang(KhachHang khachHang) {
+    this.khachHang = khachHang;
+  }
+
+  public NhanVien getNvNhanDat() {
+    return nvNhanDat;
+  }
+
+  public void setNvNhanDat(NhanVien nvNhanDat) {
+    this.nvNhanDat = nvNhanDat;
+  }
+
+  public Timestamp getNgayCheckinTt() {
+    return ngayCheckinTt;
+  }
+
+  public void setNgayCheckinTt(Timestamp ngayCheckinTt) {
+    this.ngayCheckinTt = ngayCheckinTt;
+  }
+
+  public Timestamp getNgayCheckoutTt() {
+    return ngayCheckoutTt;
+  }
+
+  public void setNgayCheckoutTt(Timestamp ngayCheckoutTt) {
+    this.ngayCheckoutTt = ngayCheckoutTt;
+  }
+
+  public NhanVien getNvLeTan() {
+    return nvLeTan;
+  }
+
+  public void setNvLeTan(NhanVien nvLeTan) {
+    this.nvLeTan = nvLeTan;
+  }
+
+  public boolean isDaHuy() {
+    return daHuy;
+  }
+
+  public void setDaHuy(boolean daHuy) {
+    this.daHuy = daHuy;
+  }
 
   public String getGhiChu() {
     return ghiChu;
@@ -197,11 +223,11 @@ public class DatPhong {
     this.dsChiTietDatPhong = dsChiTietDatPhong;
   }
 
-  public boolean isDaXong() {
-    return daXong;
+  public Long getTongThanhToan() {
+    return tongThanhToan;
   }
 
-  public void setDaXong(boolean daXong) {
-    this.daXong = daXong;
+  public void setTongThanhToan(Long tongThanhToan) {
+    this.tongThanhToan = tongThanhToan;
   }
 }

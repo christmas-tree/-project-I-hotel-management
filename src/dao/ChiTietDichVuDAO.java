@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,7 +37,7 @@ public class ChiTietDichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -79,7 +79,7 @@ public class ChiTietDichVuDAO {
             chiTietDatPhong.setDsDichVuSuDung(dsChiTietDichVu);
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return dsChiTietDichVu;
@@ -117,7 +117,7 @@ public class ChiTietDichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return dsChiTietDichVu;
@@ -153,7 +153,7 @@ public class ChiTietDichVuDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return dsChiTietDichVu;
@@ -217,7 +217,7 @@ public class ChiTietDichVuDAO {
             con.close();
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }

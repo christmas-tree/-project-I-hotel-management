@@ -34,6 +34,26 @@ public class GiaPhongTroi {
         this.ghiChu = ghiChu;
     }
 
+    public GiaPhongTroi(LoaiPhong loaiPhong, String ten, LocalDate ngayBatDau, LocalDate ngayKetThuc, int lapLai, Long giaTien, String ghiChu) {
+        this.loaiPhong = loaiPhong;
+        this.ten = ten;
+        this.ngayBatDau = Date.valueOf(ngayBatDau);
+        this.ngayKetThuc = Date.valueOf(ngayKetThuc);
+        this.lapLai = lapLai;
+        this.giaTien = giaTien;
+        this.ghiChu = ghiChu;
+    }
+
+    public void setProperties(LoaiPhong loaiPhong, String ten, LocalDate ngayBatDau, LocalDate ngayKetThuc, int lapLai, Long giaTien, String ghiChu) {
+        this.loaiPhong = loaiPhong;
+        this.ten = ten;
+        this.ngayBatDau = Date.valueOf(ngayBatDau);
+        this.ngayKetThuc = Date.valueOf(ngayKetThuc);
+        this.lapLai = lapLai;
+        this.giaTien = giaTien;
+        this.ghiChu = ghiChu;
+    }
+
     public int getMaGiaPhong() {
         return maGiaPhong;
     }
@@ -112,7 +132,7 @@ public class GiaPhongTroi {
         return ngayKetThucLocalDate;
     }
 
-    public String getChuKyString() {
+    public String getLapLaiString() {
         return dsChuKy[lapLai];
     }
 }

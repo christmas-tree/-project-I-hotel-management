@@ -11,11 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import model.NhanVien;
-import util.ExHandler;
-
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import util.ExceptionHandler;
 
 public class SuaNhanVien {
 
@@ -221,7 +217,7 @@ public class SuaNhanVien {
         if (err.equals("")) {
             return true;
         } else {
-            ExHandler.handle(new Exception(err));
+            ExceptionHandler.handle(new Exception(err));
             return false;
         }
     }

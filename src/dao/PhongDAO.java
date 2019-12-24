@@ -1,11 +1,10 @@
 package dao;
 
-import javafx.collections.ObservableList;
 import model.ChiTietDatPhong;
 import model.LoaiPhong;
 import model.Phong;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PhongDAO {
     
@@ -43,7 +43,7 @@ public class PhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -77,7 +77,7 @@ public class PhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return dsPhong;
@@ -110,7 +110,7 @@ public class PhongDAO {
             con.close();
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return phong;
@@ -135,13 +135,13 @@ public class PhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
     }
 
-    public boolean update(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
+    public boolean update(List<ChiTietDatPhong> dsChiTietDatPhong) {
         String sql = "UPDATE phong SET trang_thai=? WHERE ma_phong=?";
 
         boolean result = false;
@@ -159,7 +159,7 @@ public class PhongDAO {
             result = true;
             System.out.println("true");
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return result;
     }
@@ -180,7 +180,7 @@ public class PhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;

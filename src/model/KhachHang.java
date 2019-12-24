@@ -8,8 +8,8 @@ public class KhachHang {
   private int maKh;
   private String tenKhach;
   private boolean gioiTinh;
-  private long cmnd;
-  private long dienThoai;
+  private Long cmnd;
+  private Long dienThoai;
   private String diaChi;
   private String email;
   private String ghiChu;
@@ -17,12 +17,19 @@ public class KhachHang {
   public KhachHang() {
   }
 
+  public KhachHang(int maKh, String tenKhach, Long cmnd, Long dienThoai) {
+    this.maKh = maKh;
+    this.tenKhach = tenKhach;
+    this.cmnd = cmnd;
+    this.dienThoai = dienThoai;
+  }
+
   public KhachHang(int maKh, String tenKhach) {
     this.maKh = maKh;
     this.tenKhach = tenKhach;
   }
 
-  public KhachHang(int maKh, String tenKhach, boolean gioiTinh, long cmnd, long dienThoai, String diaChi, String email, String ghiChu) {
+  public KhachHang(int maKh, String tenKhach, boolean gioiTinh, Long cmnd, Long dienThoai, String diaChi, String email, String ghiChu) {
     this.maKh = maKh;
     this.tenKhach = tenKhach;
     this.gioiTinh = gioiTinh;
@@ -65,20 +72,20 @@ public class KhachHang {
     this.gioiTinh = gioiTinh;
   }
 
-  public long getCmnd() {
+  public Long getCmnd() {
     return cmnd;
   }
 
-  public void setCmnd(long cmnd) {
+  public void setCmnd(Long cmnd) {
     this.cmnd = cmnd;
   }
 
 
-  public long getDienThoai() {
+  public Long getDienThoai() {
     return dienThoai;
   }
 
-  public void setDienThoai(long dienThoai) {
+  public void setDienThoai(Long dienThoai) {
     this.dienThoai = dienThoai;
   }
 

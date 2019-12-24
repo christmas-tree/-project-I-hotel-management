@@ -9,7 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import model.LoaiPhong;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 public class SuaLoaiPhong {
     
@@ -136,7 +136,7 @@ public class SuaLoaiPhong {
         if (err.isBlank())
             return true;
         else {
-            ExHandler.handle(new Exception(err));
+            ExceptionHandler.handle(new Exception(err));
             return false;
         }
     }

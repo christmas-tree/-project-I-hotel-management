@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import model.GiaPhongTroi;
 import model.LoaiPhong;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +22,7 @@ public class GiaPhongTroiDAO {
 
     public boolean create(GiaPhongTroi giaPhongTroi) {
 
-        String sql = "INSERT INTO gia_phong_troi(ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu, hieu_luc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO gia_phong_troi(ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, gia_tien, ghi_chu) VALUES (?, ?, ?, ?, ?, ?, ?)";
         boolean result = false;
         Connection con = DbConnection.getConnection();
 
@@ -32,19 +32,16 @@ public class GiaPhongTroiDAO {
             stmt.setNString(2, giaPhongTroi.getTen());
             stmt.setDate(3, giaPhongTroi.getNgayBatDau());
             stmt.setDate(4, giaPhongTroi.getNgayKetThuc());
-            stmt.setBoolean(5, giaPhongTroi.getLoaiGia());
-            stmt.setBoolean(6, giaPhongTroi.getLoaiGia());
-            stmt.setLong(7, giaPhongTroi.getGiaTri());
-            stmt.setFloat(8, giaPhongTroi.getHeSo());
-            stmt.setNString(9, giaPhongTroi.getGhiChu());
-            stmt.setBoolean(10, false);
+            stmt.setInt(5, giaPhongTroi.getLapLai());
+            stmt.setLong(6, giaPhongTroi.getGiaTien());
+            stmt.setNString(7, giaPhongTroi.getGhiChu());
 
             result = (stmt.executeUpdate() > 0);
 
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -55,7 +52,7 @@ public class GiaPhongTroiDAO {
         ObservableList<GiaPhongTroi> dsGiaPhongTroi = FXCollections.observableArrayList();
         GiaPhongTroi giaPhongTroi = null;
 
-        String sql = "SELECT ma_gia_phong, ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, loai_gia, luong, he_so, ghi_chu, hieu_luc FROM gia_phong_troi";
+        String sql = "SELECT ma_gia_phong, ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, gia_tien, ghi_chu FROM gia_phong_troi";
 
         Connection con = DbConnection.getConnection();
         ResultSet rs;
@@ -69,14 +66,11 @@ public class GiaPhongTroiDAO {
                         rs.getInt(1),
                         getLoaiPhongTuArray(rs.getNString(2), dsLoaiPhong),
                         rs.getNString(3),
-                        rs.getDate(3),
                         rs.getDate(4),
-                        rs.getBoolean(5),
-                        rs.getBoolean(6),
+                        rs.getDate(5),
+                        rs.getInt(6),
                         rs.getLong(7),
-                        rs.getFloat(8),
-                        rs.getNString(9),
-                        rs.getBoolean(10)
+                        rs.getNString(8)
                 );
                 dsGiaPhongTroi.add(giaPhongTroi);
             }
@@ -84,13 +78,49 @@ public class GiaPhongTroiDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
+        }
+        return dsGiaPhongTroi;
+    }
+
+    public ObservableList<GiaPhongTroi> get(LoaiPhong loaiPhong) {
+        ObservableList<GiaPhongTroi> dsGiaPhongTroi = FXCollections.observableArrayList();
+        GiaPhongTroi giaPhongTroi = null;
+
+        String sql = "SELECT ma_gia_phong, ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, ghi_chu FROM gia_phong_troi WHERE ma_loai_phong=?";
+
+        Connection con = DbConnection.getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, loaiPhong.getMaLoaiPhong());
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                giaPhongTroi = new GiaPhongTroi(
+                        rs.getInt(1),
+                        loaiPhong,
+                        rs.getNString(3),
+                        rs.getDate(3),
+                        rs.getDate(4),
+                        rs.getInt(5),
+                        rs.getLong(6),
+                        rs.getNString(7)
+                );
+                dsGiaPhongTroi.add(giaPhongTroi);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
         }
         return dsGiaPhongTroi;
     }
 
     public boolean update(GiaPhongTroi giaPhongTroi) {
-        String sql = "UPDATE gia_phong_troi SET ma_loai_phong=?, ten=?, ngay_bd=?, ngay_kt=?, lap_lai=?, loai_gia=?, luong=?, he_so=?, ghi_chu=?, hieu_luc=? WHERE ma_gia_phong=?";
+        String sql = "UPDATE gia_phong_troi SET ma_loai_phong=?, ten=?, ngay_bd=?, ngay_kt=?, lap_lai=?, gia_tien=?, ghi_chu=? WHERE ma_gia_phong=?";
         Connection con = DbConnection.getConnection();
         boolean result = false;
         try {
@@ -100,19 +130,16 @@ public class GiaPhongTroiDAO {
             stmt.setNString(2, giaPhongTroi.getTen());
             stmt.setDate(3, giaPhongTroi.getNgayBatDau());
             stmt.setDate(4, giaPhongTroi.getNgayKetThuc());
-            stmt.setBoolean(5, giaPhongTroi.isLapLai());
-            stmt.setBoolean(6, giaPhongTroi.getLoaiGia());
-            stmt.setLong(7, giaPhongTroi.getGiaTri());
-            stmt.setFloat(8, giaPhongTroi.getHeSo());
-            stmt.setNString(9, giaPhongTroi.getGhiChu());
-            stmt.setInt(10, giaPhongTroi.getMaGiaPhong());
-            stmt.setBoolean(11, giaPhongTroi.isHieuLuc());
+            stmt.setInt(5, giaPhongTroi.getLapLai());
+            stmt.setLong(6, giaPhongTroi.getGiaTien());
+            stmt.setNString(7, giaPhongTroi.getGhiChu());
+            stmt.setInt(8, giaPhongTroi.getMaGiaPhong());
 
             result = (stmt.executeUpdate() > 0);
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return result;
     }
@@ -129,7 +156,7 @@ public class GiaPhongTroiDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return result;
     }

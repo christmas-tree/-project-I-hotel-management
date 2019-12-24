@@ -25,7 +25,7 @@ import model.DichVu;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.*;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.awt.*;
 import java.io.File;
@@ -35,8 +35,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-
-import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class QLDichVu {
 
@@ -147,7 +145,7 @@ public class QLDichVu {
             stage.showAndWait();
             reloadData();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
     }
@@ -156,7 +154,7 @@ public class QLDichVu {
         DichVu focusedDichVu = dichVuTable.getSelectionModel().getSelectedItem();
 
         if (focusedDichVu == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn dịch vụ nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn dịch vụ nào."));
             return;
         }
 
@@ -191,7 +189,7 @@ public class QLDichVu {
         DichVu focusedDichVu = dichVuTable.getSelectionModel().getSelectedItem();
 
         if (focusedDichVu == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn dịch vụ nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn dịch vụ nào."));
             return;
         }
 
@@ -211,7 +209,7 @@ public class QLDichVu {
 
             stage.showAndWait();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         reloadData();
@@ -219,7 +217,7 @@ public class QLDichVu {
 
     public void export() {
         if (data.size() == 0) {
-            ExHandler.handle(new Exception("Không tìm thấy dữ liệu."));
+            ExceptionHandler.handle(new Exception("Không tìm thấy dữ liệu."));
         } else {
             File file = new File("src/resources/form/DsDichVu.xlsx");
 
@@ -230,7 +228,7 @@ public class QLDichVu {
                 workbook = new XSSFWorkbook(inputStream);
                 inputStream.close();
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
                 return;
             }
 
@@ -310,7 +308,7 @@ public class QLDichVu {
                 output.close();
                 Desktop.getDesktop().open(selectedFile);
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }
     }

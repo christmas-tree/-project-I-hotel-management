@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 
 public class TienPhong {
-    private int phong;
+    private Phong phong;
     private String ten;
     private long donGia;
     private int soNgay;
@@ -12,7 +12,7 @@ public class TienPhong {
     private Integer loaiGia;
     private LocalDate ngay;
 
-    public TienPhong(int phong, String ten, long donGia, int soNgay, long thanhTien) {
+    public TienPhong(Phong phong, String ten, long donGia, int soNgay, long thanhTien) {
         this.ten = ten;
         this.phong = phong;
         this.donGia = donGia;
@@ -34,11 +34,11 @@ public class TienPhong {
         this.ten = ten;
     }
 
-    public int getPhong() {
+    public Phong getPhong() {
         return phong;
     }
 
-    public void setPhong(int phong) {
+    public void setPhong(Phong phong) {
         this.phong = phong;
     }
 

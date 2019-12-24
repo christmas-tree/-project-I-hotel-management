@@ -8,46 +8,28 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ChiTietDatPhong {
 
     private DatPhong datPhong;
     private Phong phong;
-    private Timestamp ngayCheckinTt;
-    private Timestamp ngayCheckoutTt;
-    private NhanVien nvLeTan;
     private Long thanhTien;
-    private String ghiChu;
-
-    private Long donGiaSauHeSo;
 
     private ArrayList<KhachHang> dsKhachHang = new ArrayList<>();
     private ObservableList<ChiTietDichVu> dsDichVuSuDung = FXCollections.observableArrayList();
     private ObservableList<BoiThuong> dsBoiThuong = FXCollections.observableArrayList();
 
-    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, long thanhTien, String ghiChu) {
+    public ChiTietDatPhong(DatPhong datPhong, Phong phong, long thanhTien) {
         this.datPhong = datPhong;
         this.phong = phong;
-        this.ngayCheckinTt = ngayCheckinTt;
-        this.ngayCheckoutTt = ngayCheckoutTt;
-        this.nvLeTan = nvLeTan;
         this.thanhTien = thanhTien;
-        this.ghiChu = ghiChu;
     }
 
-    public ChiTietDatPhong(DatPhong datPhong, Phong phong, Timestamp ngayCheckinTt, NhanVien nvLeTan) {
+    public ChiTietDatPhong(DatPhong datPhong, Phong phong) {
         this.datPhong = datPhong;
         this.phong = phong;
-        this.ngayCheckinTt = ngayCheckinTt;
-        this.nvLeTan = nvLeTan;
-    }
-
-    public void setProps(Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, NhanVien nvLeTan, String ghiChu) {
-        this.ngayCheckinTt = ngayCheckinTt;
-        this.ngayCheckoutTt = ngayCheckoutTt;
-        this.nvLeTan = nvLeTan;
-        this.ghiChu = ghiChu;
     }
 
     public DatPhong getDatPhong() {
@@ -58,23 +40,6 @@ public class ChiTietDatPhong {
         this.datPhong = datPhong;
     }
 
-    public Timestamp getNgayCheckinTt() {
-        return ngayCheckinTt;
-    }
-
-    public void setNgayCheckinTt(Timestamp ngayCheckinTt) {
-        this.ngayCheckinTt = ngayCheckinTt;
-    }
-
-
-    public Timestamp getNgayCheckoutTt() {
-        return ngayCheckoutTt;
-    }
-
-    public void setNgayCheckoutTt(Timestamp ngayCheckoutTt) {
-        this.ngayCheckoutTt = ngayCheckoutTt;
-    }
-
     public long getThanhTien() {
         return thanhTien;
     }
@@ -83,28 +48,12 @@ public class ChiTietDatPhong {
         this.thanhTien = thanhTien;
     }
 
-    public String getGhiChu() {
-        return ghiChu;
-    }
-
-    public void setGhiChu(String ghiChu) {
-        this.ghiChu = ghiChu;
-    }
-
     public Phong getPhong() {
         return phong;
     }
 
     public void setPhong(Phong phong) {
         this.phong = phong;
-    }
-
-    public NhanVien getNvLeTan() {
-        return nvLeTan;
-    }
-
-    public void setNvLeTan(NhanVien nvLeTan) {
-        this.nvLeTan = nvLeTan;
     }
 
     public ArrayList<KhachHang> getDsKhachHang() {
@@ -129,14 +78,6 @@ public class ChiTietDatPhong {
 
     public void setDsBoiThuong(ObservableList<BoiThuong> dsBoiThuong) {
         this.dsBoiThuong = dsBoiThuong;
-    }
-
-    public Long getDonGiaSauHeSo() {
-        return donGiaSauHeSo;
-    }
-
-    public void setDonGiaSauHeSo(Long donGiaSauHeSo) {
-        this.donGiaSauHeSo = donGiaSauHeSo;
     }
 
     @Override
@@ -185,12 +126,12 @@ public class ChiTietDatPhong {
 //        return
 //    }
 
-    public ObservableList<TienPhong> getDonGia(Date ngayBd, Date ngayKt) {
+    public ObservableList<TienPhong> getDsGia() {
         ObservableList<TienPhong> dsTienphong = FXCollections.observableArrayList();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM");
 
-        LocalDate ngayBatDau = ngayBd.toLocalDate();
-        LocalDate ngayKetThuc = ngayKt.toLocalDate();
+        LocalDate ngayBatDau = datPhong.getNgayCheckinTt().toLocalDateTime().toLocalDate();
+        LocalDate ngayKetThuc = datPhong.getNgayCheckoutTt().toLocalDateTime().toLocalDate();
 
         LocalDate ngayTemp = ngayBatDau;
         ArrayList<GiaPhongTroi> dsGiaPhong = phong.getLoaiPhong().getDsGiaTroi();
@@ -199,26 +140,29 @@ public class ChiTietDatPhong {
             int loaiGia = -1;
             for (int k = 0; k < dsGiaPhong.size(); k++) {
                 GiaPhongTroi giaPhongTroi = dsGiaPhong.get(k);
+                LocalDate ngayKmBatDau = giaPhongTroi.getNgayBatDauLocalDate();
+                LocalDate ngayKmKetThuc = giaPhongTroi.getNgayKetThucLocalDate();
                 switch (giaPhongTroi.getLapLai()) {
                     case GiaPhongTroi.LAPLAI_KHONG:
-                        if (ngayTemp.isAfter(ngayBatDau) && ngayTemp.isBefore(ngayKetThuc)) {
+                        if ((ngayTemp.isAfter(ngayKmBatDau) || ngayTemp.isEqual(ngayKmBatDau)) && (ngayTemp.isBefore(ngayKmKetThuc) || ngayTemp.isEqual(ngayKmKetThuc))) {
                             loaiGia = k;
                         }
+                        break;
                     case GiaPhongTroi.CHUKY_TUAN:
-                        if (Period.between(ngayBatDau, ngayTemp).getDays() % 7 < Period.between(ngayBatDau, ngayKetThuc.plusDays(1)).getDays()) {
+                        if (Period.between(ngayKmBatDau, ngayTemp).getDays() % 7 <= Period.between(ngayKmBatDau, ngayKmKetThuc.plusDays(1)).getDays()) {
                             loaiGia = k;
-                            break;
                         }
+                        break;
                     case GiaPhongTroi.CHUKY_THANG:
-                        if (ngayKetThuc.getDayOfMonth() > ngayTemp.getDayOfMonth() && ngayBatDau.getDayOfMonth() < ngayTemp.getDayOfMonth()) {
+                        if (ngayKmKetThuc.getDayOfMonth() >= ngayTemp.getDayOfMonth() && ngayKmBatDau.getDayOfMonth() <= ngayTemp.getDayOfMonth()) {
                             loaiGia = k;
-                            break;
                         }
+                        break;
                     case GiaPhongTroi.CHUKY_NAM:
-                        LocalDate ngayKetThucTemp = ngayKetThuc.plusDays(0);
-                        LocalDate ngayBatDauTemp = ngayBatDau.plusDays(0);
+                        LocalDate ngayKetThucTemp = ngayKmKetThuc.plusDays(0);
+                        LocalDate ngayBatDauTemp = ngayKmBatDau.plusDays(0);
                         while (ngayBatDauTemp.isAfter(LocalDate.now())) {
-                            if (ngayTemp.isAfter(ngayBatDauTemp) && ngayTemp.isBefore(ngayKetThucTemp)) {
+                            if ((ngayTemp.isAfter(ngayBatDauTemp) || ngayTemp.isEqual(ngayBatDauTemp)) && (ngayTemp.isBefore(ngayKetThucTemp) || ngayTemp.isEqual(ngayKetThucTemp))) {
                                 loaiGia = k;
                                 break;
                             } else {
@@ -254,26 +198,24 @@ public class ChiTietDatPhong {
         ObservableList<TienPhong> dsTienPhongFinal = FXCollections.observableArrayList();
 
         for (TienPhong tienPhong : dsTienphong) {
-            if (tienPhong.getLoaiGia() == loaiGiaTruoc) {
-                ngayRa = tienPhong.getNgay().plusDays(1);
-                donGia = tienPhong.getDonGia();
-                soNgay++;
-            } else {
+            if (tienPhong.getLoaiGia() != loaiGiaTruoc && loaiGiaTruoc != -2) {
                 dsTienPhongFinal.add(new TienPhong(
-                        phong.getMaPhong(),
-                        phong.getLoaiPhong() + " " + phong.getMaPhong() + " " + dateFormatter.format(ngayVao) + "-" + dateFormatter.format(ngayRa) + " | " + dsGiaPhong.get(loaiGiaTruoc).getTen(),
+                        phong,
+                        phong.getLoaiPhong().getLoaiPhong() + " P" + phong.getMaPhong() + " " + dateFormatter.format(ngayVao) + "-" + dateFormatter.format(ngayRa) + ((loaiGiaTruoc != -1) ? " | " + dsGiaPhong.get(loaiGiaTruoc).getTen() : ""),
                         donGia,
                         soNgay,
                         donGia * soNgay));
                 ngayVao = tienPhong.getNgay();
-                ngayRa = ngayVao.plusDays(1);
-                donGia = tienPhong.getDonGia();
-                soNgay++;
+                soNgay = 0;
             }
+            ngayRa = tienPhong.getNgay().plusDays(1);
+            donGia = tienPhong.getDonGia();
+            loaiGiaTruoc = tienPhong.getLoaiGia();
+            soNgay++;
         }
         dsTienPhongFinal.add(new TienPhong(
-                phong.getMaPhong(),
-                phong.getLoaiPhong() + " " + phong.getMaPhong() + " " + dateFormatter.format(ngayVao) + "-" + dateFormatter.format(ngayRa) + " | " + dsGiaPhong.get(loaiGiaTruoc).getTen(),
+                phong,
+                phong.getLoaiPhong().getLoaiPhong() + " P" + phong.getMaPhong() + " " + dateFormatter.format(ngayVao) + "-" + dateFormatter.format(ngayRa) + ((loaiGiaTruoc != -1) ? " | " + dsGiaPhong.get(loaiGiaTruoc).getTen() : ""),
                 donGia,
                 soNgay,
                 donGia * soNgay));

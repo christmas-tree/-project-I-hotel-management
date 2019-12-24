@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import model.DichVu;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 public class SuaDichVu {
 
@@ -127,7 +127,7 @@ public class SuaDichVu {
         if (err.isBlank())
             return true;
         else {
-            ExHandler.handle(new Exception(err));
+            ExceptionHandler.handle(new Exception(err));
             return false;
         }
     }

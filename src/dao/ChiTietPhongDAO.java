@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import model.ChiTietPhong;
 import model.Phong;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,7 +44,7 @@ public class ChiTietPhongDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -77,7 +77,7 @@ public class ChiTietPhongDAO {
 
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }
@@ -113,7 +113,7 @@ public class ChiTietPhongDAO {
             con.close();
             phong.setDsChiTietPhong(dsChiTietPhong);
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return dsChiTietPhong;
@@ -159,7 +159,7 @@ public class ChiTietPhongDAO {
 
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }
@@ -185,7 +185,7 @@ public class ChiTietPhongDAO {
 
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }

@@ -7,9 +7,7 @@ public class ChiTietDatPhongWrapper extends MutableActivityBase<ChiTietDatPhong>
     public ChiTietDatPhongWrapper(ChiTietDatPhong data) {
         setUserObject(data);
         setName(data.getDatPhong().getKhachHang().getTenKhach());
-        setStartTime(data.getDatPhong().getNgayCheckin().toInstant());
-        setEndTime(data.getDatPhong().getNgayCheckout().toInstant());
+        setStartTime(data.getDatPhong().getNgayCheckinDk().toInstant());
+        setEndTime(data.getDatPhong().getNgayCheckoutDk().toInstant());
     }
-
-
 }

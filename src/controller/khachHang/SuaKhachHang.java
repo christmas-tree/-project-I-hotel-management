@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import model.KhachHang;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 public class SuaKhachHang {
 
@@ -164,7 +164,7 @@ public class SuaKhachHang {
     public boolean validate() {
         String err = "";
         if (tenField.getText().equals("")) {
-            ExHandler.handle(new Exception("Không được bỏ trống họ tên.\n"));
+            ExceptionHandler.handle(new Exception("Không được bỏ trống họ tên.\n"));
             return false;
         } else return true;
     }

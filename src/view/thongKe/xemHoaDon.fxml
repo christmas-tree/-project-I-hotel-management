@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="637.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.hoaDon.XemHoaDon">
+    <Label layoutX="25.0" layoutY="23.0" text="Hoá đơn">
+        <font>
+            <Font size="25.0" />
+        </font>
+    </Label>
+    <Label layoutX="32.0" layoutY="103.0" text="Ngày đến: " AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="110.0" />
+    <Label layoutX="31.0" layoutY="144.0" text="Ngày đi:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="140.0" />
+    <Label layoutX="595.0" layoutY="32.0" text="Mã ĐP:" AnchorPane.rightAnchor="80.0" />
+    <Label fx:id="maDPLabel" layoutX="639.0" layoutY="32.0" text="000000" AnchorPane.rightAnchor="30.0" />
+    <Label layoutX="29.0" layoutY="79.0" text="Họ tên người mua hàng: " AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="80.0" />
+    <TableView fx:id="hoaDonTable" layoutX="29.0" layoutY="206.0" prefHeight="300.0" prefWidth="655.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="180.0">
+        <columns>
+            <TableColumn fx:id="sttCol" minWidth="50.0" prefWidth="50.0" text="STT" />
+            <TableColumn fx:id="tenDoCol" minWidth="200.0" prefWidth="250.0" text="Tên hàng hoá, dịch vụ" />
+            <TableColumn fx:id="donViCol" minWidth="75.0" prefWidth="100.0" text="Đơn vị tính" />
+            <TableColumn fx:id="slCol" minWidth="50.0" prefWidth="75.0" text="Số lượng" />
+            <TableColumn fx:id="donGiaCol" minWidth="100.0" prefWidth="100.0" text="Đơn giá" />
+            <TableColumn fx:id="thanhTienCol" minWidth="100.0" prefWidth="120.0" text="Thành tiền" />
+        </columns>
+    </TableView>
+    <Button fx:id="huyBtn" layoutX="637.0" layoutY="591.0" mnemonicParsing="false" prefHeight="30.0" text="Đóng" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0" />
+    <Label layoutX="593.0" layoutY="495.0" text="Thành tiền">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Label>
+    <Label fx:id="thanhTienTongLabel" alignment="CENTER_RIGHT" layoutX="674.0" layoutY="495.0" prefHeight="20.0" prefWidth="96.0" text="100000" textAlignment="RIGHT">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="772.0" layoutY="495.0" prefHeight="20.0" prefWidth="7.0" text="đ" textAlignment="RIGHT">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Label>
+    <Label layoutX="593.0" layoutY="515.0" text="Tiền cọc:">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Label>
+    <Label fx:id="tienCocTongLabel" alignment="CENTER_RIGHT" layoutX="674.0" layoutY="515.0" prefHeight="20.0" prefWidth="96.0" text="100000" textAlignment="RIGHT">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="772.0" layoutY="515.0" prefHeight="20.0" prefWidth="7.0" text="đ" textAlignment="RIGHT">
+        <font>
+            <Font name="System" size="14.0" />
+        </font>
+    </Label>
+    <Label layoutX="593.0" layoutY="549.0" text="Thanh toán:">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Label>
+    <Label fx:id="thanhToanLabel" alignment="CENTER_RIGHT" layoutX="674.0" layoutY="545.0" prefHeight="20.0" prefWidth="96.0" text="100000" textAlignment="RIGHT">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="772.0" layoutY="549.0" prefHeight="20.0" prefWidth="7.0" text="đ" textAlignment="RIGHT">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Label>
+    <Line endX="100.0" layoutX="685.0" layoutY="540.0" startX="-100.0" strokeWidth="0.5" />
+    <Button fx:id="inBtn" layoutX="660.0" layoutY="591.0" mnemonicParsing="false" prefHeight="30.0" text="In hoá đơn" AnchorPane.bottomAnchor="15.600000000000023" />
+    <Label fx:id="khachHangLabel" layoutX="177.0" layoutY="80.0" text="Tên khách" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="80.0" />
+    <Label fx:id="gioVaoLabel" layoutX="114.0" layoutY="112.0" text="Giờ vào" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="110.0" />
+    <Label fx:id="gioRaLabel" layoutX="114.0" layoutY="144.0" text="Giờ vào" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="140.0" />
+</AnchorPane>

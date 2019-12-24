@@ -27,7 +27,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.awt.*;
 import java.io.File;
@@ -147,7 +147,7 @@ public class QLLoaiPhong {
             stage.showAndWait();
             reloadData();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
     }
@@ -156,7 +156,7 @@ public class QLLoaiPhong {
         LoaiPhong focusedLoaiPhong = loaiPhongTable.getSelectionModel().getSelectedItem();
 
         if (focusedLoaiPhong == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn loại phòng nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn loại phòng nào."));
             return;
         }
 
@@ -191,7 +191,7 @@ public class QLLoaiPhong {
         LoaiPhong focusedLoaiPhong = loaiPhongTable.getSelectionModel().getSelectedItem();
 
         if (focusedLoaiPhong == null) {
-            ExHandler.handle(new RuntimeException("Bạn chưa chọn loại phòng nào."));
+            ExceptionHandler.handle(new RuntimeException("Bạn chưa chọn loại phòng nào."));
             return;
         }
 
@@ -211,7 +211,7 @@ public class QLLoaiPhong {
 
             stage.showAndWait();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         reloadData();
@@ -219,7 +219,7 @@ public class QLLoaiPhong {
 
     public void export() {
         if (data.size() == 0) {
-            ExHandler.handle(new Exception("Không tìm thấy dữ liệu."));
+            ExceptionHandler.handle(new Exception("Không tìm thấy dữ liệu."));
         } else {
             File file = new File("src/resources/form/DsLoaiPhong.xlsx");
 
@@ -230,7 +230,7 @@ public class QLLoaiPhong {
                 workbook = new XSSFWorkbook(inputStream);
                 inputStream.close();
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
                 return;
             }
 
@@ -314,7 +314,7 @@ public class QLLoaiPhong {
                 output.close();
                 Desktop.getDesktop().open(selectedFile);
             } catch (IOException e) {
-                ExHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }
     }

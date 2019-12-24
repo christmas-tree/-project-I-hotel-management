@@ -14,8 +14,8 @@ public class NhanVien {
     private String tenDangNhap;
     private String matKhau;
     private boolean gioiTinh;
-    private long cmnd;
-    private long dienThoai;
+    private Long cmnd;
+    private Long dienThoai;
     private String email;
     private String diaChi;
     private String ghiChu;
@@ -29,7 +29,7 @@ public class NhanVien {
         this.tenNv = tenNv;
     }
 
-    public NhanVien(int maNv, String tenNv, int loaiNv, String tenDangNhap, boolean gioiTinh, long cmnd, long dienThoai, String email, String diaChi, String ghiChu) {
+    public NhanVien(int maNv, String tenNv, int loaiNv, String tenDangNhap, boolean gioiTinh, Long cmnd, Long dienThoai, String email, String diaChi, String ghiChu) {
         this.maNv = maNv;
         this.tenNv = tenNv;
         this.loaiNv = loaiNv;
@@ -93,20 +93,20 @@ public class NhanVien {
         this.gioiTinh = gioiTinh;
     }
 
-    public long getCmnd() {
+    public Long getCmnd() {
         return cmnd;
     }
 
-    public void setCmnd(long cmnd) {
+    public void setCmnd(Long cmnd) {
         this.cmnd = cmnd;
     }
 
 
-    public long getDienThoai() {
+    public Long getDienThoai() {
         return dienThoai;
     }
 
-    public void setDienThoai(long dienThoai) {
+    public void setDienThoai(Long dienThoai) {
         this.dienThoai = dienThoai;
     }
 

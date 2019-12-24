@@ -3,7 +3,6 @@ package controller.khachSan;
 import dao.ChiTietDatPhongDAO;
 import dao.ChiTietDichVuDAO;
 import dao.DichVuDAO;
-import dao.PhongDAO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,7 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import model.*;
 import util.AlertGenerator;
-import util.ExHandler;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

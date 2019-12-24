@@ -23,7 +23,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.*;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.awt.*;
 import java.io.File;
@@ -117,7 +117,7 @@ public class BaoCaoNhanVien {
             rs.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return result;
 
@@ -149,7 +149,7 @@ public class BaoCaoNhanVien {
             }
             tableView.setItems(data);
         } catch (Exception e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -163,7 +163,7 @@ public class BaoCaoNhanVien {
             workbook = new XSSFWorkbook(inputStream);
             inputStream.close();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
 
@@ -255,7 +255,7 @@ public class BaoCaoNhanVien {
             Desktop.getDesktop().open(selectedFile);
             return true;
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }

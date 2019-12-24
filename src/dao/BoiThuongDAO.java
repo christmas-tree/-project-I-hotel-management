@@ -1,17 +1,13 @@
 package dao;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.BoiThuong;
-import model.ChiTietDatPhong;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class BoiThuongDAO {
 
@@ -45,7 +41,7 @@ public class BoiThuongDAO {
             con.close();
             return true;
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return false;
         }
     }

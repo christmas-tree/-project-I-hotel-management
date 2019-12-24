@@ -2,7 +2,7 @@ package dao;
 
 import model.KhachHang;
 import util.DbConnection;
-import util.ExHandler;
+import util.ExceptionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,7 +42,7 @@ public class KhachHangDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         if (id != 0) {
             khachHang.setMaKh(id);
@@ -82,7 +82,7 @@ public class KhachHangDAO {
             con.close();
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return dsKhachHang;
@@ -118,7 +118,7 @@ public class KhachHangDAO {
             con.close();
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return khachHang;
@@ -144,7 +144,7 @@ public class KhachHangDAO {
                     try {
                         stmt.setInt(1, Integer.parseInt(value));
                     } catch (NumberFormatException e) {
-                        ExHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                     break;
                 case 1: // Ten
@@ -167,7 +167,7 @@ public class KhachHangDAO {
                     try {
                         stmt.setLong(1, Long.parseLong(value));
                     } catch (NumberFormatException e) {
-                        ExHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                     break;
                 case 4: // Dien thoai
@@ -176,7 +176,7 @@ public class KhachHangDAO {
                     try {
                         stmt.setLong(1, Long.parseLong(value));
                     } catch (NumberFormatException e) {
-                        ExHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                     break;
                 case 5: // Dien thoai
@@ -185,7 +185,7 @@ public class KhachHangDAO {
                     try {
                         stmt.setNString(1, "%" + value + "%");
                     } catch (NumberFormatException e) {
-                        ExHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                     break;
 
@@ -213,7 +213,7 @@ public class KhachHangDAO {
             return searchResult;
 
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return null;
         }
     }
@@ -243,7 +243,7 @@ public class KhachHangDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -265,7 +265,7 @@ public class KhachHangDAO {
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return result;
@@ -299,9 +299,9 @@ public class KhachHangDAO {
             con.close();
 
             if (!err.isBlank())
-                ExHandler.handleLong(err);
+                ExceptionHandler.handleLong(err);
         } catch (SQLException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }
