@@ -225,4 +225,12 @@ public class QLGiaDacBiet {
 
         reloadData();
     }
+
+    public void importData() {
+
+    }
+
+    public void export() {
+
+    }
 }

@@ -196,7 +196,7 @@ public class TimNhanVien {
         c.deleteMenu.setOnAction(event -> deleteBtn.fire());
         c.editMenu.setOnAction(event -> editBtn.fire());
         c.exportMenu.setOnAction(event -> export());
-        c.importMenu.setOnAction(event -> restore());
+        c.importMenu.setOnAction(event -> importData());
     }
 
     public void reloadData() {
@@ -484,58 +484,58 @@ public class TimNhanVien {
         }
     }
 
-    public void restore() {
-//
-//        ArrayList<NhanVien> newNhanViens = new ArrayList<>();
-//        NhanVien newNhanVien;
-//
-//        XSSFWorkbook excelWorkBook;
-//
-//        try {
-//            FileChooser fileChooser = new FileChooser();
-//            fileChooser.setTitle("Chọn file.");
-//            fileChooser.getExtensionFilters().add(
-//                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
-//            );
-//            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-//
-//            File selectedFile = fileChooser.showOpenDialog(nhanVienTable.getScene().getWindow());
-//
-//
-//            FileInputStream inputStream = new FileInputStream(selectedFile);
-//            excelWorkBook = new XSSFWorkbook(inputStream);
-//            inputStream.close();
-//        } catch (IOException e) {
-//            ExHandler.handle(e);
-//            return;
-//        }
-//
-//        XSSFSheet sheet = excelWorkBook.getSheetAt(0);
-//
-//        // DATA
-//        Iterator rows = sheet.rowIterator();
-//        XSSFRow row = (XSSFRow) rows.next();
-//        if (row.getLastCellNum() >= 8) {
-//            while (rows.hasNext()) {
-//                row = (XSSFRow) rows.next();
-//                newNhanVien = new NhanVien();
-//
-//                newNhanVien.setAdmin(row.getCell(0, CREATE_NULL_AS_BLANK).getBooleanCellValue());
-//                newNhanVien.setUsername(row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue());
-//                newNhanVien.setPassword(row.getCell(2, CREATE_NULL_AS_BLANK).getStringCellValue());
-//                newNhanVien.setName(row.getCell(3, CREATE_NULL_AS_BLANK).getStringCellValue());
-//                newNhanVien.setDob(new Date(row.getCell(4, CREATE_NULL_AS_BLANK).getDateCellValue().getTime()));
-//                newNhanVien.setGender(row.getCell(5, CREATE_NULL_AS_BLANK).getBooleanCellValue());
-//                newNhanVien.setIdCardNum((long) row.getCell(6, CREATE_NULL_AS_BLANK).getNumericCellValue());
-//                newNhanVien.setAddress(row.getCell(7, CREATE_NULL_AS_BLANK).getStringCellValue());
-//
-//                newNhanViens.add(newNhanVien);
-//            }
-//        } else
-//            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
-//
-//        NhanVienDAO.getInstance().importNhanVien(newNhanViens);
-//        refresh();
+    public void importData() {
+
+        ArrayList<NhanVien> newNhanViens = new ArrayList<>();
+        NhanVien newNhanVien;
+
+        XSSFWorkbook excelWorkBook;
+
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn file.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedFile = fileChooser.showOpenDialog(nhanVienTable.getScene().getWindow());
+
+
+            FileInputStream inputStream = new FileInputStream(selectedFile);
+            excelWorkBook = new XSSFWorkbook(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            ExHandler.handle(e);
+            return;
+        }
+
+        XSSFSheet sheet = excelWorkBook.getSheetAt(0);
+
+        // DATA
+        Iterator rows = sheet.rowIterator();
+        XSSFRow row = (XSSFRow) rows.next();
+        if (row.getLastCellNum() >= 8) {
+            while (rows.hasNext()) {
+                row = (XSSFRow) rows.next();
+                newNhanVien = new NhanVien();
+
+                newNhanVien.setAdmin(row.getCell(0, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+                newNhanVien.setUsername(row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setPassword(row.getCell(2, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setName(row.getCell(3, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setDob(new Date(row.getCell(4, CREATE_NULL_AS_BLANK).getDateCellValue().getTime()));
+                newNhanVien.setGender(row.getCell(5, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+                newNhanVien.setIdCardNum((long) row.getCell(6, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newNhanVien.setAddress(row.getCell(7, CREATE_NULL_AS_BLANK).getStringCellValue());
+
+                newNhanViens.add(newNhanVien);
+            }
+        } else
+            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+
+        NhanVienDAO.getInstance().importNhanVien(newNhanViens);
+        refresh();
     }
 }
 

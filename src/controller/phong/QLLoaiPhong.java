@@ -320,57 +320,57 @@ public class QLLoaiPhong {
     }
 
     public void importData() {
-//
-//        ArrayList<LoaiPhong> dsLoaiPhong = new ArrayList<>();
-//    LoaiPhong newLoaiPhong;
-//
-//    XSSFWorkbook excelWorkBook;
-//
-//        try {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Chọn file.");
-//        fileChooser.getExtensionFilters().add(
-//                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
-//        );
-//        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-//
-//        File selectedFile = fileChooser.showOpenDialog(loaiPhongTable.getScene().getWindow());
-//
-//
-//        FileInputStream inputStream = new FileInputStream(selectedFile);
-//        excelWorkBook = new XSSFWorkbook(inputStream);
-//        inputStream.close();
-//    } catch (IOException e) {
-//        ExHandler.handle(e);
-//        return;
-//    }
-//
-//    XSSFSheet sheet = excelWorkBook.getSheetAt(0);
-//
-//    // DATA
-//    Iterator rows = sheet.rowIterator();
-//    XSSFRow row = (XSSFRow) rows.next();
-//        if (row.getLastCellNum() >= 6) {
-////            {"Họ tên", "Giới tính", "CMND", "Điện thoại", "Email", "Địa chỉ", "Ghi chú"}
-//
-//        while (rows.hasNext()) {
-//            row = (XSSFRow) rows.next();
-//            newLoaiPhong = new LoaiPhong();
-//
-//            newLoaiPhong.setTenKhach(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
-//            newLoaiPhong.setGioiTinh(row.getCell(1, CREATE_NULL_AS_BLANK).getBooleanCellValue());
-//            newLoaiPhong.setCmnd((long) row.getCell(2, CREATE_NULL_AS_BLANK).getNumericCellValue());
-//            newLoaiPhong.setDienThoai((long) row.getCell(3, CREATE_NULL_AS_BLANK).getNumericCellValue());
-//            newLoaiPhong.setEmail(row.getCell(4, CREATE_NULL_AS_BLANK).getStringCellValue());
-//            newLoaiPhong.setDiaChi(row.getCell(5, CREATE_NULL_AS_BLANK).getStringCellValue());
-//            newLoaiPhong.setGhiChu(row.getCell(6, CREATE_NULL_AS_BLANK).getStringCellValue());
-//
-//            dsLoaiPhong.add(newLoaiPhong);
-//        }
-//    } else
-//            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
-//
-//        LoaiPhongDAO.getInstance().importLoaiPhong(dsLoaiPhong);
-//    refresh();
+
+        ArrayList<LoaiPhong> dsLoaiPhong = new ArrayList<>();
+    LoaiPhong newLoaiPhong;
+
+    XSSFWorkbook excelWorkBook;
+
+        try {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Chọn file.");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+        );
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+        File selectedFile = fileChooser.showOpenDialog(loaiPhongTable.getScene().getWindow());
+
+
+        FileInputStream inputStream = new FileInputStream(selectedFile);
+        excelWorkBook = new XSSFWorkbook(inputStream);
+        inputStream.close();
+    } catch (IOException e) {
+        ExHandler.handle(e);
+        return;
+    }
+
+    XSSFSheet sheet = excelWorkBook.getSheetAt(0);
+
+    // DATA
+    Iterator rows = sheet.rowIterator();
+    XSSFRow row = (XSSFRow) rows.next();
+        if (row.getLastCellNum() >= 6) {
+//            {"Họ tên", "Giới tính", "CMND", "Điện thoại", "Email", "Địa chỉ", "Ghi chú"}
+
+        while (rows.hasNext()) {
+            row = (XSSFRow) rows.next();
+            newLoaiPhong = new LoaiPhong();
+
+            newLoaiPhong.setTenKhach(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
+            newLoaiPhong.setGioiTinh(row.getCell(1, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+            newLoaiPhong.setCmnd((long) row.getCell(2, CREATE_NULL_AS_BLANK).getNumericCellValue());
+            newLoaiPhong.setDienThoai((long) row.getCell(3, CREATE_NULL_AS_BLANK).getNumericCellValue());
+            newLoaiPhong.setEmail(row.getCell(4, CREATE_NULL_AS_BLANK).getStringCellValue());
+            newLoaiPhong.setDiaChi(row.getCell(5, CREATE_NULL_AS_BLANK).getStringCellValue());
+            newLoaiPhong.setGhiChu(row.getCell(6, CREATE_NULL_AS_BLANK).getStringCellValue());
+
+            dsLoaiPhong.add(newLoaiPhong);
+        }
+    } else
+            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+
+        LoaiPhongDAO.getInstance().importLoaiPhong(dsLoaiPhong);
+    refresh();
     }
 }

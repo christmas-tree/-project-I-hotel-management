@@ -2,128 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Commit">
-      <change afterPath="$PROJECT_DIR$/src/controller/hoaDon/QLHoaDon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/hoaDon/XemHoaDon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/vatTu/QLVatTu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/Exporter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/thongKe/danhSachHoaDon.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/thongKe/qlVatTu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/thongKe/xemHoaDon.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b91dd4f-20c7-4cd0-897e-5fe2c462587a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8b91dd4f-20c7-4cd0-897e-5fe2c462587a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b91dd4f-20c7-4cd0-897e-5fe2c462587a/storage_v2/_src_/database/quan_ly_khach_san.pkAnew/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8b91dd4f-20c7-4cd0-897e-5fe2c462587a/storage_v2/_src_/database/quan_ly_khach_san.pkAnew/schema/dbo.sYMBAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/util/Reporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/baoCao/ThongKeDoanhThu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/basic/IndexController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/basic/LoginController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/dichVu/QLDichVu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/dichVu/QLDichVu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachHang/SuaKhachHang.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachHang/SuaKhachHang.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachHang/TimKhachHang.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachHang/TimKhachHang.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/KiemPhong$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/KiemPhong$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/KiemPhong$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/KiemPhong$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/KiemPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/KiemPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/NhanKhachDoan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/NhanKhachDoan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/NhanKhachLe.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/NhanKhachLe.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/NhanPhongDaDat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/NhanPhongDaDat.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TimelineDatPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TimelineDatPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachDoan$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachDoan$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachDoan$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachDoan$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachDoan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachDoan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachLe$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachLe$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachLe$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachLe$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachLe.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/khachSan/TraPhongKhachLe.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/nhanVien/BaoCaoNhanVien.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/nhanVien/BaoCaoNhanVien.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/nhanVien/SuaNhanVien.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/nhanVien/SuaNhanVien.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/nhanVien/TimNhanVien.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/nhanVien/TimNhanVien.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/QLLoaiPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/QLLoaiPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/QLPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/QLPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/phong/SuaPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/thongKe/XemHoaDon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/controller/thongKe/XemHoaDon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/ChiTietDatPhongDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/ChiTietDatPhongDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/DatPhongDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/DatPhongDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/GiaPhongTroiDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/GiaPhongTroiDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/KhachHangDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/KhachHangDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/LoaiPhongDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/LoaiPhongDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/NhanVienDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/NhanVienDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/PhongDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/dao/PhongDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/ChiTietDatPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/ChiTietDatPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/DatPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/DatPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/GiaPhongTroi.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/GiaPhongTroi.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/KhachHang.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/KhachHang.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/LoaiPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/LoaiPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/NhanVien.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/NhanVien.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/TienPhong.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/TienPhong.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/timeline/ChiTietDatPhongWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/model/timeline/ChiTietDatPhongWrapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/util/AlertGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/util/AlertGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/basic/frame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/basic/frame.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/basic/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/basic/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/checkoutKhachDoan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/checkoutKhachDoan.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/checkoutKhachLe.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/checkoutKhachLe.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/nhanKhachDoan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/nhanKhachDoan.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/nhanKhachLe.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/khachSan/nhanKhachLe.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/phong/qlPhong.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/QuanLyKhachSan/view/phong/qlPhong.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/baoCao/ThongKeDoanhThu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/basic/DangNhap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/basic/DangNhap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/basic/KhungUngDung.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/basic/KhungUngDung.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/dichVu/QLDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/dichVu/QLDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/dichVu/SuaDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/dichVu/SuaDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachHang/SuaKhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachHang/SuaKhachHang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachHang/TimKhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachHang/TimKhachHang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/DungDichVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/DungDichVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/KiemPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/KiemPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/NhanKhachDoan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/NhanKhachDoan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/NhanKhachLe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/NhanKhachLe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/NhanPhongDaDat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/NhanPhongDaDat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/TimelineDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/TimelineDatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/TraPhongKhachDoan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/TraPhongKhachDoan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/khachSan/TraPhongKhachLe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/khachSan/TraPhongKhachLe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/nhanVien/BaoCaoNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/nhanVien/BaoCaoNhanVien.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/nhanVien/SuaNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/nhanVien/SuaNhanVien.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/nhanVien/TimNhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/nhanVien/TimNhanVien.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/phong/QLGiaDacBiet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/phong/QLGiaDacBiet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/phong/QLLoaiPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/phong/QLLoaiPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/phong/QLPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/phong/QLPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/phong/SuaGiaDacBiet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/phong/SuaGiaDacBiet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/phong/SuaLoaiPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/phong/SuaLoaiPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/phong/SuaPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/phong/SuaPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/thongKe/MauBaoCaoChung.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/thongKe/MauBaoCao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/thongKe/XemHoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/thongKe/ThongKeChung.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/BoiThuongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/BoiThuongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/ChiTietDatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/ChiTietDatPhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/ChiTietDichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/ChiTietDichVuDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/ChiTietPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/ChiTietPhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/DatPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/DatPhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/DichVuDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/DichVuDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/GiaPhongTroiDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/GiaPhongTroiDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/HoaDonDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/KhachHangDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/KhachHangDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/LoaiPhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/LoaiPhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/NhanVienDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/NhanVienDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/PhongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/PhongDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/ChiTietDatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/ChiTietDatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/DatPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/DatPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/GiaPhongTroi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/GiaPhongTroi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/HoaDon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/HoaDon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/KhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/KhachHang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/NhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/NhanVien.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/TienPhong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/TienPhong.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/timeline/ChiTietDatPhongWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/timeline/ChiTietDatPhongWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/thongKe/MauBaoCao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/thongKe/MauBaoCao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/thongKe/ThongKeChung.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/thongKe/ThongKeChung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/vatTu/QLVatTu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/vatTu/QLVatTu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/form/BaoCaoDocGia.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/form/DsDichVu.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/form/DsDichVu.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/form/DsKhachHang.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/form/DsKhachHang.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/form/DsLoaiPhong.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/form/DsLoaiPhong.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/form/DsNhanVien.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/form/DsNhanVien.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/form/HoaDon.docx" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/form/HoaDon.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/AlertGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/AlertGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/DbConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/DbConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/ExHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/ExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/khachSan/checkoutKhachDoan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/khachSan/checkoutKhachDoan.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/khachSan/checkoutKhachLe.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/khachSan/checkoutKhachLe.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/khachSan/nhanKhachDoan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/khachSan/nhanKhachDoan.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/khachSan/nhanKhachLe.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/khachSan/nhanKhachLe.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/phong/qlPhong.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/phong/qlPhong.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/phong/suaGiaDacBiet.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/phong/suaGiaDacBiet.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/thongKe/MauBaoCaoChung.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/thongKe/mauBaoCaoChung.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Exporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Exporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/thongKe/qlVatTu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/thongKe/qlVatTu.fxml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -177,7 +71,7 @@
         <item name="quan_ly_khach_san: database" type="ccb7ac2a:MsImplModel$Database" />
         <item name="dbo: schema" type="2865ee2e:MsImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="dat_phong: table" type="63ab2ba1:MsImplModel$Table" />
+        <item name="dich_vu: table" type="63ab2ba1:MsImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -260,6 +154,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="sqlserver" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -289,19 +184,19 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\view\khachSan" />
+      <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\view\kiemTraPhongCheckout" />
+      <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="controller.phong" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\controller\dichVu" />
       <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\view" />
       <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\controller" />
       <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\view\phong" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="controller.phong" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\view\khachSan" />
-      <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src\view\kiemTraPhongCheckout" />
-      <recent name="E:\HUST\IT3150 Project I - CNPM\De tai Nhom\QuanLyKhachSan\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -484,6 +379,7 @@
       <workItem from="1577107025760" duration="9547000" />
       <workItem from="1577162814412" duration="18663000" />
       <workItem from="1577193442305" duration="5963000" />
+      <workItem from="1577252715010" duration="3322000" />
     </task>
     <task id="LOCAL-00001" summary="Commit">
       <created>1576900361635</created>
