@@ -23,10 +23,7 @@ import jfxtras.styles.jmetro.Style;
 import model.LoaiPhong;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import util.ExceptionHandler;
 
 import java.awt.*;
@@ -36,7 +33,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+
+import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class QLLoaiPhong {
 
@@ -322,55 +323,53 @@ public class QLLoaiPhong {
     public void importData() {
 
         ArrayList<LoaiPhong> dsLoaiPhong = new ArrayList<>();
-    LoaiPhong newLoaiPhong;
+        LoaiPhong newLoaiPhong;
 
-    XSSFWorkbook excelWorkBook;
+        XSSFWorkbook excelWorkBook;
 
         try {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Chọn file.");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
-        );
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn file.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
-        File selectedFile = fileChooser.showOpenDialog(loaiPhongTable.getScene().getWindow());
+            File selectedFile = fileChooser.showOpenDialog(loaiPhongTable.getScene().getWindow());
 
 
-        FileInputStream inputStream = new FileInputStream(selectedFile);
-        excelWorkBook = new XSSFWorkbook(inputStream);
-        inputStream.close();
-    } catch (IOException e) {
-        ExHandler.handle(e);
-        return;
-    }
-
-    XSSFSheet sheet = excelWorkBook.getSheetAt(0);
-
-    // DATA
-    Iterator rows = sheet.rowIterator();
-    XSSFRow row = (XSSFRow) rows.next();
-        if (row.getLastCellNum() >= 6) {
-//            {"Họ tên", "Giới tính", "CMND", "Điện thoại", "Email", "Địa chỉ", "Ghi chú"}
-
-        while (rows.hasNext()) {
-            row = (XSSFRow) rows.next();
-            newLoaiPhong = new LoaiPhong();
-
-            newLoaiPhong.setTenKhach(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
-            newLoaiPhong.setGioiTinh(row.getCell(1, CREATE_NULL_AS_BLANK).getBooleanCellValue());
-            newLoaiPhong.setCmnd((long) row.getCell(2, CREATE_NULL_AS_BLANK).getNumericCellValue());
-            newLoaiPhong.setDienThoai((long) row.getCell(3, CREATE_NULL_AS_BLANK).getNumericCellValue());
-            newLoaiPhong.setEmail(row.getCell(4, CREATE_NULL_AS_BLANK).getStringCellValue());
-            newLoaiPhong.setDiaChi(row.getCell(5, CREATE_NULL_AS_BLANK).getStringCellValue());
-            newLoaiPhong.setGhiChu(row.getCell(6, CREATE_NULL_AS_BLANK).getStringCellValue());
-
-            dsLoaiPhong.add(newLoaiPhong);
+            FileInputStream inputStream = new FileInputStream(selectedFile);
+            excelWorkBook = new XSSFWorkbook(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+            return;
         }
-    } else
-            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
 
-        LoaiPhongDAO.getInstance().importLoaiPhong(dsLoaiPhong);
-    refresh();
+        XSSFSheet sheet = excelWorkBook.getSheetAt(0);
+
+        // DATA
+        Iterator rows = sheet.rowIterator();
+        XSSFRow row = (XSSFRow) rows.next();
+        if (row.getLastCellNum() >= 6) {
+
+//            {"Mã loại phòng", "Tên loại phòng", "Giá tiền", "Số người", "Ghi chú"}
+            while (rows.hasNext()) {
+                row = (XSSFRow) rows.next();
+                newLoaiPhong = new LoaiPhong();
+
+                newLoaiPhong.setMaLoaiPhong(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newLoaiPhong.setLoaiPhong(row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newLoaiPhong.setGiaTien((long) row.getCell(2, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newLoaiPhong.setSoNguoi((int) row.getCell(3, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newLoaiPhong.setGhiChu(row.getCell(4, CREATE_NULL_AS_BLANK).getStringCellValue());
+
+                dsLoaiPhong.add(newLoaiPhong);
+            }
+        } else
+            ExceptionHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+
+        LoaiPhongDAO.getInstance().importData(dsLoaiPhong);
+        refresh();
     }
 }

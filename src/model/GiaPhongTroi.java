@@ -13,6 +13,7 @@ public class GiaPhongTroi {
 
     private int maGiaPhong;
     private LoaiPhong loaiPhong;
+    private String maLoaiPhong;
     private String ten;
     private Date ngayBatDau;
     private Date ngayKetThuc;
@@ -22,6 +23,9 @@ public class GiaPhongTroi {
 
     private LocalDate ngayBatDauLocalDate;
     private LocalDate ngayKetThucLocalDate;
+
+    public GiaPhongTroi() {
+    }
 
     public GiaPhongTroi(int maGiaPhong, LoaiPhong loaiPhong, String ten, Date ngayBatDau, Date ngayKetThuc, int lapLai, Long giaTien, String ghiChu) {
         this.maGiaPhong = maGiaPhong;
@@ -134,5 +138,13 @@ public class GiaPhongTroi {
 
     public String getLapLaiString() {
         return dsChuKy[lapLai];
+    }
+
+    public String getMaLoaiPhong() {
+        return maLoaiPhong;
+    }
+
+    public void setMaLoaiPhong(String maLoaiPhong) {
+        this.maLoaiPhong = maLoaiPhong;
     }
 }

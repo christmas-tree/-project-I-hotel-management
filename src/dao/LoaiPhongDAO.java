@@ -224,5 +224,36 @@ public class LoaiPhongDAO {
         }
         return result;
     }
+
+    public void importData(ArrayList<LoaiPhong> dsLoaiPhong) {
+        String sql = "INSERT INTO loai_phong(ma_loai_phong, loai_phong, gia_tien, so_nguoi, ghi_chu) VALUES (?, ?, ?, ?, ?)";
+        Connection con = DbConnection.getConnection();
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            for (int i = 0; i < dsLoaiPhong.size(); i++) {
+                LoaiPhong loaiPhong = dsLoaiPhong.get(i);
+                try {
+                    stmt.setString(1, loaiPhong.getMaLoaiPhong());
+                    stmt.setNString(2, loaiPhong.getLoaiPhong());
+                    stmt.setLong(3, loaiPhong.getGiaTien());
+                    stmt.setInt(4, loaiPhong.getSoNguoi());
+                    stmt.setNString(5, loaiPhong.getGhiChu());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục số " + (i + 1) + " - " + loaiPhong.getLoaiPhong() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExceptionHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
 }
 

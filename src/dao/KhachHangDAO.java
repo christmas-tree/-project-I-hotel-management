@@ -1,5 +1,6 @@
 package dao;
 
+import model.GiaPhongTroi;
 import model.KhachHang;
 import util.DbConnection;
 import util.ExceptionHandler;
@@ -293,6 +294,39 @@ public class KhachHangDAO {
                     stmt.executeUpdate();
                 } catch (SQLException e) {
                     err += "Có vấn đề nhập độc giả số " + (i+1) + " - "+ khachHang.getTenKhach() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExceptionHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    public void importData(ArrayList<KhachHang> dsKhachHang) {
+        String sql = "INSERT INTO khach_hang(ten_khach, gioi_tinh, cmnd, dien_thoai, email, dia_chi, ghi_chu) OUTPUT inserted.ma_kh VALUES (?, ?, ?, ?, ?, ?, ?)";
+        Connection con = DbConnection.getConnection();
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            for (int i = 0; i < dsKhachHang.size(); i++) {
+                KhachHang khachHang = dsKhachHang.get(i);
+                try {
+                    stmt.setNString(1, khachHang.getTenKhach());
+                    stmt.setBoolean(2, khachHang.getGioiTinh());
+                    stmt.setLong(3, khachHang.getCmnd());
+                    stmt.setLong(4, khachHang.getDienThoai());
+                    stmt.setString(5, khachHang.getEmail());
+                    stmt.setNString(6, khachHang.getDiaChi());
+                    stmt.setNString(7, khachHang.getGhiChu());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục số " + (i + 1) + " - " + khachHang.getTenKhach() + ".\n";
                 }
             }
             stmt.close();

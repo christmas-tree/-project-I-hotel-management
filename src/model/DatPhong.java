@@ -22,7 +22,7 @@ public class DatPhong {
   private boolean daHuy;
   private String ghiChu;
 
-  private Long tongThanhToan;
+  private Long thanhTien;
 
   private ObservableList<ChiTietDatPhong> dsChiTietDatPhong;
 
@@ -65,13 +65,13 @@ public class DatPhong {
     this.ghiChu = ghiChu;
   }
 
-  public DatPhong(int maDatPhong, boolean khachDoan, KhachHang khachHang, Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, Long tongThanhToan, String ghiChu) {
+  public DatPhong(int maDatPhong, boolean khachDoan, KhachHang khachHang, Timestamp ngayCheckinTt, Timestamp ngayCheckoutTt, Long thanhTien, String ghiChu) {
     this.maDatPhong = maDatPhong;
     this.khachDoan = khachDoan;
     this.khachHang = khachHang;
     this.ngayCheckinTt = ngayCheckinTt;
     this.ngayCheckoutTt = ngayCheckoutTt;
-    this.tongThanhToan = tongThanhToan;
+    this.thanhTien = thanhTien;
     this.ghiChu = ghiChu;
   }
 
@@ -223,11 +223,11 @@ public class DatPhong {
     this.dsChiTietDatPhong = dsChiTietDatPhong;
   }
 
-  public Long getTongThanhToan() {
-    return tongThanhToan;
+  public Long getThanhTien() {
+    return thanhTien;
   }
 
-  public void setTongThanhToan(Long tongThanhToan) {
-    this.tongThanhToan = tongThanhToan;
+  public void setThanhTien(Long tongThanhToan) {
+    this.thanhTien = tongThanhToan;
   }
 }

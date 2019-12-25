@@ -61,6 +61,9 @@ public class XemHoaDon {
 
     private ObservableList<HoaDon> data;
 
+    private long thanhToan;
+    private long thanhTien;
+
     public void init(DatPhong passedDatPhong, NhanVien nhanVien) {
         DatPhong datPhong = DatPhongDAO.getInstance().get(passedDatPhong.getMaDatPhong());
         data = HoaDonDAO.getInstance().get(datPhong);
@@ -90,11 +93,17 @@ public class XemHoaDon {
         gioRaLabel.setText(datPhong.getNgayCheckoutTt().toString());
         maDPLabel.setText(String.format("%04d", datPhong.getMaDatPhong()));
         tienCocTongLabel.setText(String.format("%,3d", datPhong.getTienDatCoc()));
-        thanhTienTongLabel.setText(String.format("%,3d", datPhong.getTongThanhToan()));
-        thanhToanLabel.setText(String.format("%,3d", datPhong.getTongThanhToan() - datPhong.getTienDatCoc()));
+
+        for (HoaDon hoaDon: data) {
+            thanhTien += hoaDon.getThanhTien();
+        }
+
+        thanhTienTongLabel.setText(String.format("%,3d", thanhTien));
+        thanhToanLabel.setText(String.format("%,3d", thanhTien - datPhong.getTienDatCoc()));
 
         // BUTTONS
         huyBtn.setOnAction(event -> ((Node) (event.getSource())).getScene().getWindow().hide());
+        datPhong.setThanhTien(thanhTien);
         inBtn.setOnAction(event -> Exporter.taoHoaDon(datPhong, data, nhanVien, hoaDonTable));
 
     }

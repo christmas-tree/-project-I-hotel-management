@@ -1,5 +1,6 @@
 package controller.khachSan;
 
+import controller.basic.KhungUngDung;
 import dao.DatPhongDAO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -55,7 +56,7 @@ public class NhanPhongDaDat {
 
     private ObservableList<DatPhong> dsDatPhong;
 
-    public void init(ArrayList<Phong> dsPhong) {
+    public void init(KhungUngDung c, ArrayList<Phong> dsPhong) {
         dsDatPhong = FXCollections.observableArrayList(DatPhongDAO.getInstance().getAllActiveBooking());
 
         // TABLE
@@ -85,7 +86,7 @@ public class NhanPhongDaDat {
                         stage.setScene(scene);
                         stage.setResizable(false);
                         NhanKhachDoan nhanKhachDoan = loader.getController();
-                        nhanKhachDoan.init(datPhong, dsPhong);
+                        nhanKhachDoan.init(datPhong, dsPhong, c.currentUser);
 
                         stage.showAndWait();
                     } catch (IOException e) {
@@ -102,7 +103,7 @@ public class NhanPhongDaDat {
                         stage.setScene(scene);
                         stage.setResizable(false);
                         NhanKhachLe nhanKhachLe = loader.getController();
-                        nhanKhachLe.init(datPhong, dsPhong);
+                        nhanKhachLe.init(datPhong, dsPhong, c.currentUser);
 
                         stage.showAndWait();
                     } catch (IOException e) {

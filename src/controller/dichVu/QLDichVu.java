@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -28,16 +27,16 @@ import org.apache.poi.xssf.usermodel.*;
 import util.ExceptionHandler;
 import util.Reporter;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
+
+import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class QLDichVu {
 
@@ -321,26 +320,24 @@ public class QLDichVu {
         Iterator rows = sheet.rowIterator();
         XSSFRow row = (XSSFRow) rows.next();
         if (row.getLastCellNum() >= 6) {
-            {
-//                "Họ tên", "Giới tính", "CMND", "Điện thoại", "Email", "Địa chỉ", "Ghi chú"
-                while (rows.hasNext()) {
-                    row = (XSSFRow) rows.next();
-                    newDichVu = new DichVu();
+//                {"Tên DV", "Giá tiền", "Đơn vị", "Ghi chú"}
 
-                    newDichVu.setTenKhach(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
-                    newDichVu.setGioiTinh(row.getCell(1, CREATE_NULL_AS_BLANK).getBooleanCellValue());
-                    newDichVu.setCmnd((long) row.getCell(2, CREATE_NULL_AS_BLANK).getNumericCellValue());
-                    newDichVu.setDienThoai((long) row.getCell(3, CREATE_NULL_AS_BLANK).getNumericCellValue());
-                    newDichVu.setEmail(row.getCell(4, CREATE_NULL_AS_BLANK).getStringCellValue());
-                    newDichVu.setDiaChi(row.getCell(5, CREATE_NULL_AS_BLANK).getStringCellValue());
-                    newDichVu.setGhiChu(row.getCell(6, CREATE_NULL_AS_BLANK).getStringCellValue());
+            while (rows.hasNext()) {
+                row = (XSSFRow) rows.next();
+                newDichVu = new DichVu();
 
-                    dsDichVu.add(newDichVu);
-                }
-            } else
+                newDichVu.setTenDv(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newDichVu.setGiaDv((long) row.getCell(1, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newDichVu.setDonVi(row.getCell(2, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newDichVu.setGhiChu(row.getCell(3, CREATE_NULL_AS_BLANK).getStringCellValue());
+
+                dsDichVu.add(newDichVu);
+            }
+        } else {
             ExceptionHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
-
-            DichVuDAO.getInstance().importDichVu(dsDichVu);
-            refresh();
         }
+
+        DichVuDAO.getInstance().importData(dsDichVu);
+        refresh();
     }
+}

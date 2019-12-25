@@ -43,7 +43,7 @@ import java.util.Optional;
 
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
-public class TimKhachHang {
+public class QLKhachHang {
 
     @FXML
     private TableView<KhachHang> khachHangTable;
@@ -373,7 +373,6 @@ public class TimKhachHang {
             searchInfoStyle.getFont().setFontName("Arial");
 
             XSSFCell cell = null;
-
             KhachHang khachHang;
 
             // DATE

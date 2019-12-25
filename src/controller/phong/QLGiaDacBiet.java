@@ -13,18 +13,34 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import model.GiaPhongTroi;
 import model.LoaiPhong;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.xssf.usermodel.*;
 import util.AlertGenerator;
 import util.ExceptionHandler;
+import util.Reporter;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 
 public class QLGiaDacBiet {
@@ -226,11 +242,143 @@ public class QLGiaDacBiet {
         reloadData();
     }
 
-    public void importData() {
+    public void export() {
+        if (data.size() == 0) {
+            ExceptionHandler.handle(new Exception("Không tìm thấy dữ liệu phù hợp với lựa chọn tìm kiếm."));
+        } else {
+            XSSFWorkbook workbook = Reporter.getWorkbook("DsGiaPhong.xlsx");
+            XSSFSheet sheet = workbook.getSheetAt(0);
 
+            // CELL STYLES
+            XSSFCellStyle tableElementStyle = workbook.createCellStyle();
+            tableElementStyle.setBorderLeft(BorderStyle.THIN);
+            tableElementStyle.setBorderRight(BorderStyle.THIN);
+            tableElementStyle.setFont(workbook.createFont());
+            tableElementStyle.getFont().setFontHeightInPoints((short) 9);
+            tableElementStyle.getFont().setFontName("Arial");
+            tableElementStyle.setWrapText(true);
+
+            XSSFCellStyle dateStyle = workbook.createCellStyle();
+            dateStyle.setFont(workbook.createFont());
+            dateStyle.getFont().setFontHeightInPoints((short) 9);
+            dateStyle.getFont().setFontName("Arial");
+            dateStyle.setAlignment(HorizontalAlignment.CENTER);
+            dateStyle.getFont().setItalic(true);
+
+            XSSFCellStyle searchInfoStyle = workbook.createCellStyle();
+            searchInfoStyle.setFont(workbook.createFont());
+            searchInfoStyle.getFont().setFontHeightInPoints((short) 9);
+            searchInfoStyle.setAlignment(HorizontalAlignment.CENTER);
+            searchInfoStyle.getFont().setFontName("Arial");
+
+            XSSFCell cell = null;
+
+            GiaPhongTroi giaPhongTroi;
+
+            // DATE
+            cell = sheet.getRow(3).getCell(1);
+            cell.setCellValue(LocalDate.now().format(DateTimeFormatter.ofPattern("'Ngày 'dd' tháng 'MM' năm 'yyyy")));
+            cell.setCellStyle(dateStyle);
+
+            // SEARCH TYPE
+            if (!searchConditionChoiceBox.getSelectionModel().isEmpty()) {
+                String searchInfoString = "Loại phòng: " + searchConditionChoiceBox.getSelectionModel().getSelectedItem().getLoaiPhong();
+
+                cell = sheet.getRow(5).getCell(0);
+                cell.setCellStyle(searchInfoStyle);
+                cell.setCellValue(searchInfoString);
+            }
+
+            // DATA
+            for (int i = 0; i < data.size(); i++) {
+                giaPhongTroi = data.get(i);
+                int row = 7 + i;
+                sheet.createRow(row);
+
+                cell = sheet.getRow(row).createCell(0);
+                cell.setCellValue(i + 1);
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(1);
+                cell.setCellValue(giaPhongTroi.getLoaiPhong().getLoaiPhong());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(2);
+                cell.setCellValue(giaPhongTroi.getTen());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(3);
+                cell.setCellValue(giaPhongTroi.getNgayBatDau());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(4);
+                cell.setCellValue(giaPhongTroi.getNgayKetThuc());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(5);
+                cell.setCellValue(giaPhongTroi.getLapLaiString());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(6);
+                cell.setCellValue(String.format("%,3d", giaPhongTroi.getGiaTien()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(7);
+                cell.setCellValue(giaPhongTroi.getGhiChu());
+                cell.setCellStyle(tableElementStyle);
+            }
+
+            // Ghi file
+            Reporter.saveWorkbook(workbook, bangTable);
+        }
     }
 
-    public void export() {
+    public void importData() {
 
+        ArrayList<GiaPhongTroi> dsGiaPhong = new ArrayList<>();
+        GiaPhongTroi giaPhong;
+        XSSFWorkbook excelWorkBook;
+
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn file.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            File selectedFile = fileChooser.showOpenDialog(bangTable.getScene().getWindow());
+            FileInputStream inputStream = new FileInputStream(selectedFile);
+            excelWorkBook = new XSSFWorkbook(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+            return;
+        }
+        XSSFSheet sheet = excelWorkBook.getSheetAt(0);
+
+        // DATA
+        Iterator rows = sheet.rowIterator();
+        XSSFRow row = (XSSFRow) rows.next();
+        if (row.getLastCellNum() >= 8) {
+            while (rows.hasNext()) {
+                row = (XSSFRow) rows.next();
+                giaPhong = new GiaPhongTroi();
+
+//        {"Mã loại phòng", "Diễn gỉải", "Ngày bắt đầu", "Ngày kết thúc", "Lặp lại", "Giá tiền", "Ghi chú"}
+                giaPhong.setMaLoaiPhong(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
+                giaPhong.setTen(row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue());
+                giaPhong.setNgayBatDau(new Date(row.getCell(2, CREATE_NULL_AS_BLANK).getDateCellValue().getTime()));
+                giaPhong.setNgayKetThuc(new Date(row.getCell(3, CREATE_NULL_AS_BLANK).getDateCellValue().getTime()));
+                giaPhong.setLapLai((int) row.getCell(4, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                giaPhong.setGiaTien((long) row.getCell(5, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                giaPhong.setGhiChu(row.getCell(6, CREATE_NULL_AS_BLANK).getStringCellValue());
+
+                dsGiaPhong.add(giaPhong);
+            }
+        } else
+            ExceptionHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+
+        GiaPhongTroiDAO.getInstance().importData(dsGiaPhong);
+        refresh();
     }
 }

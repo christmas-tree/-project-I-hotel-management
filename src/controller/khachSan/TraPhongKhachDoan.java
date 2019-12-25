@@ -1,5 +1,6 @@
 package controller.khachSan;
 
+import controller.basic.KhungUngDung;
 import dao.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -16,6 +17,7 @@ import jfxtras.styles.jmetro.Style;
 import model.*;
 import util.AlertGenerator;
 import util.ExceptionHandler;
+import util.Exporter;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -140,9 +142,11 @@ public class TraPhongKhachDoan {
     private long thanhToan = 0;
     private ArrayList<HoaDon> dsCtHoaDon;
     Timestamp now = new Timestamp(System.currentTimeMillis());
+    private NhanVien nhanVien;
 
-    public void init(DatPhong datPhong, ArrayList<Phong> dsPhong) {
+    public void init(DatPhong datPhong, ArrayList<Phong> dsPhong, KhungUngDung c) {
 
+        nhanVien = c.currentUser;
         this.datPhong = datPhong;
         dsChiTietDichVu = ChiTietDichVuDAO.getInstance().getAll(datPhong, dsPhong);
         dsChiTietDatPhong = ChiTietDatPhongDAO.getInstance().getAll(datPhong, dsPhong);
@@ -247,7 +251,7 @@ public class TraPhongKhachDoan {
     }
 
     public void print() {
-
+        Exporter.taoHoaDon(datPhong, dsCtHoaDon, nhanVien, boiThuongTable);
     }
 
     public void save() {

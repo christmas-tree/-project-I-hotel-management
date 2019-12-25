@@ -62,7 +62,6 @@ public class QLPhong {
     @FXML
     Button refreshBtn;
 
-
     HashMap<String, LoaiPhong> dsLoaiPhong;
     ArrayList<Phong> dsPhong;
 
@@ -89,7 +88,7 @@ public class QLPhong {
         refreshBtn.setOnAction(event -> {
 
         });
-        checkinBtn.setOnAction(event -> checkinDaDat());
+        checkinBtn.setOnAction(event -> checkinDaDat(c));
         timelineBtn.setOnAction(event -> timeline());
 
         MenuItem nhanPhongDoanMenu = new MenuItem("Đặt trước/Nhận trực tiếp khách đoàn");
@@ -98,6 +97,7 @@ public class QLPhong {
         khachdoanContextMenu.getItems().addAll(nhanPhongDoanMenu, traPhongDoanMenu);
 
         nhanPhongDoanMenu.setOnAction(event -> nhanPhongDoan());
+        traPhongDoanMenu.setOnAction(event -> traPhongDoan(c));
 
         khachDoanBtn.setOnAction(event -> khachdoanContextMenu.show(khachDoanBtn, khachDoanBtn.getLayoutX(), khachDoanBtn.getLayoutY()));
     }
@@ -402,6 +402,27 @@ public class QLPhong {
         }
     }
 
+    public void traPhongDoan(KhungUngDung c) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/dsKhachDoan.fxml"));
+        try {
+            Parent editRoot = loader.load();
+            new JMetro(editRoot, Style.LIGHT);
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(editRoot);
+            stage.setTitle("Danh sách đặt phòng đoàn");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            DSKhachDoan dsKhachDoan = loader.getController();
+            dsKhachDoan.init(c, dsPhong);
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
     public void timeline() {
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -442,7 +463,7 @@ public class QLPhong {
         stage.show();
     }
 
-    public void checkinDaDat() {
+    public void checkinDaDat(KhungUngDung c) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("view/khachSan/nhanPhongDaDat.fxml"));
         try {
@@ -451,11 +472,11 @@ public class QLPhong {
 
             Stage stage = new Stage();
             Scene scene = new Scene(editRoot);
-            stage.setTitle("Sửa phòng");
+            stage.setTitle("Danh sách đặt phòng");
             stage.setScene(scene);
             stage.setResizable(false);
             NhanPhongDaDat nhanPhongDaDat = loader.getController();
-            nhanPhongDaDat.init(dsPhong);
+            nhanPhongDaDat.init(c, dsPhong);
 
             stage.showAndWait();
         } catch (IOException e) {

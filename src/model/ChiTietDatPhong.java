@@ -161,7 +161,7 @@ public class ChiTietDatPhong {
                     case GiaPhongTroi.CHUKY_NAM:
                         LocalDate ngayKetThucTemp = ngayKmKetThuc.plusDays(0);
                         LocalDate ngayBatDauTemp = ngayKmBatDau.plusDays(0);
-                        while (ngayBatDauTemp.isAfter(LocalDate.now())) {
+                        while (ngayBatDauTemp.isBefore(LocalDate.now())) {
                             if ((ngayTemp.isAfter(ngayBatDauTemp) || ngayTemp.isEqual(ngayBatDauTemp)) && (ngayTemp.isBefore(ngayKetThucTemp) || ngayTemp.isEqual(ngayKetThucTemp))) {
                                 loaiGia = k;
                                 break;

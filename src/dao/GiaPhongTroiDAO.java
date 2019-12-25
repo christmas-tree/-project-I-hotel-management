@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GiaPhongTroiDAO {
 
@@ -28,7 +29,7 @@ public class GiaPhongTroiDAO {
 
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setNString(1, giaPhongTroi.getLoaiPhong().getMaLoaiPhong());
+            stmt.setString(1, giaPhongTroi.getLoaiPhong().getMaLoaiPhong());
             stmt.setNString(2, giaPhongTroi.getTen());
             stmt.setDate(3, giaPhongTroi.getNgayBatDau());
             stmt.setDate(4, giaPhongTroi.getNgayKetThuc());
@@ -64,7 +65,7 @@ public class GiaPhongTroiDAO {
             while (rs.next()) {
                 giaPhongTroi = new GiaPhongTroi(
                         rs.getInt(1),
-                        getLoaiPhongTuArray(rs.getNString(2), dsLoaiPhong),
+                        getLoaiPhongTuArray(rs.getString(2), dsLoaiPhong),
                         rs.getNString(3),
                         rs.getDate(4),
                         rs.getDate(5),
@@ -126,7 +127,7 @@ public class GiaPhongTroiDAO {
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
 
-            stmt.setNString(1, giaPhongTroi.getLoaiPhong().getMaLoaiPhong());
+            stmt.setString(1, giaPhongTroi.getLoaiPhong().getMaLoaiPhong());
             stmt.setNString(2, giaPhongTroi.getTen());
             stmt.setDate(3, giaPhongTroi.getNgayBatDau());
             stmt.setDate(4, giaPhongTroi.getNgayKetThuc());
@@ -167,6 +168,39 @@ public class GiaPhongTroiDAO {
             return loaiPhong;
         }
         return null;
+    }
+
+        public void importData(ArrayList<GiaPhongTroi> dsGiaPhong) {
+            String sql = "INSERT INTO gia_phong_troi(ma_loai_phong, ten, ngay_bd, ngay_kt, lap_lai, gia_tien, ghi_chu) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        Connection con = DbConnection.getConnection();
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            for (int i = 0; i < dsGiaPhong.size(); i++) {
+                GiaPhongTroi giaPhongTroi = dsGiaPhong.get(i);
+                try {
+                    stmt.setString(1, giaPhongTroi.getMaLoaiPhong());
+                    stmt.setNString(2, giaPhongTroi.getTen());
+                    stmt.setDate(3, giaPhongTroi.getNgayBatDau());
+                    stmt.setDate(4, giaPhongTroi.getNgayKetThuc());
+                    stmt.setLong(5, giaPhongTroi.getLapLai());
+                    stmt.setLong(6, giaPhongTroi.getGiaTien());
+                    stmt.setNString(7, giaPhongTroi.getGhiChu());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục số " + (i + 1) + " - " + giaPhongTroi.getTen() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExceptionHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
     }
 }
 

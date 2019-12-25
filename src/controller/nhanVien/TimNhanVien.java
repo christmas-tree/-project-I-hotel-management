@@ -44,7 +44,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+
+import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class TimNhanVien {
 
@@ -486,7 +490,7 @@ public class TimNhanVien {
 
     public void importData() {
 
-        ArrayList<NhanVien> newNhanViens = new ArrayList<>();
+        ArrayList<NhanVien> dsNhanVien = new ArrayList<>();
         NhanVien newNhanVien;
 
         XSSFWorkbook excelWorkBook;
@@ -498,18 +502,14 @@ public class TimNhanVien {
                     new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
             );
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-
             File selectedFile = fileChooser.showOpenDialog(nhanVienTable.getScene().getWindow());
-
-
             FileInputStream inputStream = new FileInputStream(selectedFile);
             excelWorkBook = new XSSFWorkbook(inputStream);
             inputStream.close();
         } catch (IOException e) {
-            ExHandler.handle(e);
+            ExceptionHandler.handle(e);
             return;
         }
-
         XSSFSheet sheet = excelWorkBook.getSheetAt(0);
 
         // DATA
@@ -520,21 +520,24 @@ public class TimNhanVien {
                 row = (XSSFRow) rows.next();
                 newNhanVien = new NhanVien();
 
-                newNhanVien.setAdmin(row.getCell(0, CREATE_NULL_AS_BLANK).getBooleanCellValue());
-                newNhanVien.setUsername(row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue());
-                newNhanVien.setPassword(row.getCell(2, CREATE_NULL_AS_BLANK).getStringCellValue());
-                newNhanVien.setName(row.getCell(3, CREATE_NULL_AS_BLANK).getStringCellValue());
-                newNhanVien.setDob(new Date(row.getCell(4, CREATE_NULL_AS_BLANK).getDateCellValue().getTime()));
-                newNhanVien.setGender(row.getCell(5, CREATE_NULL_AS_BLANK).getBooleanCellValue());
-                newNhanVien.setIdCardNum((long) row.getCell(6, CREATE_NULL_AS_BLANK).getNumericCellValue());
-                newNhanVien.setAddress(row.getCell(7, CREATE_NULL_AS_BLANK).getStringCellValue());
+//                {"Tên NV", "Loại NV", "Tên đăng nhập", "Mật khẩu", "Giới tính", "CMND", "Điện thoại", "Email", "Địa chỉ", "Ghi chú"}
+                newNhanVien.setTenNv(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setLoaiNv((int) row.getCell(1, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newNhanVien.setTenDangNhap(row.getCell(2, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setMatKhau(row.getCell(3, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setGioiTinh(row.getCell(4, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+                newNhanVien.setCmnd((long) row.getCell(5, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newNhanVien.setDienThoai((long) row.getCell(6, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newNhanVien.setEmail(row.getCell(7, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setDiaChi(row.getCell(8, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newNhanVien.setGhiChu(row.getCell(9, CREATE_NULL_AS_BLANK).getStringCellValue());
 
-                newNhanViens.add(newNhanVien);
+                dsNhanVien.add(newNhanVien);
             }
         } else
-            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+            ExceptionHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
 
-        NhanVienDAO.getInstance().importNhanVien(newNhanViens);
+        NhanVienDAO.getInstance().importData(dsNhanVien);
         refresh();
     }
 }

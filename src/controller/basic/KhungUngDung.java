@@ -6,12 +6,13 @@
 package controller.basic;
 
 import controller.dichVu.QLDichVu;
-import controller.khachHang.TimKhachHang;
+import controller.hoaDon.QLHoaDon;
+import controller.khachHang.QLKhachHang;
 import controller.nhanVien.TimNhanVien;
 import controller.phong.QLGiaDacBiet;
 import controller.phong.QLLoaiPhong;
 import controller.phong.QLPhong;
-import QLHoaDon;
+import controller.thongKe.ThongKeChung;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,8 +20,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -31,6 +35,7 @@ import model.NhanVien;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import util.AlertGenerator;
 import util.ExceptionHandler;
 
 import java.awt.*;
@@ -136,6 +141,8 @@ public class KhungUngDung {
             }
         });
 
+        sideMenu.getSelectionModel().select(0);
+
         // TOP MENU BAR
 
         // FILE MENU
@@ -201,12 +208,29 @@ public class KhungUngDung {
 
         // ABOUT MENU
         aboutMenu.setOnAction(event -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Về ứng dụng");
-            alert.setHeaderText("PHẦN MỀM QUẢN LÝ THƯ VIỆN");
-            alert.setContentText("Trần Trung Nghĩa - 20173281");
-            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Về ứng dụng");
+                alert.setContentText("Nhóm N03 - CT6.\nThành viên nhóm:");
+
+                TextArea textArea = new TextArea(
+                        "Trần Trung Nghĩa\tMSSV: 20173281" +
+                                "\nNguyễn Khắc Bình\tMSSV: 20165058" +
+                                "\nNguyễn Mạnh Đức\tMSSV: 20173039");
+                textArea.setEditable(false);
+                textArea.setWrapText(true);
+
+                textArea.setMaxWidth(Double.MAX_VALUE);
+                textArea.setMaxHeight(Double.MAX_VALUE);
+                GridPane.setVgrow(textArea, Priority.ALWAYS);
+                GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+                GridPane expContent = new GridPane();
+                expContent.setMaxWidth(Double.MAX_VALUE);
+                expContent.add(textArea, 0, 1);
+
+                alert.getDialogPane().setExpandableContent(expContent);
+                alert.getDialogPane().setExpanded(true);
+                alert.showAndWait();
         });
     }
 
@@ -258,8 +282,8 @@ public class KhungUngDung {
                 try {
                     loader.setLocation(getClass().getClassLoader().getResource("view/khachHang/qlKhachHang.fxml"));
                     window.setCenter(loader.load());
-                    TimKhachHang timKhachHang = loader.getController();
-                    timKhachHang.init(this);
+                    QLKhachHang qlKhachHang = loader.getController();
+                    qlKhachHang.init(this);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
@@ -281,18 +305,18 @@ public class KhungUngDung {
 //                     timKhachHang = loader.getController();
 //                    timKhachHang.init(this);
 //                } catch (Exception e) {
-//                    ExHandler.handle(e);
+//                    ExceptionHandler.handle(e);
 //                }
                 break;
             case "Báo cáo & Thống kê":
-//                try {
-//                    loader.setLocation(getClass().getClassLoader().getResource("view/khachHang/qlKhachHang.fxml"));
-//                    window.setCenter(loader.load());
-//                    TimKhachHang timKhachHang = loader.getController();
-//                    timKhachHang.init(this);
-//                } catch (Exception e) {
-//                    ExHandler.handle(e);
-//                }
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/thongKe/thongKeChung.fxml"));
+                    window.setCenter(loader.load());
+                    ThongKeChung thongKeChung = loader.getController();
+                    thongKeChung.init(this);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
                 break;
             case "Quản lý nhân viên":
                 try {

@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="637.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.thongKe.XemHoaDon">
+<AnchorPane prefHeight="637.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.hoaDon.XemHoaDon">
     <Label layoutX="25.0" layoutY="23.0" text="Hoá đơn">
         <font>
             <Font size="25.0" />

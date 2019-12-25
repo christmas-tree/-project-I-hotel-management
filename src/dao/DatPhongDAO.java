@@ -113,6 +113,57 @@ public class DatPhongDAO {
         return dsDatPhong;
     }
 
+    public ArrayList<DatPhong> getAllRunning() {
+
+        ArrayList<DatPhong> dsDatPhong = new ArrayList<>();
+        DatPhong datPhong = null;
+
+        String sql = "SELECT ma_dat_phong, ngay_dat, phuong_thuc, khach_doan, tien_dat_coc, ngay_checkin, ngay_checkout, ma_kh_dat, ten_khach, ma_nv_nhan, nv1.ten_nv, ngay_checkin_tt, ngay_checkout_tt, ma_nv_le_tan, nv2.ten_nv, da_huy, dp.ghi_chu\n" +
+                "FROM dat_phong dp\n" +
+                "JOIN khach_hang kh ON dp.ma_kh_dat=kh.ma_kh\n" +
+                "JOIN nhan_vien nv1 ON nv1.ma_nv=dp.ma_nv_nhan\n" +
+                "LEFT JOIN nhan_vien nv2 ON nv2.ma_nv=dp.ma_nv_le_tan\n" +
+                "WHERE da_huy=0 AND ngay_checkin_tt IS NOT NULL AND ngay_checkout_tt IS NULL";
+
+        Connection con = DbConnection.getConnection();
+        ResultSet rs;
+
+        try {
+            Timestamp today = Timestamp.valueOf(LocalDate.now().plusDays(-3).atStartOfDay());
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setTimestamp(1, today);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                datPhong = new DatPhong(
+                        rs.getInt(1),
+                        rs.getTimestamp(2),
+                        rs.getNString(3),
+                        rs.getBoolean(4),
+                        rs.getLong(5),
+                        rs.getTimestamp(6),
+                        rs.getTimestamp(7),
+                        new KhachHang(rs.getInt(8), rs.getNString(9)),
+                        (rs.getNString(11) == null) ? null : new NhanVien(rs.getInt(10), rs.getNString(11)),
+                        rs.getTimestamp(12),
+                        rs.getTimestamp(13),
+                        (rs.getNString(15) == null) ? null : new NhanVien(rs.getInt(14), rs.getNString(15)),
+                        rs.getBoolean(16),
+                        rs.getNString(17)
+                );
+                dsDatPhong.add(datPhong);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return dsDatPhong;
+    }
+
     public DatPhong get(int maDatPhong) {
         DatPhong datPhong = null;
 

@@ -88,7 +88,7 @@ public class QLHoaDon {
         dienThoaiCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%010d", p.getValue().getKhachHang().getDienThoai())));
         ngayDiCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayCheckinTt()));
         ngayDenCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getNgayCheckoutTt()));
-        tongThanhToanCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getTongThanhToan())));
+        tongThanhToanCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,3d", p.getValue().getThanhTien())));
 
 
         hoaDonTable.getColumns().addAll(maDPCol, tenKhachCol, cmndCol, dienThoaiCol, ngayDenCol, ngayDiCol, tongThanhToanCol);

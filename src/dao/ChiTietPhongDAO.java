@@ -190,6 +190,39 @@ public class ChiTietPhongDAO {
         }
     }
 
+    public void importData(ArrayList<ChiTietPhong> dsChiTietPhong  ) {
+        String sql = "INSERT INTO chi_tiet_phong(ma_phong, ten_do, so_luong, don_vi, gia_tien, trang_thai, ghi_chu) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        Connection con = DbConnection.getConnection();
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            for (int i = 0; i < dsChiTietPhong.size(); i++) {
+                ChiTietPhong chiTietPhong = dsChiTietPhong.get(i);
+                try {
+                    stmt.setInt(1, chiTietPhong.getPhong().getMaPhong());
+                    stmt.setNString(2, chiTietPhong.getTenDo());
+                    stmt.setInt(3, chiTietPhong.getSoLuong());
+                    stmt.setNString(4, chiTietPhong.getDonVi());
+                    stmt.setLong(5, chiTietPhong.getGiaTien());
+                    stmt.setInt(6, chiTietPhong.getTrangThai());
+                    stmt.setNString(7, chiTietPhong.getGhiChu());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục số " + (i + 1) + " - " + chiTietPhong.getTenDo() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExceptionHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
 
 }
 

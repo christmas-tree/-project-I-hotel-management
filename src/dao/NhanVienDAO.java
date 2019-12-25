@@ -297,4 +297,41 @@ public class NhanVienDAO {
 
         return user;
     }
+
+    public void importData(ArrayList<NhanVien> dsNhanVien) {
+        String sql = "INSERT INTO nhan_vien(ten_nv, loai_nv, ten_dang_nhap, mat_khau, gioi_tinh, cmnd, dien_thoai, email, dia_chi, ghi_chu)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection con = DbConnection.getConnection();
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            for (int i = 0; i < dsNhanVien.size(); i++) {
+                NhanVien nhanVien = dsNhanVien.get(i);
+                try {
+                    stmt.setNString(1, nhanVien.getTenNv());
+                    stmt.setInt(2, nhanVien.getLoaiNv());
+                    stmt.setNString(3, nhanVien.getTenDangNhap());
+                    stmt.setNString(4, nhanVien.getMatKhau());
+                    stmt.setBoolean(5, nhanVien.getGioiTinh());
+                    stmt.setLong(6, nhanVien.getCmnd());
+                    stmt.setLong(7, nhanVien.getDienThoai());
+                    stmt.setString(8, nhanVien.getEmail());
+                    stmt.setNString(9, nhanVien.getDiaChi());
+                    stmt.setNString(10, nhanVien.getGhiChu());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục số " + (i + 1) + " - " + nhanVien.getTenNv() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExceptionHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
 }

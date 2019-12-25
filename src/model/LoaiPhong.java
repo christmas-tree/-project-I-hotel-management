@@ -17,6 +17,10 @@ public class LoaiPhong {
 
     private ArrayList<GiaPhongTroi> dsGiaTroi;
 
+
+    public LoaiPhong() {
+    }
+
     public LoaiPhong(String maLoaiPhong, String loaiPhong) {
         this.maLoaiPhong = maLoaiPhong;
         this.loaiPhong = loaiPhong;
