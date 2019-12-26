@@ -34,9 +34,6 @@ public class AlertGenerator {
         alert.setContentText(message);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         Optional<ButtonType> type = alert.showAndWait();
-        if (type.get() == ButtonType.OK)
-            return true;
-        else
-            return false;
+        return type.get() == ButtonType.OK;
     }
 }

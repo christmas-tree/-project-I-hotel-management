@@ -2,6 +2,7 @@ package controller.khachSan;
 
 import dao.BoiThuongDAO;
 import dao.ChiTietPhongDAO;
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,10 +55,11 @@ public class KiemPhong {
 
     private ObservableList<BoiThuong> dsBoiThuong = FXCollections.observableArrayList();
     private ObservableList<BoiThuong> dsBoiThuongTraVe = FXCollections.observableArrayList();
+    private ObservableList<ChiTietPhong> dsDo;
 
     public void init(ObservableList<ChiTietDatPhong> dsChiTietDatPhong) {
         for (ChiTietDatPhong chiTietDatPhong : dsChiTietDatPhong) {
-            ObservableList<ChiTietPhong> dsDo = ChiTietPhongDAO.getInstance().getAll(chiTietDatPhong.getPhong());
+            dsDo = ChiTietPhongDAO.getInstance().getAll(chiTietDatPhong.getPhong());
             for (ChiTietPhong chiTietPhong : dsDo) {
                 dsBoiThuong.add(new BoiThuong(chiTietPhong, chiTietDatPhong));
             }
@@ -166,6 +168,10 @@ public class KiemPhong {
 
     public ObservableList<BoiThuong> getDsBoiThuong() {
         return dsBoiThuongTraVe;
+    }
+
+    public ObservableList<ChiTietPhong> getDsDo() {
+        return dsDo;
     }
 
 }

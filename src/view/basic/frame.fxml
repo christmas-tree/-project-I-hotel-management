@@ -23,23 +23,11 @@
                         <MenuItem fx:id="deleteMenu" mnemonicParsing="false" text="Xoá"/>
                         <SeparatorMenuItem mnemonicParsing="false"/>
                         <MenuItem fx:id="exportMenu" mnemonicParsing="false" text="Xuất danh sách"/>
-                        <!--                        <MenuItem fx:id="backupMenu" mnemonicParsing="false" text="Sao lưu"/>-->
                         <MenuItem fx:id="importMenu" mnemonicParsing="false" text="Nhập dữ liệu"/>
 
                     </items>
                 </Menu>
-<!--                <Menu fx:id="menuForm" mnemonicParsing="false" text="Biểu mẫu">-->
-<!--                    <items>-->
-<!--                        <Menu mnemonicParsing="false" text="Biểu mẫu nhập sách">-->
-<!--                            <items>-->
-<!--                                <MenuItem fx:id="formBookMenu" mnemonicParsing="false" text="Biểu mẫu nhập đầu sách"/>-->
-<!--                                <MenuItem fx:id="formMetaMenu" mnemonicParsing="false" text="Biểu mẫu thể loại/NN/NXB"/>-->
-<!--                            </items>-->
-<!--                        </Menu>-->
-<!--                        <MenuItem fx:id="formReaderMenu" mnemonicParsing="false" text="Biểu mẫu nhập độc giả"/>-->
-<!--                        <MenuItem fx:id="formStaffMenu" mnemonicParsing="false" text="Biểu mẫu nhập nhân viên"/>-->
-<!--                    </items>-->
-<!--                </Menu>-->
+                <Menu fx:id="menuForm" mnemonicParsing="false" text="Biểu mẫu"/>
                 <Menu fx:id="menuHelp" mnemonicParsing="false" text="Trợ giúp">
                     <items>
                         <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="Giới thiệu"/>

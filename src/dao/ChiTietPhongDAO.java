@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChiTietPhongDAO {
 
@@ -112,6 +113,40 @@ public class ChiTietPhongDAO {
             stmt.close();
             con.close();
             phong.setDsChiTietPhong(dsChiTietPhong);
+        } catch (SQLException e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return dsChiTietPhong;
+    }
+
+    public ObservableList<ChiTietPhong> getAll(ArrayList<Phong> dsPhong) {
+        ObservableList<ChiTietPhong> dsChiTietPhong = FXCollections.observableArrayList();
+        ChiTietPhong chiTietPhong = null;
+
+        String sql = "SELECT ma_phong, ten_do, so_luong, gia_tien, don_vi, trang_thai, ghi_chu FROM chi_tiet_phong WHERE trang_thai!=0";
+        Connection con = DbConnection.getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                chiTietPhong = new ChiTietPhong(
+                        getPhongFromArray(dsPhong, rs.getInt(1)),
+                        rs.getNString(2),
+                        rs.getInt(3),
+                        rs.getLong(4),
+                        rs.getNString(5),
+                        rs.getInt(6),
+                        rs.getNString(7)
+                );
+                dsChiTietPhong.add(chiTietPhong);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
         } catch (SQLException e) {
             ExceptionHandler.handle(e);
         }
@@ -223,6 +258,12 @@ public class ChiTietPhongDAO {
         }
     }
 
-
+    private Phong getPhongFromArray(List<Phong> dsPhong, int maPhong) {
+        for (Phong phong: dsPhong) {
+            if (phong.getMaPhong() == maPhong)
+                return phong;
+        }
+        return null;
+    }
 }
 

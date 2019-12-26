@@ -124,6 +124,7 @@ public class TraPhongKhachLe {
     private ObservableList<TienPhong> dsTienPhong;
     private ObservableList<ChiTietDichVu> dsChiTietDichVu;
     private ChiTietDatPhong chiTietDatPhong;
+    private ObservableList<ChiTietPhong> dsDo;
 
     private long thanhTien;
     private long thanhToan;
@@ -229,6 +230,7 @@ public class TraPhongKhachLe {
 
                 stage.showAndWait();
                 dsBoiThuong = kiemPhong.getDsBoiThuong();
+                dsDo = kiemPhong.getDsDo();
             } catch (IOException e) {
                 ExceptionHandler.handle(e);
             }
@@ -283,15 +285,11 @@ public class TraPhongKhachLe {
                 ));
             }
 
-        if (PhongDAO.getInstance().
-
-                update(chiTietDatPhong.getPhong())
-                && DatPhongDAO.getInstance().
-
-                update(chiTietDatPhong.getDatPhong())
-                && HoaDonDAO.getInstance().
-
-                create(dsCtHoaDon)) {
+        if (PhongDAO.getInstance().update(chiTietDatPhong.getPhong())
+                && DatPhongDAO.getInstance().update(chiTietDatPhong.getDatPhong())
+                && ChiTietDatPhongDAO.getInstance().update(chiTietDatPhong)
+                && ChiTietPhongDAO.getInstance().update(dsDo)
+                && HoaDonDAO.getInstance().create(dsCtHoaDon)) {
             AlertGenerator.success("Trả phòng thành công");
         } else {
             AlertGenerator.error("Trả phòng thất bại");

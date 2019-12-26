@@ -13,11 +13,13 @@ import controller.phong.QLGiaDacBiet;
 import controller.phong.QLLoaiPhong;
 import controller.phong.QLPhong;
 import controller.thongKe.ThongKeChung;
+import controller.vatTu.QLVatTu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
@@ -77,16 +79,7 @@ public class KhungUngDung {
     public MenuItem importMenu;
 
     @FXML
-    private MenuItem formBookMenu;
-
-    @FXML
-    private MenuItem formMetaMenu;
-
-    @FXML
-    private MenuItem formReaderMenu;
-
-    @FXML
-    private MenuItem formStaffMenu;
+    public Menu menuForm;
 
     public NhanVien currentUser;
 
@@ -186,25 +179,43 @@ public class KhungUngDung {
 
         // FORM MENU
 
-//        formBookMenu.setOnAction(event -> {
-//            String[] headers = {"Phong", "TenSach", "Gia", "MaTheLoai", "TacGia", "MaNXB", "NamXB", "MaNN", "ViTri", "SL"};
-//            saveForm(headers, "Form Nhap Sach");
-//        });
-//
-//        formMetaMenu.setOnAction(event -> {
-//            String[] headers = {"MaTheLoai/NXB/NN", "TenTheLoai/NXB/NN"};
-//            saveForm(headers, "Form Thong Tin Phu");
-//        });
-//
-//        formReaderMenu.setOnAction(event -> {
-//            String[] headers = {"HoTen", "NgaySinh", "GioiTinh", "CMTND", "DiaChi", "DuocMuon"};
-//            saveForm(headers, "Form Nhap Doc Gia");
-//        });
-//
-//        formStaffMenu.setOnAction(event -> {
-//            String[] headers = {"LaQuanLy", "TenDangNhap", "MatKhau", "HoTen", "NgaySinh", "GioiTinh", "CMTND", "DiaChi"};
-//            saveForm(headers, "Form Nhap Nhan Vien");
-//        });
+        MenuItem item1 = new MenuItem("Form Dich Vu");
+        MenuItem item2 = new MenuItem("Form Khach Hang");
+        MenuItem item3 = new MenuItem("Form Loai Phong");
+        MenuItem item4 = new MenuItem("Form Gia Phong");
+        MenuItem item5 = new MenuItem("Form Nhan Vien");
+        MenuItem item6 = new MenuItem("Form Vat Tu");
+
+        item1.setOnAction(event -> {
+            String[] headers = {"Tên DV", "Giá tiền", "Đơn vị", "Ghi chú"};
+                    saveForm(headers, item1.getText());
+        });
+
+        item2.setOnAction(event -> {
+            String[] headers = {"Họ tên", "Giới tính", "CMND", "Điện thoại", "Email", "Địa chỉ", "Ghi chú"};
+                    saveForm(headers, item2.getText());
+        });
+
+        item3.setOnAction(event -> {
+            String[] headers = {"Mã loại phòng", "Tên loại phòng", "Giá tiền", "Số người", "Ghi chú"};
+            saveForm(headers, item3.getText());
+        });
+
+        item4.setOnAction(event -> {
+            String[] headers = {"Mã loại phòng", "Diễn gỉải", "Ngày bắt đầu", "Ngày kết thúc", "Lặp lại", "Giá tiền", "Ghi chú"} ;
+                    saveForm(headers, item4.getText());
+        });
+
+        item5.setOnAction(event -> {
+            String[] headers = {"Tên NV", "Loại NV", "Tên đăng nhập", "Mật khẩu", "Giới tính", "CMND", "Điện thoại", "Email", "Địa chỉ", "Ghi chú"};
+            saveForm(headers, item5.getText());
+        });
+
+        item6.setOnAction(event -> {
+            String[] headers = {"Mã phòng", "Tên đồ", "Số lượng", "Trạng thái", "Giá tiền", "Đơn vị tính", "Ghi chú"};
+            saveForm(headers, item6.getText());
+        });
+
 
         // ABOUT MENU
         aboutMenu.setOnAction(event -> {
@@ -299,14 +310,14 @@ public class KhungUngDung {
                 }
                 break;
             case "Quản lý vật tư":
-//                try {
-//                    loader.setLocation(getClass().getClassLoader().getResource("view/khachHang/qlKhachHang.fxml"));
-//                    window.setCenter(loader.load());
-//                     timKhachHang = loader.getController();
-//                    timKhachHang.init(this);
-//                } catch (Exception e) {
-//                    ExceptionHandler.handle(e);
-//                }
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/khachHang/qlKhachHang.fxml"));
+                    window.setCenter(loader.load());
+                    QLVatTu qlVatTu = loader.getController();
+                    qlVatTu.init(this);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
                 break;
             case "Báo cáo & Thống kê":
                 try {

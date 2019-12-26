@@ -212,6 +212,7 @@ public class ChiTietDatPhong {
             donGia = tienPhong.getDonGia();
             loaiGiaTruoc = tienPhong.getLoaiGia();
             soNgay++;
+            thanhTien += tienPhong.getDonGia();
         }
         dsTienPhongFinal.add(new TienPhong(
                 phong,
